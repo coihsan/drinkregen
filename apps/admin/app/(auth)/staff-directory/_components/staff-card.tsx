@@ -1,3 +1,4 @@
+"use client";
 import { StaffTypes } from "@/types/staff";
 import { Button } from "@workspace/ui/components/button";
 import { Badge } from "@workspace/ui/components/badge";
@@ -14,12 +15,15 @@ import {
   AvatarImage,
 } from "@workspace/ui/components/avatar";
 import { Briefcase, Mail, Phone, SquareArrowOutUpRight } from "lucide-react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 interface StaffCardProps {
   staff: StaffTypes;
 }
 
 const StaffCard = ({ staff }: StaffCardProps) => {
+  const router = useRouter()
   return (
     <Card>
       <CardHeader className="flex items-center justify-between gap-2 w-full">
@@ -55,9 +59,13 @@ const StaffCard = ({ staff }: StaffCardProps) => {
             <StaffDetailList title="Division" name={staff.division?.name || "N/A"} icon={<Briefcase className="w-4 h-4 text-emerald-600 text-gray-500" />} />
         </div>
       </CardContent>
-      <CardFooter className="flex gap-2">
+      <CardFooter className="flex gap-1">
         <Button className="flex-1 flex items-center justify-center gap-2">Detail</Button>
-        <Button><SquareArrowOutUpRight className="w-4 h-4" /></Button>
+        <Link href={`/x/${staff.id}`} target="_blank" className="flex items-center justify-center gap-2">
+          <Button>
+            <SquareArrowOutUpRight className="w-4 h-4" />
+          </Button>
+        </Link>
       </CardFooter>
     </Card>
   );

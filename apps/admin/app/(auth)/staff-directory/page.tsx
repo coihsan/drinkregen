@@ -5,11 +5,9 @@ import { Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useSession, signOut } from "@/lib/auth-client";
 import { useEffect } from "react";
-import StaffDetail from "./_components/staff-detail";
 import { useModal } from "@/providers/modal-provider";
 import { getAllStaffAndDivisions } from "./_action/create-new-staff";
 import { useState } from "react";
-import ModalCustom from "@/components/primitive/modal-custom";
 import StaffList from "./_components/list-staff";
 import { StaffTypes } from "@/types/staff";
 import { Separator } from "@workspace/ui/components/separator";
@@ -28,7 +26,7 @@ const StaffManagementPage = () => {
       const mapped = (data?.staff ?? []).map((s: any) => ({
         ...s,
         createdAt: s.createdAt ? new Date(s.createdAt).toISOString() : "",
-        updatedAt: s.updatedAt ? new Date(s.updatedAt).toISOString() : "",
+        updatedAt: s.updatedAt ? new Date(s.updatedAt).toISOString() : "", 
         joinedAt: s.joinedAt ? new Date(s.joinedAt).toISOString() : "",
         division: {
           id: s.division?.id ?? "",
@@ -70,7 +68,7 @@ const StaffManagementPage = () => {
         <div>Staff Directory</div>
         <Button onClick={() => router.push("/staff-directory/new-staff")}>
           <Plus />
-          Add New Staff
+          New Staff
         </Button>
       </div>
       <Separator />
