@@ -1,0 +1,109 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma/client"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id            String           @id
+  name          String
+  email         String           @unique
+  emailVerified Boolean
+  image         String?
+  role          String           @default("admin")
+  banned        Boolean?
+  twoFactorEnabled Boolean?      @default(false)
+  banReason     String?
+  banExpires    DateTime?
+  createdAt     DateTime
+  updatedAt     DateTime
+  accounts      Account[]
+  sessions      Session[]
+  createdStaff  Staff[]          @relation("StaffCreatedBy")
+  permissions   UserPermission[]
+
+  @@map("users")
+}
+
+model Session {
+  id        String   @id
+  userId    String
+  token     String   @unique
+  expiresAt DateTime
+  ipAddress String?
+  userAgent String?
+  createdAt DateTime
+  updatedAt DateTime
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
+}
+
+model Account {
+  id                   String    @id
+  userId               String
+  accountId            String
+  providerId           String
+  password             String?
+  accessToken          String?
+  refreshToken         String?
+  accessTokenExpiresAt DateTime?
+  createdAt            DateTime
+  updatedAt            DateTime
+  user                 User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("accounts")
+}
+
+model UserPermission {
+  id         String     @id @default(cuid())
+  userId     String
+  permission Permission
+  grantedAt  DateTime   @default(now())
+  grantedBy  String?
+  user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, permission])
+  @@map("user_permissions")
+}
+
+model Staff {
+  id           String   @id @default(cuid())
+  name         String
+  staffId      String   @unique
+  email        String   @unique
+  phoneNumber  String
+  position     String
+  avatarUrl    String?
+  isArchived   Boolean  @default(false)
+  createdById  String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  activeStatus Boolean  @default(true)
+  isPublished  Boolean  @default(true)
+  coverArea    String?
+  joinedAt     DateTime @default(now())
+  divisionId   String
+  createdBy    User?    @relation("StaffCreatedBy", fields: [createdById], references: [id])
+  division     Division @relation(fields: [divisionId], references: [id], onDelete: Cascade)
+
+  @@map("staff")
+}
+
+model Division {
+  id        String   @id
+  name      String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  staff     Staff[]
+
+  @@map("division")
+}
+
+enum Permission {
+  MANAGE_STAFF
+  MANAGE_LUCKY_DRAW
+}

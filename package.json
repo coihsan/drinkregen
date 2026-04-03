@@ -18,5 +18,27 @@
   "packageManager": "pnpm@10.4.1",
   "engines": {
     "node": ">=20"
+  },
+  "pnpm": {
+    "ignoredBuiltDependencies": [
+      "@prisma/client",
+      "@prisma/engines",
+      "better-sqlite3",
+      "esbuild",
+      "msw",
+      "prisma",
+      "sharp",
+      "unrs-resolver"
+    ],
+    "onlyBuiltDependencies": [
+      "@prisma/client",
+      "@prisma/engines",
+      "better-sqlite3",
+      "esbuild",
+      "msw",
+      "prisma",
+      "sharp",
+      "unrs-resolver"
+    ]
   }
 }
