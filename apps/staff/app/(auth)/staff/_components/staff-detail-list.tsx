@@ -1,4 +1,3 @@
-import { de } from "@faker-js/faker";
 import InputCopy from "./input-copy";
 
 interface StaffDetailListProps {

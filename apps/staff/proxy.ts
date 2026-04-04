@@ -16,11 +16,6 @@ export async function proxy(request: NextRequest) {
 
   const { pathname } = request.nextUrl;
 
-  if (session.user?.name && pathname === `/nfc/${session.user.id}`) {
-    const safeName = encodeURIComponent(session.user.name);
-    return NextResponse.redirect(new URL(`/nfc/${safeName}`, request.url));
-  }
-
   if (!pathname.startsWith(STAFF_PREFIX)) {
     return NextResponse.next();
   }

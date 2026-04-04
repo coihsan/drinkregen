@@ -10,6 +10,7 @@ import {
   SidebarMenuItem,
 } from "@workspace/ui/components/sidebar";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 interface NavMainProps {
   items: {
@@ -21,6 +22,7 @@ interface NavMainProps {
 }
 
 const NavMain: React.FC<NavMainProps> = ({ items }: NavMainProps) => {
+  const pathname = usePathname()
 
   return (
     <SidebarGroup>
@@ -29,7 +31,7 @@ const NavMain: React.FC<NavMainProps> = ({ items }: NavMainProps) => {
         {items.map((item, key) => (
           <SidebarMenuItem key={key}>
             <SidebarMenuButton asChild tooltip={item.title}>
-              <Link href={item.url}>
+              <Link href={item.url} className={`flex items-center gap-2 ${pathname === `/${item.url}` ? "text-green-500" : "text-muted-foreground hover:text-green-500"}`}>
                 {item.icon && <item.icon />}
                 <span>{item.title}</span>
               </Link>

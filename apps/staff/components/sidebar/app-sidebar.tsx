@@ -6,12 +6,7 @@ import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
-  SidebarGroup,
-  SidebarGroupLabel,
   SidebarHeader,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
   SidebarRail,
   useSidebar,
 } from "@workspace/ui/components/sidebar";
@@ -32,17 +27,28 @@ const AppSidebar = ({ ...props }: React.ComponentProps<typeof Sidebar>) => {
   } = useSidebar();
   const { data: session, isPending } = useSession();
   const user = session?.user;
+
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
         <div className="w-full flex items-center justify-center h-[40px]">
-          <Image
-            loading="eager"
-            src="/regen.webp"
-            alt="Logo Regen"
-            width={110}
-            height={32}
-          />
+          {open ? (
+            <Image
+              loading="eager"
+              src="/regen.webp"
+              alt="Logo Regen"
+              width={110}
+              height={32}
+            />
+          ) : (
+            <Image
+              loading="eager"
+              src="/favicon.png"
+              alt="Logo Regen"
+              width={110}
+              height={32}
+            />
+          )}
         </div>
       </SidebarHeader>
       <SidebarContent>

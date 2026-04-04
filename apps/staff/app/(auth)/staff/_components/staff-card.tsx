@@ -18,7 +18,6 @@ import { Briefcase, Mail, Phone, SquareArrowOutUpRight } from "lucide-react";
 import Link from "next/link";
 import { Separator } from "@workspace/ui/components/separator";
 import StaffOptions from "./staff-options";
-import { useSession } from "@/lib/auth-client";
 import StaffDetail from "./staff-detail";
 
 interface StaffCardProps {
@@ -26,8 +25,6 @@ interface StaffCardProps {
 }
 
 const StaffCard = ({ staff }: StaffCardProps) => {
-  const { data: session } = useSession();
-  const user = session?.user || { name: "Unknown User", role: "Unknown Role" };
 
   const data = staff;
 
@@ -51,7 +48,7 @@ const StaffCard = ({ staff }: StaffCardProps) => {
   };
 
   return (
-    <Card>
+    <Card className="bg-muted-foreground/3">
       <CardHeader className="flex items-center justify-between gap-2 w-full">
         <div>
           <p className="text-xs">
@@ -61,10 +58,10 @@ const StaffCard = ({ staff }: StaffCardProps) => {
         </div>
         <div className="flex items-center gap-2 items-center">
           {/* {getRoleBadge(user?.role || "Unknown")} */}
-          <Badge variant={"ghost"}>
+          <Badge variant={data.activeStatus ? "active" : "inactive"}>
             {data.activeStatus ? "Active" : "Inactive"}
           </Badge>
-          <Badge variant={data.isPublished ? "default" : "destructive"}>
+          <Badge variant={data.isPublished ? "active" : "inactive"}>
             {data.isPublished ? "Published" : "Unpublished"}
           </Badge>
           <StaffOptions staffId={data.id} />
@@ -82,7 +79,7 @@ const StaffCard = ({ staff }: StaffCardProps) => {
           <div className="ml-4 flex-1">
             <div className="flex flex-col">
               <h3 className="text-lg font-bold">{data.name}</h3>
-              <p>RGN-{data.staffId}</p>
+              <p className="text-xs font-semibold">RGN-{data.staffId}</p>
             </div>
           </div>
         </div>
@@ -102,7 +99,7 @@ const StaffCard = ({ staff }: StaffCardProps) => {
             />
           </div>
           <Separator orientation="horizontal" className="border-green-900" />
-          <div>
+          <div className="flex flex-col gap-2 w-full">
             <StaffDetailList
               title="Position"
               name={data.position}
@@ -123,11 +120,12 @@ const StaffCard = ({ staff }: StaffCardProps) => {
       <CardFooter className="flex gap-1">
         <StaffDetail staff={data} />
         <Link
-          href={`/nfc/${data.id}`}
+        aria-disabled={data.isArchived === true}
+          href={data.isArchived ? "#" : `/nfc/${data.id}`}
           target="_blank"
           className="flex items-center justify-center gap-2"
         >
-          <Button variant={"outline"}>
+          <Button disabled={data.isArchived === true} variant={"outline"}>
             <SquareArrowOutUpRight className="w-4 h-4" />
           </Button>
         </Link>

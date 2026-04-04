@@ -26,6 +26,7 @@ export const newStaffSchema = z.object({
   division: staffDivisionSchema.optional(),
   divisionId: z.string().optional(),
   createdById: z.string().optional(),
+  updatedById: z.string().optional(),
 });
 
 export const updateStaffSchema = newStaffSchema.partial().extend({

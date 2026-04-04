@@ -105,7 +105,7 @@ const LoginForm = () => {
             />
               <Field>
                 <Button disabled={pending} type="submit">
-                  Login
+                  {loading ? "Logging in..." : "Login"}
                 </Button>
               </Field>
             </FieldGroup>

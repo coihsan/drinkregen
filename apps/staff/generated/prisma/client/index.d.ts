@@ -291,8 +291,8 @@ export namespace Prisma {
   export import Exact = $Public.Exact
 
   /**
-   * Prisma Client JS version: 7.5.0
-   * Query Engine version: 280c870be64f457428992c43c1f6d557fab6e29e
+   * Prisma Client JS version: 7.6.0
+   * Query Engine version: 75cbdc1eb7150937890ad5465d861175c6624711
    */
   export type PrismaVersion = {
     client: string
@@ -5993,6 +5993,7 @@ export namespace Prisma {
     updatedAt: Date | null
     activeStatus: boolean | null
     isPublished: boolean | null
+    updatedById: string | null
     coverArea: string | null
     joinedAt: Date | null
     divisionId: string | null
@@ -6012,6 +6013,7 @@ export namespace Prisma {
     updatedAt: Date | null
     activeStatus: boolean | null
     isPublished: boolean | null
+    updatedById: string | null
     coverArea: string | null
     joinedAt: Date | null
     divisionId: string | null
@@ -6031,6 +6033,7 @@ export namespace Prisma {
     updatedAt: number
     activeStatus: number
     isPublished: number
+    updatedById: number
     coverArea: number
     joinedAt: number
     divisionId: number
@@ -6052,6 +6055,7 @@ export namespace Prisma {
     updatedAt?: true
     activeStatus?: true
     isPublished?: true
+    updatedById?: true
     coverArea?: true
     joinedAt?: true
     divisionId?: true
@@ -6071,6 +6075,7 @@ export namespace Prisma {
     updatedAt?: true
     activeStatus?: true
     isPublished?: true
+    updatedById?: true
     coverArea?: true
     joinedAt?: true
     divisionId?: true
@@ -6090,6 +6095,7 @@ export namespace Prisma {
     updatedAt?: true
     activeStatus?: true
     isPublished?: true
+    updatedById?: true
     coverArea?: true
     joinedAt?: true
     divisionId?: true
@@ -6182,6 +6188,7 @@ export namespace Prisma {
     updatedAt: Date
     activeStatus: boolean
     isPublished: boolean
+    updatedById: string | null
     coverArea: string | null
     joinedAt: Date
     divisionId: string
@@ -6218,6 +6225,7 @@ export namespace Prisma {
     updatedAt?: boolean
     activeStatus?: boolean
     isPublished?: boolean
+    updatedById?: boolean
     coverArea?: boolean
     joinedAt?: boolean
     divisionId?: boolean
@@ -6239,6 +6247,7 @@ export namespace Prisma {
     updatedAt?: boolean
     activeStatus?: boolean
     isPublished?: boolean
+    updatedById?: boolean
     coverArea?: boolean
     joinedAt?: boolean
     divisionId?: boolean
@@ -6260,6 +6269,7 @@ export namespace Prisma {
     updatedAt?: boolean
     activeStatus?: boolean
     isPublished?: boolean
+    updatedById?: boolean
     coverArea?: boolean
     joinedAt?: boolean
     divisionId?: boolean
@@ -6281,12 +6291,13 @@ export namespace Prisma {
     updatedAt?: boolean
     activeStatus?: boolean
     isPublished?: boolean
+    updatedById?: boolean
     coverArea?: boolean
     joinedAt?: boolean
     divisionId?: boolean
   }
 
-  export type StaffOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "staffId" | "email" | "phoneNumber" | "position" | "avatarUrl" | "isArchived" | "createdById" | "createdAt" | "updatedAt" | "activeStatus" | "isPublished" | "coverArea" | "joinedAt" | "divisionId", ExtArgs["result"]["staff"]>
+  export type StaffOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "staffId" | "email" | "phoneNumber" | "position" | "avatarUrl" | "isArchived" | "createdById" | "createdAt" | "updatedAt" | "activeStatus" | "isPublished" | "updatedById" | "coverArea" | "joinedAt" | "divisionId", ExtArgs["result"]["staff"]>
   export type StaffInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     createdBy?: boolean | Staff$createdByArgs<ExtArgs>
     division?: boolean | DivisionDefaultArgs<ExtArgs>
@@ -6320,6 +6331,7 @@ export namespace Prisma {
       updatedAt: Date
       activeStatus: boolean
       isPublished: boolean
+      updatedById: string | null
       coverArea: string | null
       joinedAt: Date
       divisionId: string
@@ -6761,6 +6773,7 @@ export namespace Prisma {
     readonly updatedAt: FieldRef<"Staff", 'DateTime'>
     readonly activeStatus: FieldRef<"Staff", 'Boolean'>
     readonly isPublished: FieldRef<"Staff", 'Boolean'>
+    readonly updatedById: FieldRef<"Staff", 'String'>
     readonly coverArea: FieldRef<"Staff", 'String'>
     readonly joinedAt: FieldRef<"Staff", 'DateTime'>
     readonly divisionId: FieldRef<"Staff", 'String'>
@@ -8351,6 +8364,7 @@ export namespace Prisma {
     updatedAt: 'updatedAt',
     activeStatus: 'activeStatus',
     isPublished: 'isPublished',
+    updatedById: 'updatedById',
     coverArea: 'coverArea',
     joinedAt: 'joinedAt',
     divisionId: 'divisionId'
@@ -8786,6 +8800,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Staff"> | Date | string
     activeStatus?: BoolFilter<"Staff"> | boolean
     isPublished?: BoolFilter<"Staff"> | boolean
+    updatedById?: StringNullableFilter<"Staff"> | string | null
     coverArea?: StringNullableFilter<"Staff"> | string | null
     joinedAt?: DateTimeFilter<"Staff"> | Date | string
     divisionId?: StringFilter<"Staff"> | string
@@ -8807,6 +8822,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     activeStatus?: SortOrder
     isPublished?: SortOrder
+    updatedById?: SortOrderInput | SortOrder
     coverArea?: SortOrderInput | SortOrder
     joinedAt?: SortOrder
     divisionId?: SortOrder
@@ -8831,6 +8847,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Staff"> | Date | string
     activeStatus?: BoolFilter<"Staff"> | boolean
     isPublished?: BoolFilter<"Staff"> | boolean
+    updatedById?: StringNullableFilter<"Staff"> | string | null
     coverArea?: StringNullableFilter<"Staff"> | string | null
     joinedAt?: DateTimeFilter<"Staff"> | Date | string
     divisionId?: StringFilter<"Staff"> | string
@@ -8852,6 +8869,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     activeStatus?: SortOrder
     isPublished?: SortOrder
+    updatedById?: SortOrderInput | SortOrder
     coverArea?: SortOrderInput | SortOrder
     joinedAt?: SortOrder
     divisionId?: SortOrder
@@ -8877,6 +8895,7 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"Staff"> | Date | string
     activeStatus?: BoolWithAggregatesFilter<"Staff"> | boolean
     isPublished?: BoolWithAggregatesFilter<"Staff"> | boolean
+    updatedById?: StringNullableWithAggregatesFilter<"Staff"> | string | null
     coverArea?: StringNullableWithAggregatesFilter<"Staff"> | string | null
     joinedAt?: DateTimeWithAggregatesFilter<"Staff"> | Date | string
     divisionId?: StringWithAggregatesFilter<"Staff"> | string
@@ -9287,6 +9306,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     activeStatus?: boolean
     isPublished?: boolean
+    updatedById?: string | null
     coverArea?: string | null
     joinedAt?: Date | string
     createdBy?: UserCreateNestedOneWithoutCreatedStaffInput
@@ -9307,6 +9327,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     activeStatus?: boolean
     isPublished?: boolean
+    updatedById?: string | null
     coverArea?: string | null
     joinedAt?: Date | string
     divisionId: string
@@ -9325,6 +9346,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     activeStatus?: BoolFieldUpdateOperationsInput | boolean
     isPublished?: BoolFieldUpdateOperationsInput | boolean
+    updatedById?: NullableStringFieldUpdateOperationsInput | string | null
     coverArea?: NullableStringFieldUpdateOperationsInput | string | null
     joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdBy?: UserUpdateOneWithoutCreatedStaffNestedInput
@@ -9345,6 +9367,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     activeStatus?: BoolFieldUpdateOperationsInput | boolean
     isPublished?: BoolFieldUpdateOperationsInput | boolean
+    updatedById?: NullableStringFieldUpdateOperationsInput | string | null
     coverArea?: NullableStringFieldUpdateOperationsInput | string | null
     joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     divisionId?: StringFieldUpdateOperationsInput | string
@@ -9364,6 +9387,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     activeStatus?: boolean
     isPublished?: boolean
+    updatedById?: string | null
     coverArea?: string | null
     joinedAt?: Date | string
     divisionId: string
@@ -9382,6 +9406,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     activeStatus?: BoolFieldUpdateOperationsInput | boolean
     isPublished?: BoolFieldUpdateOperationsInput | boolean
+    updatedById?: NullableStringFieldUpdateOperationsInput | string | null
     coverArea?: NullableStringFieldUpdateOperationsInput | string | null
     joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -9400,6 +9425,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     activeStatus?: BoolFieldUpdateOperationsInput | boolean
     isPublished?: BoolFieldUpdateOperationsInput | boolean
+    updatedById?: NullableStringFieldUpdateOperationsInput | string | null
     coverArea?: NullableStringFieldUpdateOperationsInput | string | null
     joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     divisionId?: StringFieldUpdateOperationsInput | string
@@ -9837,6 +9863,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     activeStatus?: SortOrder
     isPublished?: SortOrder
+    updatedById?: SortOrder
     coverArea?: SortOrder
     joinedAt?: SortOrder
     divisionId?: SortOrder
@@ -9856,6 +9883,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     activeStatus?: SortOrder
     isPublished?: SortOrder
+    updatedById?: SortOrder
     coverArea?: SortOrder
     joinedAt?: SortOrder
     divisionId?: SortOrder
@@ -9875,6 +9903,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     activeStatus?: SortOrder
     isPublished?: SortOrder
+    updatedById?: SortOrder
     coverArea?: SortOrder
     joinedAt?: SortOrder
     divisionId?: SortOrder
@@ -10465,6 +10494,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     activeStatus?: boolean
     isPublished?: boolean
+    updatedById?: string | null
     coverArea?: string | null
     joinedAt?: Date | string
     division: DivisionCreateNestedOneWithoutStaffInput
@@ -10483,6 +10513,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     activeStatus?: boolean
     isPublished?: boolean
+    updatedById?: string | null
     coverArea?: string | null
     joinedAt?: Date | string
     divisionId: string
@@ -10617,6 +10648,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Staff"> | Date | string
     activeStatus?: BoolFilter<"Staff"> | boolean
     isPublished?: BoolFilter<"Staff"> | boolean
+    updatedById?: StringNullableFilter<"Staff"> | string | null
     coverArea?: StringNullableFilter<"Staff"> | string | null
     joinedAt?: DateTimeFilter<"Staff"> | Date | string
     divisionId?: StringFilter<"Staff"> | string
@@ -11058,6 +11090,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     activeStatus?: boolean
     isPublished?: boolean
+    updatedById?: string | null
     coverArea?: string | null
     joinedAt?: Date | string
     createdBy?: UserCreateNestedOneWithoutCreatedStaffInput
@@ -11077,6 +11110,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     activeStatus?: boolean
     isPublished?: boolean
+    updatedById?: string | null
     coverArea?: string | null
     joinedAt?: Date | string
   }
@@ -11142,6 +11176,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     activeStatus?: boolean
     isPublished?: boolean
+    updatedById?: string | null
     coverArea?: string | null
     joinedAt?: Date | string
     divisionId: string
@@ -11233,6 +11268,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     activeStatus?: BoolFieldUpdateOperationsInput | boolean
     isPublished?: BoolFieldUpdateOperationsInput | boolean
+    updatedById?: NullableStringFieldUpdateOperationsInput | string | null
     coverArea?: NullableStringFieldUpdateOperationsInput | string | null
     joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     division?: DivisionUpdateOneRequiredWithoutStaffNestedInput
@@ -11251,6 +11287,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     activeStatus?: BoolFieldUpdateOperationsInput | boolean
     isPublished?: BoolFieldUpdateOperationsInput | boolean
+    updatedById?: NullableStringFieldUpdateOperationsInput | string | null
     coverArea?: NullableStringFieldUpdateOperationsInput | string | null
     joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     divisionId?: StringFieldUpdateOperationsInput | string
@@ -11269,6 +11306,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     activeStatus?: BoolFieldUpdateOperationsInput | boolean
     isPublished?: BoolFieldUpdateOperationsInput | boolean
+    updatedById?: NullableStringFieldUpdateOperationsInput | string | null
     coverArea?: NullableStringFieldUpdateOperationsInput | string | null
     joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     divisionId?: StringFieldUpdateOperationsInput | string
@@ -11309,6 +11347,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     activeStatus?: boolean
     isPublished?: boolean
+    updatedById?: string | null
     coverArea?: string | null
     joinedAt?: Date | string
   }
@@ -11326,6 +11365,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     activeStatus?: BoolFieldUpdateOperationsInput | boolean
     isPublished?: BoolFieldUpdateOperationsInput | boolean
+    updatedById?: NullableStringFieldUpdateOperationsInput | string | null
     coverArea?: NullableStringFieldUpdateOperationsInput | string | null
     joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdBy?: UserUpdateOneWithoutCreatedStaffNestedInput
@@ -11345,6 +11385,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     activeStatus?: BoolFieldUpdateOperationsInput | boolean
     isPublished?: BoolFieldUpdateOperationsInput | boolean
+    updatedById?: NullableStringFieldUpdateOperationsInput | string | null
     coverArea?: NullableStringFieldUpdateOperationsInput | string | null
     joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -11363,6 +11404,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     activeStatus?: BoolFieldUpdateOperationsInput | boolean
     isPublished?: BoolFieldUpdateOperationsInput | boolean
+    updatedById?: NullableStringFieldUpdateOperationsInput | string | null
     coverArea?: NullableStringFieldUpdateOperationsInput | string | null
     joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

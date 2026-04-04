@@ -4,9 +4,14 @@ import { SidebarTrigger } from "@workspace/ui/components/sidebar"
 import { usePathname } from 'next/navigation';
 import { routeNames } from "@/lib/constant";
 import { BellDot } from "lucide-react";
+import Breadcrumbs from "../primitive/breadcrumbs";
+import { Separator } from "@workspace/ui/components/separator";
 
+interface SiteHeaderProps {
+  className?: string;
+}
 
-const SiteHeader = () => {
+const SiteHeader = ({ className }: SiteHeaderProps) => {
   const pathname = usePathname();
    const segments = pathname.split('/').filter(Boolean);
   const getTitle = () => {
@@ -15,12 +20,11 @@ const SiteHeader = () => {
     return routeNames[lastSegment] || lastSegment.charAt(0).toUpperCase() + lastSegment.slice(1);
   };
   return (
-    <header className="flex h-(--header-height) py-2 bg-muted w-full shrink-0 items-center gap-2 border-b transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-(--header-height)">
+    <header className={`flex h-(--header-height) shrink-0 py-2 bg-muted items-center gap-2 border-b transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-(--header-height) ${className}`}>
       <div className="flex w-full items-center gap-1 px-4 lg:gap-2 lg:px-6">
-        <SidebarTrigger className="-ml-1" />
-        <h1 className="text-base font-medium">
-          {getTitle()}
-        </h1>
+        <SidebarTrigger className="-ml-3" />
+        <Separator orientation="vertical" className="h-6" />
+        <Breadcrumbs />
         <div className="ml-auto flex items-center gap-2">
           <Button variant="ghost">
             <BellDot className="h-4 w-4" />

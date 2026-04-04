@@ -18,16 +18,23 @@ import { newStaffSchema } from "@/lib/schema/staff.schema";
 import { useRouter } from "next/navigation";
 import { Info } from "lucide-react";
 import Warning from "@/components/warning";
-import { useRef, useTransition } from "react";
+import { useRef, useTransition, useEffect } from "react";
 import DatePicker from "./date-picker";
 import { createNewStaff } from "@/action/staff.action";
+import { useSession } from "@/lib/auth-client";
+import { Combobox, ComboboxContent, ComboboxEmpty, ComboboxInput, ComboboxItem, ComboboxList } from "@workspace/ui/components/combobox";
+import { useStaff } from "@/hooks/use-staff";
 
 type FormValues = z.infer<typeof newStaffSchema>;
 
 const StaffForm = () => {
   const reff = useRef<HTMLFormElement>(null);
+  const {data : session} = useSession();
+  const user = session
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
+  const { divisions } = useStaff();
+  
   const form = useForm({
     mode: "onChange",
     resolver: zodResolver(newStaffSchema),
@@ -52,9 +59,16 @@ const StaffForm = () => {
       joinedAt: new Date(),
       avatarUrl: "",
       coverArea: "",
-      isArchived: false    
+      isArchived: false,
+      createdById: user?.user.id, 
     },
   });
+
+  useEffect(() => {
+    if (user?.user.id) {
+      form.setValue("createdById", user.user.id);
+    }
+  }, [user?.user.id, form]);
 
   const onSubmit = async (values: FormValues) => {
     try {
@@ -72,6 +86,7 @@ const StaffForm = () => {
         position: values.position,
         avatarUrl: values.avatarUrl,
         coverArea: values.coverArea,
+        createdById: values.createdById,
         division: values.division?.name
           ? {
               id: values.division.id,
@@ -209,12 +224,23 @@ const StaffForm = () => {
             render={({ field }) => (
               <Field>
                 <FieldLabel>Division</FieldLabel>
-                <Input
-                  type="text"
-                  placeholder="Enter division name"
-                  {...field}
-                  autoComplete="off"
-                />
+                <Combobox items={divisions}>
+                  <ComboboxInput placeholder="Select Division" />
+                  <ComboboxContent>
+                    <ComboboxEmpty>No divisions found.</ComboboxEmpty>
+                    <ComboboxList>
+                      {divisions.map((division) => (
+                        <ComboboxItem
+                          key={division.id}
+                          value={division.name}
+                          onSelect={(currentValue) => field.onChange(currentValue)}
+                        >
+                          {division.name}
+                        </ComboboxItem>
+                      ))}
+                    </ComboboxList>
+                  </ComboboxContent>
+                </Combobox>
                 <FieldError>{form.formState.errors.division?.name?.message}</FieldError>
               </Field>
             )}

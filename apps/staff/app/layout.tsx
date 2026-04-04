@@ -5,6 +5,7 @@ import "@workspace/ui/globals.css";
 import { ThemeProvider } from "@/providers/theme-provider";
 import { TooltipProvider } from "@workspace/ui/components/tooltip";
 import QueryProvider from "@/providers/query-provider";
+import { Toaster } from "@workspace/ui/components/sonner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -46,6 +47,7 @@ export default function RootLayout({
                 </main>
               </ModalProvider>
             </TooltipProvider>
+              <Toaster position="top-right" />
           </ThemeProvider>
         </QueryProvider>
       </body>

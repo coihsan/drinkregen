@@ -22,6 +22,7 @@ import {
   useSidebar,
 } from "@workspace/ui/components/sidebar"
 import { BellDot, CircleUser, EllipsisVertical, LogOut } from "lucide-react"
+import { useRouter } from "next/navigation"
 
 export function UserProfile({
   userData,
@@ -33,6 +34,7 @@ export function UserProfile({
   }
 }) {
   const { isMobile } = useSidebar()
+  const route = useRouter()
 
   return (
     <SidebarMenu>
@@ -78,13 +80,9 @@ export function UserProfile({
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem>
+              <DropdownMenuItem onClick={() => route.push('/account')}>
                 <CircleUser />
                 Account
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <BellDot />
-                Notifications
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />

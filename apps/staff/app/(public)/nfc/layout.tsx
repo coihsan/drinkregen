@@ -22,8 +22,8 @@ export async function generateMetadata({id}: {id: string}): Promise<Metadata> {
 
 const PublicLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="flex w-full max-w-2xl mx-auto">
-        <div className="w-3/4 p-4">
+    <div className="flex w-full justify-center mx-auto">
+        <div className="p-4">
             {children}
         </div>
     </div>

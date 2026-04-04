@@ -2,7 +2,7 @@
 
 import { StaffTypes } from '@/types/staff.types';
 import { Button } from '@workspace/ui/components/button';
-import { X, Mail, Phone, MapPin, Briefcase, Building2, Calendar, Shield, Globe, Pencil } from 'lucide-react';
+import { Mail, Phone, MapPin, Briefcase, Building2, Calendar, Shield, Globe, Pencil } from 'lucide-react';
 import {
   Drawer,
   DrawerClose,
@@ -13,6 +13,7 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@workspace/ui/components/drawer"
+import { formatPhoneNumber } from '@/lib/helpers';
 
 interface StaffDetailProps {
   staff: StaffTypes | null;
@@ -27,7 +28,7 @@ const StaffDetail = ({ staff }: StaffDetailProps) => {
   return (
     <Drawer direction="right">
       <DrawerTrigger asChild>
-        <Button variant="default" className="flex-1 flex items-center justify-center gap-2">
+        <Button variant={'default'} className="flex-1 flex items-center justify-center gap-2">
           View Details
         </Button>
       </DrawerTrigger>
@@ -48,7 +49,7 @@ const StaffDetail = ({ staff }: StaffDetailProps) => {
           </div>
           <div className="flex items-center space-x-2">
             <Phone className="text-muted-foreground" />
-            <span>{data.phoneNumber}</span>
+            <span>{formatPhoneNumber(data.phoneNumber)}</span>
           </div>
           <div className="flex items-center space-x-2">
             <MapPin className="text-muted-foreground" />
@@ -73,6 +74,13 @@ const StaffDetail = ({ staff }: StaffDetailProps) => {
           <div className="flex items-center space-x-2">
             <Globe className="text-muted-foreground" />
             <span>{data.coverArea}</span>
+          </div>
+          <div>
+            <p className='text-green-500'>created by : {data.createdBy?.id}</p>
+          </div>
+          <div>
+            <p className='text-green-500'>Last updated : {data.updatedAt.toLocaleString()}</p>
+            <p>Updated by: {data.updatedById}</p>
           </div>
         </div>
         <DrawerFooter>

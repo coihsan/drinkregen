@@ -75,7 +75,14 @@ export async function archiveStaff(id: string) {
   if (!id) throw new Error("Missing id");
   const staff = await db.staff.findUnique({ where: { id } });
   if (!staff) throw new Error("Not found");
-  return db.staff.update({ where: { id }, data: { isArchived: true } });
+  return db.staff.update({ where: { id }, data: { isArchived: true, isPublished: false, activeStatus: false } });
+}
+
+export const unArchiveStaff = async (id: string) => {
+  if (!id) throw new Error("Missing id");
+  const staff = await db.staff.findUnique({ where: { id } });
+  if (!staff) throw new Error("Not found");
+  return db.staff.update({ where: { id }, data: { isArchived: false, isPublished: true, activeStatus: true } });
 }
 
 export async function togglePublishStaff(id: string) {
@@ -91,9 +98,54 @@ export async function togglePublishStaff(id: string) {
   });
 }
 
-export async function unpublishStaff(id: string) {
+export async function toggleUnpublishStaff(id: string) {
   if (!id) throw new Error("Missing id");
   const staff = await db.staff.findUnique({ where: { id } });
   if (!staff) throw new Error("Not found");
   return db.staff.update({ where: { id }, data: { isPublished: false } });
 }
+
+export async function deleteStaff(id: string) {
+  if (!id) throw new Error("Missing id");
+  const staff = await db.staff.findUnique({ where: { id } });
+  if (!staff) throw new Error("Not found");
+  return db.staff.delete({ where: { id } });
+}
+
+export async function restoreStaff(id: string) {
+  if (!id) throw new Error("Missing id");
+  const staff = await db.staff.findUnique({ where: { id } });
+  if (!staff) throw new Error("Not found");
+  return db.staff.update({ where: { id }, data: { isArchived: false } });
+}
+
+export const getStaffDataArchived = async () => {
+  return await db.staff.findMany({
+    where: { 
+      isArchived: true,
+     },
+    include: { division: true },
+  }) as StaffWithRelations[];
+}
+
+export const getDivision = async () => {
+  return await db.division.findMany({
+    orderBy: { createdAt: "asc" },
+  });
+};
+
+// export const searchStaff = async (query: string) => {
+//   return await db.staff.findMany({
+//     where: {
+//       OR: [
+//         { name: { contains: query, mode: "insensitive" } },
+//         { email: { contains: query, mode: "insensitive" } },
+//         { phoneNumber: { contains: query, mode: "insensitive" } },
+//         { position: { contains: query, mode: "insensitive" } },
+//         { division: { name: { contains: query, mode: "insensitive" } } },
+//       ],
+//       isArchived: false,
+//     },
+//     include: { division: true },
+//   }) as StaffWithRelations[];
+// }

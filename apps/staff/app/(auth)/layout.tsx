@@ -23,17 +23,17 @@ export default function RootLayout({
     <SidebarProvider
       style={
         {
-          "--sidebar-width": "20rem",
+          "--sidebar-width": "16rem",
           "--sidebar-width-mobile": "20rem",
         } as React.CSSProperties
       }
     >
-      <AppSidebar variant="inset" />
+      <AppSidebar className="flex-0" variant="inset" />
       <main className="flex min-h-screen w-full flex-col">
         <SidebarInset>
-          <SiteHeader />
-          <ScrollArea>
-            <div className="flex-1">{children}</div>
+          <SiteHeader className="fixed z-50 w-full flex-1 overflow-hidden" />
+          <ScrollArea className="mt-12">
+            <div className="flex-1 p-4">{children}</div>
           </ScrollArea>
         </SidebarInset>
       </main>

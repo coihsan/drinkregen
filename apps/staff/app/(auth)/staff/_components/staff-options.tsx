@@ -1,6 +1,7 @@
 "use client";
 
 import ShareButton from "@/components/primitive/share-button";
+import { useStaff } from "@/hooks/use-staff";
 import { Button } from "@workspace/ui/components/button";
 import {
   DropdownMenu,
@@ -11,51 +12,37 @@ import {
   DropdownMenuSeparator,
 } from "@workspace/ui/components/dropdown-menu";
 import { Archive, EllipsisVertical, Eye } from "lucide-react";
+import { usePathname } from "next/navigation";
 
 interface StaffOptionsProps {
   staffId: string;
-  onArchive?: (staffId: string) => Promise<void> | void;
-  onTogglePublish?: (staffId: string) => Promise<void> | void;
 }
 
 const StaffOptions: React.FC<StaffOptionsProps> = ({
   staffId,
-  onArchive,
-  onTogglePublish,
 }) => {
+  const { archiveStaff, unArchive, staffs, toggleUnpublish, togglePublish } =
+    useStaff();
+  const pathname = usePathname();
+
   const handleArchive = async (id: string) => {
-    try {
-      if (!id) {
-        console.error("staff id is missing, aborting archive request");
-        return;
-      }
-      if (onArchive) return await onArchive(id);
-      const res = await fetch(`/api/staff/${id}/archive`, { method: "POST" });
-      if (!res.ok) {
-        const body = await res.text();
-        throw new Error(`Failed to archive staff: ${body}`);
-      }
-    } catch (err) {
-      console.error(err);
+    if(id) {
+      archiveStaff(id)
     }
   };
-
+  const handleUnArchive = async (id: string) => {
+    if(id) {
+      unArchive(id)
+    }
+  };
   const handleToggleMarkAsPublished = async (id: string) => {
-    try {
-      if (!id) {
-        console.error("staff id is missing, aborting toggle-publish request");
-        return;
-      }
-      if (onTogglePublish) return await onTogglePublish(id);
-      const res = await fetch(`/api/staff/${id}/toggle-publish`, {
-        method: "POST",
-      });
-      if (!res.ok) {
-        const body = await res.text();
-        throw new Error(`Failed to toggle publish state: ${body}`);
-      }
-    } catch (err) {
-      console.error(err);
+    if(id) {
+      togglePublish(id)
+    }
+  };
+  const handleToggleMarkAsUnPublished = async (id: string) => {
+    if(id) {
+      toggleUnpublish(id)
     }
   };
 
@@ -68,23 +55,42 @@ const StaffOptions: React.FC<StaffOptionsProps> = ({
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-max">
         <DropdownMenuGroup>
-          <ShareButton url={`${window.location.origin}/staff/${staffId}`} />
-          <DropdownMenuItem
-            onClick={() => handleToggleMarkAsPublished(staffId)}
-          >
-            <Eye />
-            Mark as Published
-          </DropdownMenuItem>
+          {pathname !== `/staff/archive` && (
+            <ShareButton url={`${window.location.origin}/nfc/${staffId}`} />
+          )}
+          {pathname !== `/staff/archive` &&
+            (staffs.find((s) => s.id === staffId)?.isPublished ? (
+              <DropdownMenuItem
+                variant="destructive"
+                onClick={() => handleToggleMarkAsUnPublished(staffId)}
+              >
+                <Eye />
+                Unpublish
+              </DropdownMenuItem>
+            ) : (
+              <DropdownMenuItem
+                onClick={() => handleToggleMarkAsPublished(staffId)}
+              >
+                <Eye />
+                Publish
+              </DropdownMenuItem>
+            ))}
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem
-            variant="destructive"
-            onClick={() => handleArchive(staffId)}
-          >
-            <Archive />
-            <span className="font-semibold">Mark as Archived</span>
-          </DropdownMenuItem>
+          {pathname === `/staff/archive` ? (
+            <DropdownMenuItem
+              onClick={() => handleUnArchive(staffId)}
+            >
+              <Archive />
+              Unarchive
+            </DropdownMenuItem>
+          ) : (
+            <DropdownMenuItem variant="destructive" onClick={() => handleArchive(staffId)}>
+              <Archive />
+              Archive
+            </DropdownMenuItem>
+          )}
         </DropdownMenuGroup>
       </DropdownMenuContent>
     </DropdownMenu>

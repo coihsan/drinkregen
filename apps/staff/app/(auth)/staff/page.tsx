@@ -1,56 +1,92 @@
 "use client";
 
 import { Button } from "@workspace/ui/components/button";
-import { Archive, Plus } from "lucide-react";
+import { Archive, LayoutGrid, List, Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { ViewTransition } from "react";
+import { useState, useMemo, ViewTransition } from "react";
 import { Separator } from "@workspace/ui/components/separator";
 import { Loading } from "@workspace/ui/components/loading";
 import { useStaff } from "@/hooks/use-staff";
 import StaffCard from "./_components/staff-card";
 import { useSession } from "@/lib/auth-client";
+import SearchBar from "@/components/search-bar";
+import BlankPage from "@/components/primitive/blank-page";
+import { greetingBasedOnTime } from "@/lib/helpers";
+import { Badge } from "@workspace/ui/components/badge";
+import SubHeader from "@/components/primitive/sub-header";
 
 const StaffManagementPage = () => {
   const router = useRouter();
-  const { data: session, isPending } = useSession();
-  const { staffs, isLoading, createStaff, isCreating } = useStaff();
+  const { data: session } = useSession();
+  const { staffs, isLoading, fetchStaffArchived } =
+    useStaff();
+  const [query, setQuery] = useState("");
 
-  const user = session
+  const filteredStaffs = useMemo(() => {
+    const q = query.toLowerCase();
+    return (staffs || []).filter((staff) => {
+      return (
+        staff.name.toLowerCase().includes(q) ||
+        staff.email.toLowerCase().includes(q)
+      );
+    });
+  }, [staffs, query]);
+
+  const totalArchived = useMemo(() => {
+    return (fetchStaffArchived || []).filter((s) => s.isArchived === true)
+      .length;
+  }, [fetchStaffArchived]);
+
+  const user = session;
 
   if (isLoading) return;
   <div className="w-full h-screen flex items-center justify-center">
     <Loading className="h-32 w-32" />
   </div>;
-  if (!staffs?.find((s) => !s.isArchived)) {
-    return <p className="text-center mt-8 text-white">Redirecting...</p>;
-  }
 
   return (
     <ViewTransition default={"none"} enter="slide-up" exit="slide-down">
-      <div className="p-4 relative">
-        <p>Welcome, {user?.user.name || "User"}!</p>
-        <div className="flex items-center justify-between mb-4 sticky top-0 right-0 left-0">
-          <div>Staff Directory</div>
-          <div className="flex items-center gap-2">
-            <Button onClick={() => router.push("/staff/new-staff")}>
-              <Plus />
-              New
-            </Button>
-            <Button
-              variant={"secondary"}
-              onClick={() => router.push("/staff/archive")}
-            >
-              <Archive />
-              Archive
-            </Button>
-          </div>
-        </div>
+      <div className="relative">
+        <SubHeader
+          title={`${greetingBasedOnTime()}, ${user?.user.name || "User"}! ID : ${user?.user.id}`}
+        >
+          <Button variant={"outline"}>
+            <LayoutGrid className="h-4 w-4" />
+          </Button>
+          <Button variant={"outline"}>
+            <List className="h-4 w-4" />
+          </Button>
+          <SearchBar
+            searchQuery={(value) => {
+              setQuery(value);
+            }}
+          />
+          <Button onClick={() => router.push("/staff/new-staff")}>
+            <Plus />
+            New
+          </Button>
+          <Button
+            variant={"secondary"}
+            onClick={() => router.push("/staff/archive")}
+          >
+            <Archive />
+            Archive
+            <Badge variant={"default"}>{totalArchived}</Badge>
+          </Button>
+        </SubHeader>
         <Separator />
-        <div className="grid grid-cols-3 gap-4">
-          {staffs.map((staff, index) => (
-            <StaffCard key={index} staff={staff} />
-          ))}
-        </div>
+        {filteredStaffs.length === 0 ? (
+          <BlankPage
+            title="Not found"
+            description="No staff members match your search criteria."
+          />
+        ) : (
+          <div className="grid grid-cols-3 gap-4">
+            {filteredStaffs.map((staff, index) => (
+              <StaffCard key={index} staff={staff} />
+            ))}
+          </div>
+        )}
       </div>
     </ViewTransition>
   );

@@ -24,7 +24,7 @@ const SignInPage = () => {
     if (res.error) {
       setError(res.error.message || "Something went wrong.");
     } else {
-      router.push("/staff-directory");
+      router.push("/staff");
     }
   }
 

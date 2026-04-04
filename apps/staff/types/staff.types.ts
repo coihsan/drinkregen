@@ -1,7 +1,6 @@
 import { Division, Staff } from "@/generated/prisma";
 import { COMPANY_NAME, ROLE } from "./enums";
 import { UserTypes } from "./user.types";
-import { User } from "better-auth";
 
 export interface StaffDivision {
     id: string;
@@ -24,6 +23,7 @@ export interface StaffTypes {
     isArchived?: boolean;
     createdAt: Date | string;
     createdById?: string | null;
+    updatedById?: string | null;
     createdBy?: UserTypes | null;
     updatedAt: Date | string;
     activeStatus: boolean;

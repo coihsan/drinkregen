@@ -1,10 +1,15 @@
-import { Settings, User, UserLock } from "lucide-react";
+import { Settings, User, UserLock, Workflow } from "lucide-react";
 
 export const SidebarItems = [
   {
     title: "Staff Directory",
     url: "/staff",
     icon: User,
+  },
+  {
+    title : "Division",
+    url : "/division",
+    icon : Workflow,
   },
   {
     title: "Admin",
