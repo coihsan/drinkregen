@@ -23,6 +23,7 @@ model User {
   accounts         Account[]
   sessions         Session[]
   createdStaff     Staff[]          @relation("StaffCreatedBy")
+  staffProfile     Staff?
   permissions      UserPermission[]
 
   @@map("users")
@@ -75,6 +76,7 @@ model Staff {
   name         String
   staffId      String   @unique
   email        String   @unique
+  userId       String?  @unique
   phoneNumber  String
   position     String
   avatarUrl    String?
@@ -89,6 +91,7 @@ model Staff {
   joinedAt     DateTime @default(now())
   divisionId   String
   createdBy    User?    @relation("StaffCreatedBy", fields: [createdById], references: [id])
+  user         User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
   division     Division @relation(fields: [divisionId], references: [id], onDelete: Cascade)
 
   @@map("staff")

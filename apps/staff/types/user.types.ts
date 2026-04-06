@@ -18,6 +18,7 @@ export interface UserTypes {
     permissions?: UserPermissionTypes[];
     sessions?: SessionTypes[];
     createdStaff?: StaffTypes;
+    staffProfile?: StaffTypes | null;
 }
 
 export interface AccountTypes {

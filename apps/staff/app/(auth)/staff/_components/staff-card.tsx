@@ -22,9 +22,10 @@ import StaffDetail from "./staff-detail";
 
 interface StaffCardProps {
   staff: StaffTypes;
+  className?: string;
 }
 
-const StaffCard = ({ staff }: StaffCardProps) => {
+const StaffCard = ({ staff, className }: StaffCardProps) => {
 
   const data = staff;
 
@@ -48,8 +49,8 @@ const StaffCard = ({ staff }: StaffCardProps) => {
   };
 
   return (
-    <Card className="bg-muted-foreground/3">
-      <CardHeader className="flex items-center justify-between gap-2 w-full">
+    <Card size="default" className={`bg-muted-foreground/3 ${className || ""}`}>
+      <CardHeader className="flex items-center justify-between gap-2">
         <div>
           <p className="text-xs">
             Joined:{" "}
@@ -67,7 +68,7 @@ const StaffCard = ({ staff }: StaffCardProps) => {
           <StaffOptions staffId={data.id} />
         </div>
       </CardHeader>
-      <CardContent>
+      <CardContent className="w-full">
         <div className="flex items-center gap-4 mb-4">
           <Avatar className="w-16 h-16">
             <AvatarImage
@@ -76,15 +77,15 @@ const StaffCard = ({ staff }: StaffCardProps) => {
             />
             <AvatarFallback>{data.name.charAt(0)}</AvatarFallback>
           </Avatar>
-          <div className="ml-4 flex-1">
+          <div className="ml-2 flex-1">
             <div className="flex flex-col">
               <h3 className="text-lg font-bold">{data.name}</h3>
               <p className="text-xs font-semibold">RGN-{data.staffId}</p>
             </div>
           </div>
         </div>
-        <div className="flex flex-col gap-2 full">
-          <div className="flex flex-col gap-2 mb-4 w-full">
+        <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-2 mb-4">
             <StaffDetailList
               title="Email"
               name={data.email}
@@ -99,7 +100,7 @@ const StaffCard = ({ staff }: StaffCardProps) => {
             />
           </div>
           <Separator orientation="horizontal" className="border-green-900" />
-          <div className="flex flex-col gap-2 w-full">
+          <div className="flex flex-col gap-2">
             <StaffDetailList
               title="Position"
               name={data.position}
@@ -117,7 +118,7 @@ const StaffCard = ({ staff }: StaffCardProps) => {
           </div>
         </div>
       </CardContent>
-      <CardFooter className="flex gap-1">
+      <CardFooter className="flex items-center gap-2">
         <StaffDetail staff={data} />
         <Link
         aria-disabled={data.isArchived === true}

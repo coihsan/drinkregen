@@ -48,7 +48,7 @@ const StaffManagementPage = () => {
     <ViewTransition default={"none"} enter="slide-up" exit="slide-down">
       <div className="relative">
         <SubHeader
-          title={`${greetingBasedOnTime()}, ${user?.user.name || "User"}! ID : ${user?.user.id}`}
+          title={`${greetingBasedOnTime()}, ${user?.user.name || "User"}!`}
         >
           <Button variant={"outline"}>
             <LayoutGrid className="h-4 w-4" />
@@ -81,7 +81,7 @@ const StaffManagementPage = () => {
             description="No staff members match your search criteria."
           />
         ) : (
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
             {filteredStaffs.map((staff, index) => (
               <StaffCard key={index} staff={staff} />
             ))}

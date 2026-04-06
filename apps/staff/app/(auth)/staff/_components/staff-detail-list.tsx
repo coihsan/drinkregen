@@ -8,10 +8,12 @@ interface StaffDetailListProps {
 
 const StaffDetailList = ({ title, name, icon }: StaffDetailListProps) => {
   return (
-    <div className="flex items-center gap-4 rounded-3xl transition-all group">
+    <div className="w-fullrounded-3xl transition-all group">
       <p className="text-xs mb-0.5">{title}</p>
-      {icon}
-      <InputCopy value={name} />
+      <div className="flex items-center gap-2 w-full">
+        {icon}
+        <InputCopy value={name} />
+      </div>
     </div>
   );
 };

@@ -1,26 +1,26 @@
 "use client";
 
-import StaffList from "../_components/staff-list";
 import { Loading } from "@workspace/ui/components/loading";
 import { useStaff } from "@/hooks/use-staff";
 import BlankPage from "@/components/primitive/blank-page";
 import { useMemo, useState } from "react";
 import SearchBar from "@/components/search-bar";
 import SubHeader from "@/components/primitive/sub-header";
+import StaffCard from "../_components/staff-card";
 
 const StaffArchivePage = () => {
   const { fetchStaffArchived, isLoading } = useStaff();
   const [query, setQuery] = useState("");
 
   const filteredStaffs = useMemo(() => {
-      const q = query.toLowerCase();
-      return (fetchStaffArchived || []).filter((staff) => {
-        return (
-          staff.name.toLowerCase().includes(q) ||
-          staff.email.toLowerCase().includes(q)
-        );
-      });
-    }, [fetchStaffArchived, query]);
+    const q = query.toLowerCase();
+    return (fetchStaffArchived || []).filter((staff) => {
+      return (
+        staff.name.toLowerCase().includes(q) ||
+        staff.email.toLowerCase().includes(q)
+      );
+    });
+  }, [fetchStaffArchived, query]);
 
   if (isLoading) {
     return (
@@ -32,16 +32,30 @@ const StaffArchivePage = () => {
 
   if (!fetchStaffArchived || fetchStaffArchived.length === 0) {
     return (
-      <BlankPage title="No Archived Staff" description="There are no archived staff members to display." />
+      <BlankPage
+        title="No Archived Staff"
+        description="There are no archived staff members to display."
+      />
     );
   }
-    return (
-      <main>
-        <SubHeader title="Staff Archive">
-          <SearchBar searchQuery={setQuery} />
-        </SubHeader>
-        <StaffList staffList={filteredStaffs} />
-      </main>
-    );
+  return (
+    <main>
+      <SubHeader title="Staff Archive">
+        <SearchBar searchQuery={setQuery} />
+      </SubHeader>
+      {filteredStaffs.length === 0 ? (
+        <BlankPage
+          title="Not found"
+          description="No staff members match your search criteria."
+        />
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
+          {filteredStaffs.map((staff, index) => (
+            <StaffCard key={index} staff={staff} />
+          ))}
+        </div>
+      )}
+    </main>
+  );
 };
 export default StaffArchivePage;

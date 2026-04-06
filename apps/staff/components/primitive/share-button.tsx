@@ -1,6 +1,5 @@
 "use client";
 
-import { useModal } from "@/providers/modal-provider";
 import { Button } from "@workspace/ui/components/button";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@workspace/ui/components/dialog";
 import { Input } from "@workspace/ui/components/input";
@@ -12,24 +11,26 @@ interface ShareButtonProps {
 }
 
 interface ShareButtonPropsExtended extends ShareButtonProps {
-    asChild?: boolean;
     children?: React.ReactNode;
 }
 
-const ShareButton = ({ url, asChild, children }: ShareButtonPropsExtended) => {
+const ShareButton = ({ url,children }: ShareButtonPropsExtended) => {
     const [copy, setCopy] = useState(url);
-    const { isOpen, setOpen } = useModal()
+    const [loading, setLoading] = useState(false);
 
     const handleCopy = () => {
         navigator.clipboard.writeText(copy).then(() => {
             setCopy("Copied!");
+            setLoading(true);
             setTimeout(() => {
                 setCopy(url);
-            }, 2000);
+                setLoading(false);
+            }, 1000);
         }).catch(() => {
             setCopy("Failed to copy!");
             setTimeout(() => {
                 setCopy(url);
+                setLoading(false);
             }, 2000);
         });
     }
@@ -48,15 +49,15 @@ const ShareButton = ({ url, asChild, children }: ShareButtonPropsExtended) => {
             </DialogTrigger>
             <DialogContent>
                 <DialogHeader>
-                    <DialogTitle>Share this content</DialogTitle>
+                    <DialogTitle>Share this profile</DialogTitle>
                 <DialogDescription>
-                    Anyone with this link can view this content
+                    Anyone with this link can view this profile
                 </DialogDescription>
                 </DialogHeader>
                 <div>
                     <Input value={url} readOnly type="text" />
-                    <Button onClick={handleCopy} className="mt-2">
-                        Copy Link
+                    <Button onClick={handleCopy} className="mt-2" disabled={loading}>
+                        {loading ? "Copying..." : "Copy Link"}
                     </Button>
                 </div>
             </DialogContent>

@@ -42,8 +42,9 @@
   },
   "exports": {
     ".": "./index.ts",
-    "./globals.css": "./src/styles/globals.css",
+    "./globals.css": "./src/globals.css",
     "./postcss.config": "./postcss.config.mjs",
+    "./tailwind.config": "./tailwind.config.js",
     "./lib/*": "./src/lib/*.ts",
     "./components/*": "./src/components/*.tsx",
     "./hooks/*": "./src/hooks/*.ts"

@@ -9,8 +9,16 @@ import {
   togglePublishStaff,
   toggleUnpublishStaff,
   unArchiveStaff,
+  updateStaff,
 } from "@/action/staff.action";
+import { updateStaffSchema } from "@lib/schema/staff.schema";
+import { z } from "zod";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+
+type UpdateStaffPayload = {
+  id: string;
+  data: z.infer<typeof updateStaffSchema>;
+};
 
 export function useStaff() {
   const queryClient = useQueryClient();
@@ -71,6 +79,14 @@ export function useStaff() {
     staleTime: 1000 * 60 * 60, // 1 jam
   });
 
+  const updateDataStaff = useMutation({
+    mutationFn: ({ id, data }: UpdateStaffPayload) => updateStaff(id, data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["staff", "list"] });
+      queryClient.invalidateQueries({ queryKey: ["staff", "archived"] });
+    },
+  });
+
   return {
     staffs: staffQuery.data ?? [],
     isLoading: staffQuery.isLoading,
@@ -85,5 +101,8 @@ export function useStaff() {
     isArchivedLoading: archivedQuery.isLoading,
     archivedCount: archivedQuery.data?.length ?? 0,
     divisions: getDivisionQuery.data ?? [],
+    updateDataStaff: updateDataStaff.mutate,
+    updateDataStaffAsync: updateDataStaff.mutateAsync,
+    isUpdatingStaff: updateDataStaff.isPending,
   };
 }

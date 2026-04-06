@@ -291,8 +291,8 @@ export namespace Prisma {
   export import Exact = $Public.Exact
 
   /**
-   * Prisma Client JS version: 7.6.0
-   * Query Engine version: 75cbdc1eb7150937890ad5465d861175c6624711
+   * Prisma Client JS version: 7.5.0
+   * Query Engine version: 280c870be64f457428992c43c1f6d557fab6e29e
    */
   export type PrismaVersion = {
     client: string
@@ -1649,6 +1649,7 @@ export namespace Prisma {
     accounts?: boolean | User$accountsArgs<ExtArgs>
     sessions?: boolean | User$sessionsArgs<ExtArgs>
     createdStaff?: boolean | User$createdStaffArgs<ExtArgs>
+    staffProfile?: boolean | User$staffProfileArgs<ExtArgs>
     permissions?: boolean | User$permissionsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
@@ -1703,6 +1704,7 @@ export namespace Prisma {
     accounts?: boolean | User$accountsArgs<ExtArgs>
     sessions?: boolean | User$sessionsArgs<ExtArgs>
     createdStaff?: boolean | User$createdStaffArgs<ExtArgs>
+    staffProfile?: boolean | User$staffProfileArgs<ExtArgs>
     permissions?: boolean | User$permissionsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
@@ -1715,6 +1717,7 @@ export namespace Prisma {
       accounts: Prisma.$AccountPayload<ExtArgs>[]
       sessions: Prisma.$SessionPayload<ExtArgs>[]
       createdStaff: Prisma.$StaffPayload<ExtArgs>[]
+      staffProfile: Prisma.$StaffPayload<ExtArgs> | null
       permissions: Prisma.$UserPermissionPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -2127,6 +2130,7 @@ export namespace Prisma {
     accounts<T extends User$accountsArgs<ExtArgs> = {}>(args?: Subset<T, User$accountsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     sessions<T extends User$sessionsArgs<ExtArgs> = {}>(args?: Subset<T, User$sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     createdStaff<T extends User$createdStaffArgs<ExtArgs> = {}>(args?: Subset<T, User$createdStaffArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StaffPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    staffProfile<T extends User$staffProfileArgs<ExtArgs> = {}>(args?: Subset<T, User$staffProfileArgs<ExtArgs>>): Prisma__StaffClient<$Result.GetResult<Prisma.$StaffPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     permissions<T extends User$permissionsArgs<ExtArgs> = {}>(args?: Subset<T, User$permissionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UserPermissionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -2631,6 +2635,25 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: StaffScalarFieldEnum | StaffScalarFieldEnum[]
+  }
+
+  /**
+   * User.staffProfile
+   */
+  export type User$staffProfileArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Staff
+     */
+    select?: StaffSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Staff
+     */
+    omit?: StaffOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StaffInclude<ExtArgs> | null
+    where?: StaffWhereInput
   }
 
   /**
@@ -5984,6 +6007,7 @@ export namespace Prisma {
     name: string | null
     staffId: string | null
     email: string | null
+    userId: string | null
     phoneNumber: string | null
     position: string | null
     avatarUrl: string | null
@@ -6004,6 +6028,7 @@ export namespace Prisma {
     name: string | null
     staffId: string | null
     email: string | null
+    userId: string | null
     phoneNumber: string | null
     position: string | null
     avatarUrl: string | null
@@ -6024,6 +6049,7 @@ export namespace Prisma {
     name: number
     staffId: number
     email: number
+    userId: number
     phoneNumber: number
     position: number
     avatarUrl: number
@@ -6046,6 +6072,7 @@ export namespace Prisma {
     name?: true
     staffId?: true
     email?: true
+    userId?: true
     phoneNumber?: true
     position?: true
     avatarUrl?: true
@@ -6066,6 +6093,7 @@ export namespace Prisma {
     name?: true
     staffId?: true
     email?: true
+    userId?: true
     phoneNumber?: true
     position?: true
     avatarUrl?: true
@@ -6086,6 +6114,7 @@ export namespace Prisma {
     name?: true
     staffId?: true
     email?: true
+    userId?: true
     phoneNumber?: true
     position?: true
     avatarUrl?: true
@@ -6179,6 +6208,7 @@ export namespace Prisma {
     name: string
     staffId: string
     email: string
+    userId: string | null
     phoneNumber: string
     position: string
     avatarUrl: string | null
@@ -6216,6 +6246,7 @@ export namespace Prisma {
     name?: boolean
     staffId?: boolean
     email?: boolean
+    userId?: boolean
     phoneNumber?: boolean
     position?: boolean
     avatarUrl?: boolean
@@ -6230,6 +6261,7 @@ export namespace Prisma {
     joinedAt?: boolean
     divisionId?: boolean
     createdBy?: boolean | Staff$createdByArgs<ExtArgs>
+    user?: boolean | Staff$userArgs<ExtArgs>
     division?: boolean | DivisionDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["staff"]>
 
@@ -6238,6 +6270,7 @@ export namespace Prisma {
     name?: boolean
     staffId?: boolean
     email?: boolean
+    userId?: boolean
     phoneNumber?: boolean
     position?: boolean
     avatarUrl?: boolean
@@ -6252,6 +6285,7 @@ export namespace Prisma {
     joinedAt?: boolean
     divisionId?: boolean
     createdBy?: boolean | Staff$createdByArgs<ExtArgs>
+    user?: boolean | Staff$userArgs<ExtArgs>
     division?: boolean | DivisionDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["staff"]>
 
@@ -6260,6 +6294,7 @@ export namespace Prisma {
     name?: boolean
     staffId?: boolean
     email?: boolean
+    userId?: boolean
     phoneNumber?: boolean
     position?: boolean
     avatarUrl?: boolean
@@ -6274,6 +6309,7 @@ export namespace Prisma {
     joinedAt?: boolean
     divisionId?: boolean
     createdBy?: boolean | Staff$createdByArgs<ExtArgs>
+    user?: boolean | Staff$userArgs<ExtArgs>
     division?: boolean | DivisionDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["staff"]>
 
@@ -6282,6 +6318,7 @@ export namespace Prisma {
     name?: boolean
     staffId?: boolean
     email?: boolean
+    userId?: boolean
     phoneNumber?: boolean
     position?: boolean
     avatarUrl?: boolean
@@ -6297,17 +6334,20 @@ export namespace Prisma {
     divisionId?: boolean
   }
 
-  export type StaffOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "staffId" | "email" | "phoneNumber" | "position" | "avatarUrl" | "isArchived" | "createdById" | "createdAt" | "updatedAt" | "activeStatus" | "isPublished" | "updatedById" | "coverArea" | "joinedAt" | "divisionId", ExtArgs["result"]["staff"]>
+  export type StaffOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "staffId" | "email" | "userId" | "phoneNumber" | "position" | "avatarUrl" | "isArchived" | "createdById" | "createdAt" | "updatedAt" | "activeStatus" | "isPublished" | "updatedById" | "coverArea" | "joinedAt" | "divisionId", ExtArgs["result"]["staff"]>
   export type StaffInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     createdBy?: boolean | Staff$createdByArgs<ExtArgs>
+    user?: boolean | Staff$userArgs<ExtArgs>
     division?: boolean | DivisionDefaultArgs<ExtArgs>
   }
   export type StaffIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     createdBy?: boolean | Staff$createdByArgs<ExtArgs>
+    user?: boolean | Staff$userArgs<ExtArgs>
     division?: boolean | DivisionDefaultArgs<ExtArgs>
   }
   export type StaffIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     createdBy?: boolean | Staff$createdByArgs<ExtArgs>
+    user?: boolean | Staff$userArgs<ExtArgs>
     division?: boolean | DivisionDefaultArgs<ExtArgs>
   }
 
@@ -6315,6 +6355,7 @@ export namespace Prisma {
     name: "Staff"
     objects: {
       createdBy: Prisma.$UserPayload<ExtArgs> | null
+      user: Prisma.$UserPayload<ExtArgs> | null
       division: Prisma.$DivisionPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -6322,6 +6363,7 @@ export namespace Prisma {
       name: string
       staffId: string
       email: string
+      userId: string | null
       phoneNumber: string
       position: string
       avatarUrl: string | null
@@ -6730,6 +6772,7 @@ export namespace Prisma {
   export interface Prisma__StaffClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     createdBy<T extends Staff$createdByArgs<ExtArgs> = {}>(args?: Subset<T, Staff$createdByArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    user<T extends Staff$userArgs<ExtArgs> = {}>(args?: Subset<T, Staff$userArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     division<T extends DivisionDefaultArgs<ExtArgs> = {}>(args?: Subset<T, DivisionDefaultArgs<ExtArgs>>): Prisma__DivisionClient<$Result.GetResult<Prisma.$DivisionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -6764,6 +6807,7 @@ export namespace Prisma {
     readonly name: FieldRef<"Staff", 'String'>
     readonly staffId: FieldRef<"Staff", 'String'>
     readonly email: FieldRef<"Staff", 'String'>
+    readonly userId: FieldRef<"Staff", 'String'>
     readonly phoneNumber: FieldRef<"Staff", 'String'>
     readonly position: FieldRef<"Staff", 'String'>
     readonly avatarUrl: FieldRef<"Staff", 'String'>
@@ -7181,6 +7225,25 @@ export namespace Prisma {
    * Staff.createdBy
    */
   export type Staff$createdByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
+  }
+
+  /**
+   * Staff.user
+   */
+  export type Staff$userArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the User
      */
@@ -8355,6 +8418,7 @@ export namespace Prisma {
     name: 'name',
     staffId: 'staffId',
     email: 'email',
+    userId: 'userId',
     phoneNumber: 'phoneNumber',
     position: 'position',
     avatarUrl: 'avatarUrl',
@@ -8497,6 +8561,7 @@ export namespace Prisma {
     accounts?: AccountListRelationFilter
     sessions?: SessionListRelationFilter
     createdStaff?: StaffListRelationFilter
+    staffProfile?: XOR<StaffNullableScalarRelationFilter, StaffWhereInput> | null
     permissions?: UserPermissionListRelationFilter
   }
 
@@ -8516,6 +8581,7 @@ export namespace Prisma {
     accounts?: AccountOrderByRelationAggregateInput
     sessions?: SessionOrderByRelationAggregateInput
     createdStaff?: StaffOrderByRelationAggregateInput
+    staffProfile?: StaffOrderByWithRelationInput
     permissions?: UserPermissionOrderByRelationAggregateInput
   }
 
@@ -8538,6 +8604,7 @@ export namespace Prisma {
     accounts?: AccountListRelationFilter
     sessions?: SessionListRelationFilter
     createdStaff?: StaffListRelationFilter
+    staffProfile?: XOR<StaffNullableScalarRelationFilter, StaffWhereInput> | null
     permissions?: UserPermissionListRelationFilter
   }, "id" | "email">
 
@@ -8791,6 +8858,7 @@ export namespace Prisma {
     name?: StringFilter<"Staff"> | string
     staffId?: StringFilter<"Staff"> | string
     email?: StringFilter<"Staff"> | string
+    userId?: StringNullableFilter<"Staff"> | string | null
     phoneNumber?: StringFilter<"Staff"> | string
     position?: StringFilter<"Staff"> | string
     avatarUrl?: StringNullableFilter<"Staff"> | string | null
@@ -8805,6 +8873,7 @@ export namespace Prisma {
     joinedAt?: DateTimeFilter<"Staff"> | Date | string
     divisionId?: StringFilter<"Staff"> | string
     createdBy?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+    user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     division?: XOR<DivisionScalarRelationFilter, DivisionWhereInput>
   }
 
@@ -8813,6 +8882,7 @@ export namespace Prisma {
     name?: SortOrder
     staffId?: SortOrder
     email?: SortOrder
+    userId?: SortOrderInput | SortOrder
     phoneNumber?: SortOrder
     position?: SortOrder
     avatarUrl?: SortOrderInput | SortOrder
@@ -8827,6 +8897,7 @@ export namespace Prisma {
     joinedAt?: SortOrder
     divisionId?: SortOrder
     createdBy?: UserOrderByWithRelationInput
+    user?: UserOrderByWithRelationInput
     division?: DivisionOrderByWithRelationInput
   }
 
@@ -8834,6 +8905,7 @@ export namespace Prisma {
     id?: string
     staffId?: string
     email?: string
+    userId?: string
     AND?: StaffWhereInput | StaffWhereInput[]
     OR?: StaffWhereInput[]
     NOT?: StaffWhereInput | StaffWhereInput[]
@@ -8852,14 +8924,16 @@ export namespace Prisma {
     joinedAt?: DateTimeFilter<"Staff"> | Date | string
     divisionId?: StringFilter<"Staff"> | string
     createdBy?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+    user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
     division?: XOR<DivisionScalarRelationFilter, DivisionWhereInput>
-  }, "id" | "staffId" | "email">
+  }, "id" | "staffId" | "email" | "userId">
 
   export type StaffOrderByWithAggregationInput = {
     id?: SortOrder
     name?: SortOrder
     staffId?: SortOrder
     email?: SortOrder
+    userId?: SortOrderInput | SortOrder
     phoneNumber?: SortOrder
     position?: SortOrder
     avatarUrl?: SortOrderInput | SortOrder
@@ -8886,6 +8960,7 @@ export namespace Prisma {
     name?: StringWithAggregatesFilter<"Staff"> | string
     staffId?: StringWithAggregatesFilter<"Staff"> | string
     email?: StringWithAggregatesFilter<"Staff"> | string
+    userId?: StringNullableWithAggregatesFilter<"Staff"> | string | null
     phoneNumber?: StringWithAggregatesFilter<"Staff"> | string
     position?: StringWithAggregatesFilter<"Staff"> | string
     avatarUrl?: StringNullableWithAggregatesFilter<"Staff"> | string | null
@@ -8967,6 +9042,7 @@ export namespace Prisma {
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     createdStaff?: StaffCreateNestedManyWithoutCreatedByInput
+    staffProfile?: StaffCreateNestedOneWithoutUserInput
     permissions?: UserPermissionCreateNestedManyWithoutUserInput
   }
 
@@ -8986,6 +9062,7 @@ export namespace Prisma {
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     createdStaff?: StaffUncheckedCreateNestedManyWithoutCreatedByInput
+    staffProfile?: StaffUncheckedCreateNestedOneWithoutUserInput
     permissions?: UserPermissionUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -9005,6 +9082,7 @@ export namespace Prisma {
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     createdStaff?: StaffUpdateManyWithoutCreatedByNestedInput
+    staffProfile?: StaffUpdateOneWithoutUserNestedInput
     permissions?: UserPermissionUpdateManyWithoutUserNestedInput
   }
 
@@ -9024,6 +9102,7 @@ export namespace Prisma {
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     createdStaff?: StaffUncheckedUpdateManyWithoutCreatedByNestedInput
+    staffProfile?: StaffUncheckedUpdateOneWithoutUserNestedInput
     permissions?: UserPermissionUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -9310,6 +9389,7 @@ export namespace Prisma {
     coverArea?: string | null
     joinedAt?: Date | string
     createdBy?: UserCreateNestedOneWithoutCreatedStaffInput
+    user?: UserCreateNestedOneWithoutStaffProfileInput
     division: DivisionCreateNestedOneWithoutStaffInput
   }
 
@@ -9318,6 +9398,7 @@ export namespace Prisma {
     name: string
     staffId: string
     email: string
+    userId?: string | null
     phoneNumber: string
     position: string
     avatarUrl?: string | null
@@ -9350,6 +9431,7 @@ export namespace Prisma {
     coverArea?: NullableStringFieldUpdateOperationsInput | string | null
     joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdBy?: UserUpdateOneWithoutCreatedStaffNestedInput
+    user?: UserUpdateOneWithoutStaffProfileNestedInput
     division?: DivisionUpdateOneRequiredWithoutStaffNestedInput
   }
 
@@ -9358,6 +9440,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     staffId?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
     phoneNumber?: StringFieldUpdateOperationsInput | string
     position?: StringFieldUpdateOperationsInput | string
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -9378,6 +9461,7 @@ export namespace Prisma {
     name: string
     staffId: string
     email: string
+    userId?: string | null
     phoneNumber: string
     position: string
     avatarUrl?: string | null
@@ -9416,6 +9500,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     staffId?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
     phoneNumber?: StringFieldUpdateOperationsInput | string
     position?: StringFieldUpdateOperationsInput | string
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -9562,6 +9647,11 @@ export namespace Prisma {
     every?: StaffWhereInput
     some?: StaffWhereInput
     none?: StaffWhereInput
+  }
+
+  export type StaffNullableScalarRelationFilter = {
+    is?: StaffWhereInput | null
+    isNot?: StaffWhereInput | null
   }
 
   export type UserPermissionListRelationFilter = {
@@ -9854,6 +9944,7 @@ export namespace Prisma {
     name?: SortOrder
     staffId?: SortOrder
     email?: SortOrder
+    userId?: SortOrder
     phoneNumber?: SortOrder
     position?: SortOrder
     avatarUrl?: SortOrder
@@ -9874,6 +9965,7 @@ export namespace Prisma {
     name?: SortOrder
     staffId?: SortOrder
     email?: SortOrder
+    userId?: SortOrder
     phoneNumber?: SortOrder
     position?: SortOrder
     avatarUrl?: SortOrder
@@ -9894,6 +9986,7 @@ export namespace Prisma {
     name?: SortOrder
     staffId?: SortOrder
     email?: SortOrder
+    userId?: SortOrder
     phoneNumber?: SortOrder
     position?: SortOrder
     avatarUrl?: SortOrder
@@ -9951,6 +10044,12 @@ export namespace Prisma {
     connect?: StaffWhereUniqueInput | StaffWhereUniqueInput[]
   }
 
+  export type StaffCreateNestedOneWithoutUserInput = {
+    create?: XOR<StaffCreateWithoutUserInput, StaffUncheckedCreateWithoutUserInput>
+    connectOrCreate?: StaffCreateOrConnectWithoutUserInput
+    connect?: StaffWhereUniqueInput
+  }
+
   export type UserPermissionCreateNestedManyWithoutUserInput = {
     create?: XOR<UserPermissionCreateWithoutUserInput, UserPermissionUncheckedCreateWithoutUserInput> | UserPermissionCreateWithoutUserInput[] | UserPermissionUncheckedCreateWithoutUserInput[]
     connectOrCreate?: UserPermissionCreateOrConnectWithoutUserInput | UserPermissionCreateOrConnectWithoutUserInput[]
@@ -9977,6 +10076,12 @@ export namespace Prisma {
     connectOrCreate?: StaffCreateOrConnectWithoutCreatedByInput | StaffCreateOrConnectWithoutCreatedByInput[]
     createMany?: StaffCreateManyCreatedByInputEnvelope
     connect?: StaffWhereUniqueInput | StaffWhereUniqueInput[]
+  }
+
+  export type StaffUncheckedCreateNestedOneWithoutUserInput = {
+    create?: XOR<StaffCreateWithoutUserInput, StaffUncheckedCreateWithoutUserInput>
+    connectOrCreate?: StaffCreateOrConnectWithoutUserInput
+    connect?: StaffWhereUniqueInput
   }
 
   export type UserPermissionUncheckedCreateNestedManyWithoutUserInput = {
@@ -10052,6 +10157,16 @@ export namespace Prisma {
     deleteMany?: StaffScalarWhereInput | StaffScalarWhereInput[]
   }
 
+  export type StaffUpdateOneWithoutUserNestedInput = {
+    create?: XOR<StaffCreateWithoutUserInput, StaffUncheckedCreateWithoutUserInput>
+    connectOrCreate?: StaffCreateOrConnectWithoutUserInput
+    upsert?: StaffUpsertWithoutUserInput
+    disconnect?: StaffWhereInput | boolean
+    delete?: StaffWhereInput | boolean
+    connect?: StaffWhereUniqueInput
+    update?: XOR<XOR<StaffUpdateToOneWithWhereWithoutUserInput, StaffUpdateWithoutUserInput>, StaffUncheckedUpdateWithoutUserInput>
+  }
+
   export type UserPermissionUpdateManyWithoutUserNestedInput = {
     create?: XOR<UserPermissionCreateWithoutUserInput, UserPermissionUncheckedCreateWithoutUserInput> | UserPermissionCreateWithoutUserInput[] | UserPermissionUncheckedCreateWithoutUserInput[]
     connectOrCreate?: UserPermissionCreateOrConnectWithoutUserInput | UserPermissionCreateOrConnectWithoutUserInput[]
@@ -10106,6 +10221,16 @@ export namespace Prisma {
     update?: StaffUpdateWithWhereUniqueWithoutCreatedByInput | StaffUpdateWithWhereUniqueWithoutCreatedByInput[]
     updateMany?: StaffUpdateManyWithWhereWithoutCreatedByInput | StaffUpdateManyWithWhereWithoutCreatedByInput[]
     deleteMany?: StaffScalarWhereInput | StaffScalarWhereInput[]
+  }
+
+  export type StaffUncheckedUpdateOneWithoutUserNestedInput = {
+    create?: XOR<StaffCreateWithoutUserInput, StaffUncheckedCreateWithoutUserInput>
+    connectOrCreate?: StaffCreateOrConnectWithoutUserInput
+    upsert?: StaffUpsertWithoutUserInput
+    disconnect?: StaffWhereInput | boolean
+    delete?: StaffWhereInput | boolean
+    connect?: StaffWhereUniqueInput
+    update?: XOR<XOR<StaffUpdateToOneWithWhereWithoutUserInput, StaffUpdateWithoutUserInput>, StaffUncheckedUpdateWithoutUserInput>
   }
 
   export type UserPermissionUncheckedUpdateManyWithoutUserNestedInput = {
@@ -10174,6 +10299,12 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput
   }
 
+  export type UserCreateNestedOneWithoutStaffProfileInput = {
+    create?: XOR<UserCreateWithoutStaffProfileInput, UserUncheckedCreateWithoutStaffProfileInput>
+    connectOrCreate?: UserCreateOrConnectWithoutStaffProfileInput
+    connect?: UserWhereUniqueInput
+  }
+
   export type DivisionCreateNestedOneWithoutStaffInput = {
     create?: XOR<DivisionCreateWithoutStaffInput, DivisionUncheckedCreateWithoutStaffInput>
     connectOrCreate?: DivisionCreateOrConnectWithoutStaffInput
@@ -10188,6 +10319,16 @@ export namespace Prisma {
     delete?: UserWhereInput | boolean
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutCreatedStaffInput, UserUpdateWithoutCreatedStaffInput>, UserUncheckedUpdateWithoutCreatedStaffInput>
+  }
+
+  export type UserUpdateOneWithoutStaffProfileNestedInput = {
+    create?: XOR<UserCreateWithoutStaffProfileInput, UserUncheckedCreateWithoutStaffProfileInput>
+    connectOrCreate?: UserCreateOrConnectWithoutStaffProfileInput
+    upsert?: UserUpsertWithoutStaffProfileInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutStaffProfileInput, UserUpdateWithoutStaffProfileInput>, UserUncheckedUpdateWithoutStaffProfileInput>
   }
 
   export type DivisionUpdateOneRequiredWithoutStaffNestedInput = {
@@ -10497,6 +10638,7 @@ export namespace Prisma {
     updatedById?: string | null
     coverArea?: string | null
     joinedAt?: Date | string
+    user?: UserCreateNestedOneWithoutStaffProfileInput
     division: DivisionCreateNestedOneWithoutStaffInput
   }
 
@@ -10505,6 +10647,7 @@ export namespace Prisma {
     name: string
     staffId: string
     email: string
+    userId?: string | null
     phoneNumber: string
     position: string
     avatarUrl?: string | null
@@ -10527,6 +10670,51 @@ export namespace Prisma {
   export type StaffCreateManyCreatedByInputEnvelope = {
     data: StaffCreateManyCreatedByInput | StaffCreateManyCreatedByInput[]
     skipDuplicates?: boolean
+  }
+
+  export type StaffCreateWithoutUserInput = {
+    id?: string
+    name: string
+    staffId: string
+    email: string
+    phoneNumber: string
+    position: string
+    avatarUrl?: string | null
+    isArchived?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    activeStatus?: boolean
+    isPublished?: boolean
+    updatedById?: string | null
+    coverArea?: string | null
+    joinedAt?: Date | string
+    createdBy?: UserCreateNestedOneWithoutCreatedStaffInput
+    division: DivisionCreateNestedOneWithoutStaffInput
+  }
+
+  export type StaffUncheckedCreateWithoutUserInput = {
+    id?: string
+    name: string
+    staffId: string
+    email: string
+    phoneNumber: string
+    position: string
+    avatarUrl?: string | null
+    isArchived?: boolean
+    createdById?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    activeStatus?: boolean
+    isPublished?: boolean
+    updatedById?: string | null
+    coverArea?: string | null
+    joinedAt?: Date | string
+    divisionId: string
+  }
+
+  export type StaffCreateOrConnectWithoutUserInput = {
+    where: StaffWhereUniqueInput
+    create: XOR<StaffCreateWithoutUserInput, StaffUncheckedCreateWithoutUserInput>
   }
 
   export type UserPermissionCreateWithoutUserInput = {
@@ -10639,6 +10827,7 @@ export namespace Prisma {
     name?: StringFilter<"Staff"> | string
     staffId?: StringFilter<"Staff"> | string
     email?: StringFilter<"Staff"> | string
+    userId?: StringNullableFilter<"Staff"> | string | null
     phoneNumber?: StringFilter<"Staff"> | string
     position?: StringFilter<"Staff"> | string
     avatarUrl?: StringNullableFilter<"Staff"> | string | null
@@ -10652,6 +10841,57 @@ export namespace Prisma {
     coverArea?: StringNullableFilter<"Staff"> | string | null
     joinedAt?: DateTimeFilter<"Staff"> | Date | string
     divisionId?: StringFilter<"Staff"> | string
+  }
+
+  export type StaffUpsertWithoutUserInput = {
+    update: XOR<StaffUpdateWithoutUserInput, StaffUncheckedUpdateWithoutUserInput>
+    create: XOR<StaffCreateWithoutUserInput, StaffUncheckedCreateWithoutUserInput>
+    where?: StaffWhereInput
+  }
+
+  export type StaffUpdateToOneWithWhereWithoutUserInput = {
+    where?: StaffWhereInput
+    data: XOR<StaffUpdateWithoutUserInput, StaffUncheckedUpdateWithoutUserInput>
+  }
+
+  export type StaffUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    staffId?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    phoneNumber?: StringFieldUpdateOperationsInput | string
+    position?: StringFieldUpdateOperationsInput | string
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    isArchived?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    activeStatus?: BoolFieldUpdateOperationsInput | boolean
+    isPublished?: BoolFieldUpdateOperationsInput | boolean
+    updatedById?: NullableStringFieldUpdateOperationsInput | string | null
+    coverArea?: NullableStringFieldUpdateOperationsInput | string | null
+    joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdBy?: UserUpdateOneWithoutCreatedStaffNestedInput
+    division?: DivisionUpdateOneRequiredWithoutStaffNestedInput
+  }
+
+  export type StaffUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    staffId?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    phoneNumber?: StringFieldUpdateOperationsInput | string
+    position?: StringFieldUpdateOperationsInput | string
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    isArchived?: BoolFieldUpdateOperationsInput | boolean
+    createdById?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    activeStatus?: BoolFieldUpdateOperationsInput | boolean
+    isPublished?: BoolFieldUpdateOperationsInput | boolean
+    updatedById?: NullableStringFieldUpdateOperationsInput | string | null
+    coverArea?: NullableStringFieldUpdateOperationsInput | string | null
+    joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    divisionId?: StringFieldUpdateOperationsInput | string
   }
 
   export type UserPermissionUpsertWithWhereUniqueWithoutUserInput = {
@@ -10696,6 +10936,7 @@ export namespace Prisma {
     updatedAt: Date | string
     accounts?: AccountCreateNestedManyWithoutUserInput
     createdStaff?: StaffCreateNestedManyWithoutCreatedByInput
+    staffProfile?: StaffCreateNestedOneWithoutUserInput
     permissions?: UserPermissionCreateNestedManyWithoutUserInput
   }
 
@@ -10714,6 +10955,7 @@ export namespace Prisma {
     updatedAt: Date | string
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     createdStaff?: StaffUncheckedCreateNestedManyWithoutCreatedByInput
+    staffProfile?: StaffUncheckedCreateNestedOneWithoutUserInput
     permissions?: UserPermissionUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -10748,6 +10990,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUpdateManyWithoutUserNestedInput
     createdStaff?: StaffUpdateManyWithoutCreatedByNestedInput
+    staffProfile?: StaffUpdateOneWithoutUserNestedInput
     permissions?: UserPermissionUpdateManyWithoutUserNestedInput
   }
 
@@ -10766,6 +11009,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     createdStaff?: StaffUncheckedUpdateManyWithoutCreatedByNestedInput
+    staffProfile?: StaffUncheckedUpdateOneWithoutUserNestedInput
     permissions?: UserPermissionUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -10784,6 +11028,7 @@ export namespace Prisma {
     updatedAt: Date | string
     sessions?: SessionCreateNestedManyWithoutUserInput
     createdStaff?: StaffCreateNestedManyWithoutCreatedByInput
+    staffProfile?: StaffCreateNestedOneWithoutUserInput
     permissions?: UserPermissionCreateNestedManyWithoutUserInput
   }
 
@@ -10802,6 +11047,7 @@ export namespace Prisma {
     updatedAt: Date | string
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     createdStaff?: StaffUncheckedCreateNestedManyWithoutCreatedByInput
+    staffProfile?: StaffUncheckedCreateNestedOneWithoutUserInput
     permissions?: UserPermissionUncheckedCreateNestedManyWithoutUserInput
   }
 
@@ -10836,6 +11082,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUpdateManyWithoutUserNestedInput
     createdStaff?: StaffUpdateManyWithoutCreatedByNestedInput
+    staffProfile?: StaffUpdateOneWithoutUserNestedInput
     permissions?: UserPermissionUpdateManyWithoutUserNestedInput
   }
 
@@ -10854,6 +11101,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     createdStaff?: StaffUncheckedUpdateManyWithoutCreatedByNestedInput
+    staffProfile?: StaffUncheckedUpdateOneWithoutUserNestedInput
     permissions?: UserPermissionUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -10873,6 +11121,7 @@ export namespace Prisma {
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
     createdStaff?: StaffCreateNestedManyWithoutCreatedByInput
+    staffProfile?: StaffCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutPermissionsInput = {
@@ -10891,6 +11140,7 @@ export namespace Prisma {
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     createdStaff?: StaffUncheckedCreateNestedManyWithoutCreatedByInput
+    staffProfile?: StaffUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutPermissionsInput = {
@@ -10925,6 +11175,7 @@ export namespace Prisma {
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
     createdStaff?: StaffUpdateManyWithoutCreatedByNestedInput
+    staffProfile?: StaffUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPermissionsInput = {
@@ -10943,6 +11194,7 @@ export namespace Prisma {
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     createdStaff?: StaffUncheckedUpdateManyWithoutCreatedByNestedInput
+    staffProfile?: StaffUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type UserCreateWithoutCreatedStaffInput = {
@@ -10960,6 +11212,7 @@ export namespace Prisma {
     updatedAt: Date | string
     accounts?: AccountCreateNestedManyWithoutUserInput
     sessions?: SessionCreateNestedManyWithoutUserInput
+    staffProfile?: StaffCreateNestedOneWithoutUserInput
     permissions?: UserPermissionCreateNestedManyWithoutUserInput
   }
 
@@ -10978,12 +11231,56 @@ export namespace Prisma {
     updatedAt: Date | string
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    staffProfile?: StaffUncheckedCreateNestedOneWithoutUserInput
     permissions?: UserPermissionUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCreatedStaffInput = {
     where: UserWhereUniqueInput
     create: XOR<UserCreateWithoutCreatedStaffInput, UserUncheckedCreateWithoutCreatedStaffInput>
+  }
+
+  export type UserCreateWithoutStaffProfileInput = {
+    id: string
+    name: string
+    email: string
+    emailVerified: boolean
+    image?: string | null
+    role?: string
+    banned?: boolean | null
+    twoFactorEnabled?: boolean | null
+    banReason?: string | null
+    banExpires?: Date | string | null
+    createdAt: Date | string
+    updatedAt: Date | string
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    createdStaff?: StaffCreateNestedManyWithoutCreatedByInput
+    permissions?: UserPermissionCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutStaffProfileInput = {
+    id: string
+    name: string
+    email: string
+    emailVerified: boolean
+    image?: string | null
+    role?: string
+    banned?: boolean | null
+    twoFactorEnabled?: boolean | null
+    banReason?: string | null
+    banExpires?: Date | string | null
+    createdAt: Date | string
+    updatedAt: Date | string
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    createdStaff?: StaffUncheckedCreateNestedManyWithoutCreatedByInput
+    permissions?: UserPermissionUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutStaffProfileInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutStaffProfileInput, UserUncheckedCreateWithoutStaffProfileInput>
   }
 
   export type DivisionCreateWithoutStaffInput = {
@@ -11031,6 +11328,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUpdateManyWithoutUserNestedInput
     sessions?: SessionUpdateManyWithoutUserNestedInput
+    staffProfile?: StaffUpdateOneWithoutUserNestedInput
     permissions?: UserPermissionUpdateManyWithoutUserNestedInput
   }
 
@@ -11049,6 +11347,56 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    staffProfile?: StaffUncheckedUpdateOneWithoutUserNestedInput
+    permissions?: UserPermissionUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUpsertWithoutStaffProfileInput = {
+    update: XOR<UserUpdateWithoutStaffProfileInput, UserUncheckedUpdateWithoutStaffProfileInput>
+    create: XOR<UserCreateWithoutStaffProfileInput, UserUncheckedCreateWithoutStaffProfileInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutStaffProfileInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutStaffProfileInput, UserUncheckedUpdateWithoutStaffProfileInput>
+  }
+
+  export type UserUpdateWithoutStaffProfileInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: StringFieldUpdateOperationsInput | string
+    banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    twoFactorEnabled?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    createdStaff?: StaffUpdateManyWithoutCreatedByNestedInput
+    permissions?: UserPermissionUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutStaffProfileInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: StringFieldUpdateOperationsInput | string
+    banned?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    twoFactorEnabled?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    banReason?: NullableStringFieldUpdateOperationsInput | string | null
+    banExpires?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    createdStaff?: StaffUncheckedUpdateManyWithoutCreatedByNestedInput
     permissions?: UserPermissionUncheckedUpdateManyWithoutUserNestedInput
   }
 
@@ -11094,6 +11442,7 @@ export namespace Prisma {
     coverArea?: string | null
     joinedAt?: Date | string
     createdBy?: UserCreateNestedOneWithoutCreatedStaffInput
+    user?: UserCreateNestedOneWithoutStaffProfileInput
   }
 
   export type StaffUncheckedCreateWithoutDivisionInput = {
@@ -11101,6 +11450,7 @@ export namespace Prisma {
     name: string
     staffId: string
     email: string
+    userId?: string | null
     phoneNumber: string
     position: string
     avatarUrl?: string | null
@@ -11168,6 +11518,7 @@ export namespace Prisma {
     name: string
     staffId: string
     email: string
+    userId?: string | null
     phoneNumber: string
     position: string
     avatarUrl?: string | null
@@ -11271,6 +11622,7 @@ export namespace Prisma {
     updatedById?: NullableStringFieldUpdateOperationsInput | string | null
     coverArea?: NullableStringFieldUpdateOperationsInput | string | null
     joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneWithoutStaffProfileNestedInput
     division?: DivisionUpdateOneRequiredWithoutStaffNestedInput
   }
 
@@ -11279,6 +11631,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     staffId?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
     phoneNumber?: StringFieldUpdateOperationsInput | string
     position?: StringFieldUpdateOperationsInput | string
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -11298,6 +11651,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     staffId?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
     phoneNumber?: StringFieldUpdateOperationsInput | string
     position?: StringFieldUpdateOperationsInput | string
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -11338,6 +11692,7 @@ export namespace Prisma {
     name: string
     staffId: string
     email: string
+    userId?: string | null
     phoneNumber: string
     position: string
     avatarUrl?: string | null
@@ -11369,6 +11724,7 @@ export namespace Prisma {
     coverArea?: NullableStringFieldUpdateOperationsInput | string | null
     joinedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     createdBy?: UserUpdateOneWithoutCreatedStaffNestedInput
+    user?: UserUpdateOneWithoutStaffProfileNestedInput
   }
 
   export type StaffUncheckedUpdateWithoutDivisionInput = {
@@ -11376,6 +11732,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     staffId?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
     phoneNumber?: StringFieldUpdateOperationsInput | string
     position?: StringFieldUpdateOperationsInput | string
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -11395,6 +11752,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     staffId?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    userId?: NullableStringFieldUpdateOperationsInput | string | null
     phoneNumber?: StringFieldUpdateOperationsInput | string
     position?: StringFieldUpdateOperationsInput | string
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null

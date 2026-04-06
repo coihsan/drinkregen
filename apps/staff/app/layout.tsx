@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import ModalProvider from "../providers/modal-provider";
-import "@workspace/ui/globals.css";
+import "./globals.css";
 import { ThemeProvider } from "@/providers/theme-provider";
 import { TooltipProvider } from "@workspace/ui/components/tooltip";
 import QueryProvider from "@/providers/query-provider";

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import "@workspace/ui/globals.css";
+import "../globals.css";
 import {
   SidebarInset,
   SidebarProvider,
@@ -31,9 +31,9 @@ export default function RootLayout({
       <AppSidebar className="flex-0" variant="inset" />
       <main className="flex min-h-screen w-full flex-col">
         <SidebarInset>
-          <SiteHeader className="fixed z-50 w-full flex-1 overflow-hidden" />
-          <ScrollArea className="mt-12">
-            <div className="flex-1 p-4">{children}</div>
+          <SiteHeader className="sticky top-0 z-50 w-full overflow-hidden" />
+          <ScrollArea>
+            <div className="flex-1 p-6">{children}</div>
           </ScrollArea>
         </SidebarInset>
       </main>

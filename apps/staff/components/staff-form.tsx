@@ -3,10 +3,10 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { Loading } from "@workspace/ui/components/loading";
 import * as z from "zod";
 import { v4 as uuidv4 } from "uuid";
 import { Button } from "@workspace/ui/components/button";
+import { useQueryClient } from "@tanstack/react-query";
 import {
   Field,
   FieldError,
@@ -14,7 +14,7 @@ import {
   FieldLabel,
 } from "@workspace/ui/components/field";
 import { Input } from "@workspace/ui/components/input";
-import { newStaffSchema } from "@/lib/schema/staff.schema";
+import { newStaffSchema, updateStaffSchema } from "@/lib/schema/staff.schema";
 import { useRouter } from "next/navigation";
 import { Info } from "lucide-react";
 import Warning from "@/components/warning";
@@ -22,45 +22,76 @@ import { useRef, useTransition, useEffect } from "react";
 import DatePicker from "./date-picker";
 import { createNewStaff } from "@/action/staff.action";
 import { useSession } from "@/lib/auth-client";
-import { Combobox, ComboboxContent, ComboboxEmpty, ComboboxInput, ComboboxItem, ComboboxList } from "@workspace/ui/components/combobox";
 import { useStaff } from "@/hooks/use-staff";
+import { Spinner } from "@workspace/ui/components/spinner";
+import { StaffTypes } from "@/types/staff.types";
+import {
+  NativeSelect,
+  NativeSelectOption,
+} from "@workspace/ui/components/native-select";
 
-type FormValues = z.infer<typeof newStaffSchema>;
+type CreateFormValues = z.infer<typeof newStaffSchema>;
+type UpdateFormValues = z.infer<typeof updateStaffSchema>;
+type FormValues = CreateFormValues;
 
-const StaffForm = () => {
+interface StaffFormProps {
+  initialData?: StaffTypes | null;
+  onSuccess?: () => void;
+}
+
+const StaffForm = ({ initialData, onSuccess }: StaffFormProps) => {
   const reff = useRef<HTMLFormElement>(null);
-  const {data : session} = useSession();
-  const user = session
+  const { data: session } = useSession();
+  const user = session;
   const router = useRouter();
+  const queryClient = useQueryClient();
   const [isPending, startTransition] = useTransition();
-  const { divisions } = useStaff();
-  
-  const form = useForm({
-    mode: "onChange",
-    resolver: zodResolver(newStaffSchema),
-    defaultValues: {
-      id: uuidv4(),
-      staffId: "",
-      name: "",
-      email: "",
-      phoneNumber: "",
-      position: "",
-      division: {
+  const { divisions, updateDataStaffAsync, isUpdatingStaff } = useStaff();
+  const isEditMode = Boolean(initialData);
+  const formSchema = isEditMode ? updateStaffSchema : newStaffSchema;
+
+  const defaultDivision = initialData?.division
+    ? {
+        id: initialData.division.id,
+        name: initialData.division.name,
+        description: initialData.division.description ?? "",
+        createdAt: new Date(initialData.division.createdAt),
+        updatedAt: new Date(initialData.division.updatedAt),
+      }
+    : {
         id: uuidv4(),
         name: "",
         description: "",
         createdAt: new Date(),
         updatedAt: new Date(),
-      },
-      activeStatus: true,
-      isPublished: true,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      joinedAt: new Date(),
-      avatarUrl: "",
-      coverArea: "",
-      isArchived: false,
-      createdById: user?.user.id, 
+      };
+
+  const form = useForm({
+    mode: "onChange",
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      id: initialData?.id ?? uuidv4(),
+      staffId: initialData?.staffId ?? "",
+      name: initialData?.name ?? "",
+      email: initialData?.email ?? "",
+      phoneNumber: initialData?.phoneNumber ?? "",
+      position: initialData?.position ?? "",
+      division: defaultDivision,
+      activeStatus: initialData?.activeStatus ?? true,
+      isPublished: initialData?.isPublished ?? true,
+      createdAt: initialData?.createdAt
+        ? new Date(initialData.createdAt)
+        : new Date(),
+      updatedAt: initialData?.updatedAt
+        ? new Date(initialData.updatedAt)
+        : new Date(),
+      joinedAt: initialData?.joinedAt
+        ? new Date(initialData.joinedAt)
+        : new Date(),
+      avatarUrl: initialData?.avatarUrl ?? "",
+      coverArea: initialData?.coverArea ?? "",
+      isArchived: initialData?.isArchived ?? false,
+      createdById: initialData?.createdById ?? user?.user.id,
     },
   });
 
@@ -70,9 +101,40 @@ const StaffForm = () => {
     }
   }, [user?.user.id, form]);
 
-  const onSubmit = async (values: FormValues) => {
+  useEffect(() => {
+    if (!initialData) return;
+
+    form.reset({
+      id: initialData.id,
+      staffId: initialData.staffId,
+      name: initialData.name,
+      email: initialData.email,
+      phoneNumber: initialData.phoneNumber,
+      position: initialData.position,
+      division: initialData.division
+        ? {
+            id: initialData.division.id,
+            name: initialData.division.name,
+            description: initialData.division.description ?? "",
+            createdAt: new Date(initialData.division.createdAt),
+            updatedAt: new Date(initialData.division.updatedAt),
+          }
+        : undefined,
+      activeStatus: initialData.activeStatus,
+      isPublished: initialData.isPublished,
+      createdAt: new Date(initialData.createdAt),
+      updatedAt: new Date(initialData.updatedAt),
+      joinedAt: new Date(initialData.joinedAt),
+      avatarUrl: initialData.avatarUrl ?? "",
+      coverArea: initialData.coverArea ?? "",
+      isArchived: initialData.isArchived ?? false,
+      createdById: initialData.createdById ?? user?.user.id,
+    });
+  }, [form, initialData, user?.user.id]);
+
+  const onSubmit = async (values: FormValues | UpdateFormValues) => {
     try {
-        await createNewStaff({
+      const payload = {
         id: values.id,
         staffId: values.staffId,
         name: values.name,
@@ -81,7 +143,7 @@ const StaffForm = () => {
         activeStatus: values.activeStatus,
         isPublished: values.isPublished,
         createdAt: values.createdAt,
-        updatedAt: values.updatedAt,
+        updatedAt: new Date(),
         joinedAt: values.joinedAt,
         position: values.position,
         avatarUrl: values.avatarUrl,
@@ -93,25 +155,69 @@ const StaffForm = () => {
               name: values.division.name,
               description: values.division.description,
               createdAt: values.division.createdAt,
-              updatedAt: values.division.updatedAt,
+              updatedAt: new Date(),
             }
           : undefined,
         isArchived: values.isArchived || false,
+      };
+
+      if (isEditMode && initialData?.id) {
+        await updateDataStaffAsync({
+          id: initialData.id,
+          data: payload,
+        });
+
+        startTransition(() => {
+          toast.success("Staff updated successfully!");
+          onSuccess?.();
+        });
+
+        return;
+      }
+
+      const createValues = values as CreateFormValues;
+
+      await createNewStaff({
+        ...payload,
+        id: createValues.id,
+        staffId: createValues.staffId,
+        name: createValues.name,
+        email: createValues.email,
+        phoneNumber: createValues.phoneNumber,
+        position: createValues.position,
+        activeStatus: createValues.activeStatus,
+        isPublished: createValues.isPublished,
+        createdAt: createValues.createdAt,
+        updatedAt: payload.updatedAt,
+        joinedAt: createValues.joinedAt,
+        isArchived: createValues.isArchived,
       });
+
+      await queryClient.invalidateQueries({ queryKey: ["staff", "list"] });
+      await queryClient.invalidateQueries({ queryKey: ["staff", "archived"] });
+
       startTransition(() => {
-          router.push("/staff");
-          console.log("New staff created");
-          toast.success("New staff created successfully!");
+        router.push("/staff");
+        router.refresh();
+        console.log("New staff created");
+        toast.success("New staff created successfully!");
+        onSuccess?.();
       });
     } catch (error) {
       console.error(error);
-      toast.error("Failed to create new staff.");
+      const message =
+        error instanceof Error
+          ? error.message
+          : isEditMode
+            ? "Failed to update staff."
+            : "Failed to create new staff.";
+      toast.error(message);
     }
   };
 
   return (
-    <div>
-      <form ref={reff} onSubmit={form.handleSubmit(onSubmit)} className="w-dvh">
+    <div className="mb-12">
+      <form ref={reff} onSubmit={form.handleSubmit(onSubmit)} className="">
         <FieldGroup>
           <Controller
             control={form.control}
@@ -119,14 +225,19 @@ const StaffForm = () => {
             render={({ field }) => (
               <Field>
                 <FieldLabel>Staff ID</FieldLabel>
-                <Input
-                  className="border"
-                  type="text"
-                  maxLength={5}
-                  placeholder="Enter staff ID"
-                  autoComplete="off"
-                  {...field}
-                />
+                <div className="flex items-center gap-2">
+                  <span className="font-semibold uppercase text-sm text-muted-foreground">
+                    rgn:
+                  </span>
+                  <Input
+                    className="border"
+                    type="text"
+                    maxLength={5}
+                    placeholder="Enter staff ID"
+                    autoComplete="off"
+                    {...field}
+                  />
+                </div>
                 <FieldError>
                   {form.formState.errors.staffId?.message}
                 </FieldError>
@@ -144,9 +255,7 @@ const StaffForm = () => {
                   {...field}
                   autoComplete="off"
                 />
-                <FieldError>
-                  {form.formState.errors.name?.message}
-                </FieldError>
+                <FieldError>{form.formState.errors.name?.message}</FieldError>
               </Field>
             )}
           />
@@ -214,34 +323,51 @@ const StaffForm = () => {
                   {...field}
                   autoComplete="off"
                 />
-                <FieldError>{form.formState.errors.avatarUrl?.message}</FieldError>
+                <FieldError>
+                  {form.formState.errors.avatarUrl?.message}
+                </FieldError>
               </Field>
             )}
           />
           <Controller
             control={form.control}
-            name="division.name"
+            name="division"
             render={({ field }) => (
               <Field>
                 <FieldLabel>Division</FieldLabel>
-                <Combobox items={divisions}>
-                  <ComboboxInput placeholder="Select Division" />
-                  <ComboboxContent>
-                    <ComboboxEmpty>No divisions found.</ComboboxEmpty>
-                    <ComboboxList>
-                      {divisions.map((division) => (
-                        <ComboboxItem
-                          key={division.id}
-                          value={division.name}
-                          onSelect={(currentValue) => field.onChange(currentValue)}
-                        >
-                          {division.name}
-                        </ComboboxItem>
-                      ))}
-                    </ComboboxList>
-                  </ComboboxContent>
-                </Combobox>
-                <FieldError>{form.formState.errors.division?.name?.message}</FieldError>
+                <NativeSelect
+                  className="w-full"
+                  value={field.value?.id ?? ""}
+                  onChange={(event) => {
+                    const selectedDivision = divisions.find(
+                      (division) => division.id === event.target.value,
+                    );
+
+                    field.onChange(
+                      selectedDivision
+                        ? {
+                            id: selectedDivision.id,
+                            name: selectedDivision.name,
+                            description: "",
+                            createdAt: new Date(selectedDivision.createdAt),
+                            updatedAt: new Date(selectedDivision.updatedAt),
+                          }
+                        : undefined,
+                    );
+                  }}
+                >
+                  <NativeSelectOption value="">
+                    Select division
+                  </NativeSelectOption>
+                  {divisions.map((division) => (
+                    <NativeSelectOption key={division.id} value={division.id}>
+                      {division.name}
+                    </NativeSelectOption>
+                  ))}
+                </NativeSelect>
+                <FieldError>
+                  {form.formState.errors.division?.message as string}
+                </FieldError>
               </Field>
             )}
           />
@@ -289,26 +415,31 @@ const StaffForm = () => {
             )}
           />
         </FieldGroup>
-        <Field orientation={"responsive"}>
-          <Button disabled={isPending} className="bg-green-500" type="submit">
-            {isPending ? (
+        <Field className="mt-4" orientation={"responsive"}>
+          <Button
+            disabled={isPending || isUpdatingStaff}
+            className="bg-green-500"
+            type="submit"
+          >
+            {isPending || isUpdatingStaff ? (
               <>
-                <Loading /> Creating...
+                <Spinner /> {isEditMode ? "Saving..." : "Creating..."}
               </>
+            ) : isEditMode ? (
+              "Save changes"
             ) : (
               "Create"
             )}
           </Button>
-          <Button
-            type="button"
-            variant="outline"
-            onClick={() => {
-              console.log("Form reset");
-              form.reset();
-            }}
-          >
-            Reset
-          </Button>
+          {isEditMode ? null : (
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => window.history.back()}
+            >
+              Cancel
+            </Button>
+          )}
         </Field>
       </form>
     </div>

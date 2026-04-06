@@ -24,7 +24,7 @@ const InputCopy = ({ value }: InputCopyProps) => {
 
   return (
     <div className="flex items-center gap-2 w-full">
-      <Input className="w-full bg-white" type="text" value={value} readOnly />
+      <Input className="bg-white" type="text" value={value} readOnly />
       <Button variant={'ghost'} size={'icon'} onClick={handleCopy} disabled={pending}>
         {copied ? <CopyCheck className="text-green-600" /> : <Copy />}
       </Button>

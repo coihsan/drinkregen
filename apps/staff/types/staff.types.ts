@@ -16,6 +16,7 @@ export interface StaffTypes {
     name: string;
     staffId: string;
     email: string;
+    userId?: string | null;
     phoneNumber: string;
     position: string;
     avatarUrl?: string | null;
@@ -32,6 +33,7 @@ export interface StaffTypes {
     coverArea: string | null;
     divisionId?: string;
     division: StaffDivision;
+    user?: UserTypes | null;
 }
 
 export interface EditStaffPageProps {
@@ -62,6 +64,8 @@ export interface vCardStaff {
 }
 
 export type StaffWithRelations = Staff & {
+    userId?: string | null;
     division: Division;
     createdBy?: UserTypes | null;
+    user?: UserTypes | null;
 };

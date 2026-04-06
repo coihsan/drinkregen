@@ -2,8 +2,7 @@ import z from "zod";
 
 export const createAdminSchema = z
 .object({
-  name:       z.string().min(1),
+  staffId:    z.string().min(1, "Staff wajib dipilih"),
   email:      z.string().email(),
   password:   z.string().min(8, "Password minimal 8 karakter"),
-  permissions: z.array(z.enum(["MANAGE_STAFF", "MANAGE_LUCKY_DRAW"])).default([]),
 })
