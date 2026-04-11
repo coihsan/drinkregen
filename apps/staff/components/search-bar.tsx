@@ -11,13 +11,17 @@ interface SearchBarProps {
 }
 
 const SearchBar = ({ searchRef, searchQuery, className, totalIndex, placeHolder }: SearchBarProps) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    searchQuery(e.target.value);
+  };
   return (
     <InputGroup className={`${className}`}>
       <InputGroupInput
         type="search"
         ref={searchRef}
         placeholder={placeHolder || "Search..."}
-        onChange={(e) => searchQuery(e.target.value)}
+        onChange={handleInputChange}
+
       />
       <InputGroupAddon>
         <Search />

@@ -1,6 +1,11 @@
-import { History, Settings, User, UserLock, Workflow } from "lucide-react";
+import { Book, History, Settings, User, UserLock, Workflow } from "lucide-react";
 
 export const SidebarItems = [
+  {
+    title: "Info",
+    url: "/info",
+    icon: Book,
+  },
   {
     title: "Staff Directory",
     url: "/staff",

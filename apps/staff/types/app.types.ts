@@ -11,4 +11,6 @@ export type ActiveModal =
   | "share-button"
   | "delete"
   | "archive-staff"
+  | "unarchive-staff"
+  | "private-staff"
   | null;

@@ -18,10 +18,11 @@ import {
   Archive,
   EllipsisVertical,
   Eye,
-  EyeIcon,
+  EyeOff,
   Power,
   Share,
   Trash,
+  UserCog,
 } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
@@ -29,7 +30,15 @@ import { toast } from "sonner";
 
 interface StaffOptionsProps {
   staffId: string;
-  variant?: "default" | "link" | "destructive" | "outline" | "secondary" | "ghost" | null | undefined
+  variant?:
+    | "default"
+    | "link"
+    | "destructive"
+    | "outline"
+    | "secondary"
+    | "ghost"
+    | null
+    | undefined;
 }
 
 const StaffOptions: React.FC<StaffOptionsProps> = ({ staffId, variant }) => {
@@ -52,7 +61,7 @@ const StaffOptions: React.FC<StaffOptionsProps> = ({ staffId, variant }) => {
   const currentStaff =
     staffs.find((s) => s.id === staffId) ??
     fetchStaffArchived.find((s) => s.id === staffId);
-  const [copy, setCopy] = useState(currentStaff?.id ?? "");
+  const [copy, setCopy] = useState(`${ROOT_PATH}/nfc/${currentStaff?.id}`);
 
   const closeModal = () => {
     setActiveModal(null);
@@ -88,7 +97,10 @@ const StaffOptions: React.FC<StaffOptionsProps> = ({ staffId, variant }) => {
       });
     }
   };
-  const handleToggleMarkAsUnPublished = async (id: string, name: string | "") => {
+  const handleToggleMarkAsUnPublished = async (
+    id: string,
+    name: string | "",
+  ) => {
     if (id) {
       toggleUnpublish(id, {
         onSuccess: () => {
@@ -102,6 +114,7 @@ const StaffOptions: React.FC<StaffOptionsProps> = ({ staffId, variant }) => {
   const handleInActiveStaff = (id: string, data: boolean) => {
     if (id) {
       updateActiveStatus(id, data);
+      closeModal();
     }
   };
 
@@ -114,7 +127,9 @@ const StaffOptions: React.FC<StaffOptionsProps> = ({ staffId, variant }) => {
         },
         onError: (error) => {
           toast.error(
-            error instanceof Error ? error.message : `Failed to delete ${name}.`,
+            error instanceof Error
+              ? error.message
+              : `Failed to delete ${name}.`,
           );
         },
       });
@@ -151,10 +166,10 @@ const StaffOptions: React.FC<StaffOptionsProps> = ({ staffId, variant }) => {
             <EllipsisVertical />
           </Button>
         </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-max">
+        <DropdownMenuContent className="w-max">
           <DropdownMenuGroup>
             <DropdownMenuItem>
-              <EyeIcon />
+              <UserCog />
               Detail
             </DropdownMenuItem>
             {!isArchivedPath && (
@@ -166,23 +181,33 @@ const StaffOptions: React.FC<StaffOptionsProps> = ({ staffId, variant }) => {
             {!isArchivedPath &&
               (currentStaff?.isPublished ? (
                 <DropdownMenuItem
-                  onClick={() => handleToggleMarkAsUnPublished(staffId, currentStaff?.name ?? '')}
+                  onClick={() =>
+                    handleToggleMarkAsUnPublished(
+                      staffId,
+                      currentStaff?.name ?? "",
+                    )
+                  }
                 >
-                  <Eye />
-                  Make Private
+                  <EyeOff />
+                  Set Private
                 </DropdownMenuItem>
               ) : (
                 <DropdownMenuItem
-                  onClick={() => handleToggleMarkAsPublished(staffId, currentStaff?.name ?? '')}
+                  onClick={() =>
+                    handleToggleMarkAsPublished(
+                      staffId,
+                      currentStaff?.name ?? "",
+                    )
+                  }
                 >
                   <Eye />
-                  Make Public
+                  Set Public
                 </DropdownMenuItem>
               ))}
             {pathname !== `/staff/archive` &&
               (currentStaff?.activeStatus ? (
                 <DropdownMenuItem
-                  onClick={() => handleInActiveStaff(staffId, false)}
+                  onClick={() => setActiveModal("private-staff")}
                 >
                   <Power />
                   Set Inactive
@@ -196,11 +221,15 @@ const StaffOptions: React.FC<StaffOptionsProps> = ({ staffId, variant }) => {
                 </DropdownMenuItem>
               ))}
           </DropdownMenuGroup>
-          {pathname === '/staff/archive' ? null : <DropdownMenuSeparator />}
+          {pathname === "/staff/archive" ? null : <DropdownMenuSeparator />}
           <DropdownMenuGroup>
             {isArchivedPath ? (
               <>
-                <DropdownMenuItem onClick={() => handleUnArchive(staffId, currentStaff?.name ?? '')}>
+                <DropdownMenuItem
+                  onClick={() =>
+                    handleUnArchive(staffId, currentStaff?.name ?? "")
+                  }
+                >
                   <Archive />
                   Unarchive
                 </DropdownMenuItem>
@@ -215,7 +244,7 @@ const StaffOptions: React.FC<StaffOptionsProps> = ({ staffId, variant }) => {
             ) : (
               <DropdownMenuItem
                 variant="destructive"
-                onClick={() => handleArchive(staffId, currentStaff?.name ?? '')}
+                onClick={() => setActiveModal("archive-staff")}
               >
                 <Archive />
                 Archive
@@ -225,12 +254,42 @@ const StaffOptions: React.FC<StaffOptionsProps> = ({ staffId, variant }) => {
         </DropdownMenuContent>
       </DropdownMenu>
       <ModalCustom
+        open={activeModal === "private-staff"}
+        onOpenChange={() => closeModal()}
+        onCancel={closeModal}
+        title="Are you sure?"
+        description={`${currentStaff?.name} will be private NFC, and any device have this link cannot view content`}
+        onAction={() => handleInActiveStaff(staffId, false)}
+        actionLabel="Yes"
+      >
+        <div className="rounded-lg border border-destructive/20 bg-destructive/10 px-4 py-3 text-sm text-red-500">
+          This action will be.{" "}
+          <span className="font-bold">{currentStaff?.name}</span> inactive and
+          private NFC.
+        </div>
+      </ModalCustom>
+      <ModalCustom
+        open={activeModal === "archive-staff"}
+        onOpenChange={() => closeModal()}
+        onCancel={closeModal}
+        title="Are you sure?"
+        description="This staff will be move to archived"
+        actionLabel="Yes"
+        onAction={() => handleArchive(staffId, currentStaff?.name ?? "")}
+      >
+        <div className="rounded-lg border border-destructive/20 bg-destructive/10 px-4 py-3 text-sm text-red-500">
+          This action will be.{" "}
+          <span className="font-bold">{currentStaff?.name}</span> inactive and
+          private NFC.
+        </div>
+      </ModalCustom>
+      <ModalCustom
         open={activeModal === "share-button"}
         onOpenChange={() => closeModal()}
         onCancel={closeModal}
         title="Share this profile"
         description={`Anyone with this link can view this profile page`}
-        actionLabel="Copy"
+        actionLabel={`${loading ? "Copied" : "Copy"}`}
         onAction={() => {
           handleCopy();
         }}
@@ -254,10 +313,12 @@ const StaffOptions: React.FC<StaffOptionsProps> = ({ staffId, variant }) => {
         actionLabel={isDeletingStaff ? "Deleting..." : "Delete"}
         actionVariant="destructive"
         actionDisabled={isDeletingStaff}
-        onAction={() => handleDelete(staffId, currentStaff?.name ?? '')}
+        onAction={() => handleDelete(staffId, currentStaff?.name ?? "")}
       >
         <div className="rounded-lg border border-destructive/20 bg-destructive/10 px-4 py-3 text-sm text-red-500">
-          This action cannot be undone. <span className="font-bold">{currentStaff?.name}</span> will permanently remove from our database.
+          This action cannot be undone.{" "}
+          <span className="font-bold">{currentStaff?.name}</span> will
+          permanently remove from our database.
         </div>
       </ModalCustom>
     </>

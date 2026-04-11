@@ -3,10 +3,14 @@
 import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
+  AlertCircle,
+  Info,
+  InfoIcon,
   MoreHorizontal,
   PencilLine,
   RotateCcwKey,
   ShieldX,
+  TriangleAlert,
 } from "lucide-react";
 import { toast } from "sonner";
 import { Badge } from "@workspace/ui/components/badge";
@@ -31,6 +35,8 @@ import ModalCustom from "@/components/primitive/modal-custom";
 import { ActiveModal } from "@/types/app.types";
 import PasswordVisible from "@/components/primitive/password-visible";
 import PasswordRequirement from "@/components/primitive/password-requirement";
+import WarningBox from "@/components/warning-box";
+import Image from "next/image";
 
 type AdminActionDialogsProps = {
   admin: AdminStaffItem;
@@ -201,13 +207,11 @@ const AdminActionDialogs = ({ admin }: AdminActionDialogsProps) => {
             disabled={isBusy}
             autoFocus
           />
-          <div className="rounded-lg border border-amber-500/20 bg-amber-500/5 px-4 py-3 text-sm text-muted-foreground">
-            <p className="text-xs text-muted-foreground">
+          <WarningBox boxColor="amber" icon={InfoIcon}>
             Email ini akan dipakai{" "}
-            <span className="font-bold text-amber-500">{admin.staffName}</span> untuk masuk ke
-            sistem.
-          </p>
-          </div>
+            <span className="font-bold text-amber-500">{admin.staffName}</span>{" "}
+            untuk masuk ke sistem.
+          </WarningBox>
         </div>
       </ModalCustom>
 
@@ -245,12 +249,11 @@ const AdminActionDialogs = ({ admin }: AdminActionDialogsProps) => {
             value={newPassword}
             onChange={(event) => setNewPassword(event.target.value)}
           />
-          <div className="rounded-lg border border-amber-500/20 bg-amber-500/5 px-4 py-3 text-sm text-muted-foreground">
-            <p className="text-xs text-muted-foreground">
+          <WarningBox boxColor="amber" icon={InfoIcon}>
             Setelah reset, sesi login aktif{" "}
-            <span className="font-bold text-amber-500">{admin.staffName}</span> akan dicabut.
-          </p>
-          </div>
+            <span className="font-bold text-amber-500">{admin.staffName}</span>{" "}
+            akan dicabut.
+          </WarningBox>
         </div>
       </ModalCustom>
 
@@ -271,11 +274,11 @@ const AdminActionDialogs = ({ admin }: AdminActionDialogsProps) => {
         actionDisabled={isBusy}
         actionVariant="destructive"
       >
-        <div className="rounded-lg border border-destructive/20 bg-destructive/5 px-4 py-3 text-sm text-muted-foreground">
+        <WarningBox boxColor="pink" icon={TriangleAlert}>
           Aksi ini akan menghapus sesi aktif{" "}
-          <span className="font-bold text-destructive">{admin.staffName}</span> dan memutus
-          relasi akun login dari staff.
-        </div>
+          <span className="font-bold text-pink-700">{admin.staffName}</span> dan
+          memutus relasi akun login dari staff.
+        </WarningBox>
       </ModalCustom>
     </>
   );
