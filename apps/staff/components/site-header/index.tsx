@@ -6,6 +6,7 @@ import { routeNames } from "@/lib/constant";
 import { BellDot } from "lucide-react";
 import Breadcrumbs from "../primitive/breadcrumbs";
 import { Separator } from "@workspace/ui/components/separator";
+import { ModeToggle } from "../mode-toggle";
 
 interface SiteHeaderProps {
   className?: string;
@@ -29,6 +30,7 @@ const SiteHeader = ({ className }: SiteHeaderProps) => {
           <Button variant="ghost">
             <BellDot className="h-4 w-4" />
           </Button>
+          <ModeToggle />
         </div>
       </div>
     </header>

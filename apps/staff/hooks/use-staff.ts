@@ -3,9 +3,11 @@
 import {
   archiveStaff,
   createStaffAction,
+  deleteStaff,
   getDivision,
   getStaffAction,
   getStaffDataArchived,
+  toggleInActiveStaff,
   togglePublishStaff,
   toggleUnpublishStaff,
   unArchiveStaff,
@@ -20,22 +22,25 @@ type UpdateStaffPayload = {
   data: z.infer<typeof updateStaffSchema>;
 };
 
+type ToggleStaffStatusPayload = {
+  id: string;
+  activeStatus: boolean;
+};
+
 export function useStaff() {
   const queryClient = useQueryClient();
 
-  // Query untuk mengambil data
   const staffQuery = useQuery({
     queryKey: ["staff", "list"],
     queryFn: () => getStaffAction(),
     staleTime: 1000 * 60 * 5, // 5 menit
   });
 
-  // Mutation untuk menambah data
   const createMutation = useMutation({
     mutationFn: createStaffAction,
     onSuccess: () => {
-      // Invalidate cache agar UI otomatis update
       queryClient.invalidateQueries({ queryKey: ["staff", "list"] });
+      queryClient.invalidateQueries({ queryKey: ["activity-logs"] });
     },
   });
 
@@ -43,6 +48,7 @@ export function useStaff() {
     mutationFn: archiveStaff,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["staff", "list"] });
+      queryClient.invalidateQueries({ queryKey: ["activity-logs"] });
     },
   });
 
@@ -50,6 +56,7 @@ export function useStaff() {
     mutationFn: (id: string) => unArchiveStaff(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["staff", "list"] });
+      queryClient.invalidateQueries({ queryKey: ["activity-logs"] });
     },
   });
 
@@ -57,20 +64,21 @@ export function useStaff() {
     mutationFn: (id: string) => togglePublishStaff(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["staff", "list"] });
+      queryClient.invalidateQueries({ queryKey: ["activity-logs"] });
     },
-  })
+  });
 
   const toggleUnpublishMutation = useMutation({
     mutationFn: (id: string) => toggleUnpublishStaff(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["staff", "list"] });
+      queryClient.invalidateQueries({ queryKey: ["activity-logs"] });
     },
-  })
+  });
 
   const archivedQuery = useQuery({
     queryKey: ["staff", "archived"],
     queryFn: () => getStaffDataArchived(),
-    staleTime: 1000 * 60 * 5,
   });
 
   const getDivisionQuery = useQuery({
@@ -84,6 +92,25 @@ export function useStaff() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["staff", "list"] });
       queryClient.invalidateQueries({ queryKey: ["staff", "archived"] });
+      queryClient.invalidateQueries({ queryKey: ["activity-logs"] });
+    },
+  });
+
+  const toggleUpdateStatusStaff = useMutation({
+    mutationFn: ({ id, activeStatus }: ToggleStaffStatusPayload) =>
+      toggleInActiveStaff(id, activeStatus),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["staff", "list"] });
+      queryClient.invalidateQueries({ queryKey: ["activity-logs"] });
+    },
+  });
+
+  const deleteStaffMutation = useMutation({
+    mutationFn: (id: string) => deleteStaff(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["staff", "list"] });
+      queryClient.invalidateQueries({ queryKey: ["staff", "archived"] });
+      queryClient.invalidateQueries({ queryKey: ["activity-logs"] });
     },
   });
 
@@ -94,7 +121,7 @@ export function useStaff() {
     createStaff: createMutation.mutate,
     isCreating: createMutation.isPending,
     archiveStaff: staffArchiveMutation.mutate,
-    unArchive : unArchiveMutation.mutate,
+    unArchive: unArchiveMutation.mutate,
     togglePublish: togglePublishMutation.mutate,
     toggleUnpublish: toggleUnpublishMutation.mutate,
     fetchStaffArchived: archivedQuery.data ?? [],
@@ -104,5 +131,10 @@ export function useStaff() {
     updateDataStaff: updateDataStaff.mutate,
     updateDataStaffAsync: updateDataStaff.mutateAsync,
     isUpdatingStaff: updateDataStaff.isPending,
+    updateActiveStatus: (id: string, activeStatus: boolean) =>
+      toggleUpdateStatusStaff.mutate({ id, activeStatus }),
+    deleteStaff: deleteStaffMutation.mutate,
+    deleteStaffAsync: deleteStaffMutation.mutateAsync,
+    isDeletingStaff: deleteStaffMutation.isPending,
   };
 }

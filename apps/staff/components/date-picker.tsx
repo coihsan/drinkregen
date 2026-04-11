@@ -21,7 +21,7 @@ const DatePicker: React.FC<DatePickerProps> = ({ date, setDate }) => {
         <Button
           variant="outline"
           data-empty={!date}
-          className="w-[212px] justify-between text-left font-normal data-[empty=true]:text-muted-foreground"
+          className="justify-between text-left font-normal data-[empty=true]:text-muted-foreground"
         >
           {date ? format(date, "PPP") : <span>Pick a date</span>}
           <ChevronDownIcon />

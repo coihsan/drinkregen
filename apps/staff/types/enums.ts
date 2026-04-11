@@ -1,4 +1,7 @@
-
+export enum BoardType {
+  BOARD,
+  GRID
+}
 export const ROLE = {
   ADMIN: "ADMIN",
   STAFF: "STAFF",

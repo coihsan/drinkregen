@@ -7,6 +7,7 @@ import {
 import AppSidebar from "@/components/sidebar/app-sidebar";
 import SiteHeader from "@/components/site-header";
 import { ScrollArea } from "@workspace/ui/components/scroll-area";
+import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
   title: "Regen Staff",
@@ -36,6 +37,7 @@ export default function RootLayout({
             <div className="flex-1 p-6">{children}</div>
           </ScrollArea>
         </SidebarInset>
+        <Toaster position="top-center" />
       </main>
     </SidebarProvider>
   );

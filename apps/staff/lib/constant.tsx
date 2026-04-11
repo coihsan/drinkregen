@@ -1,4 +1,4 @@
-import { Settings, User, UserLock, Workflow } from "lucide-react";
+import { History, Settings, User, UserLock, Workflow } from "lucide-react";
 
 export const SidebarItems = [
   {
@@ -17,6 +17,11 @@ export const SidebarItems = [
     icon: UserLock,
   },
   {
+    title: "Activity Logs",
+    url: "/activity-logs",
+    icon: History,
+  },
+  {
     title: "Settings",
     url: "/settings",
     icon: Settings,
@@ -32,4 +37,13 @@ export const routeNames : Record<string, string> = {
   "/landing-page": "Landing Page",
   "/staff-directory/settings": "Settings",
 };
+
+export const AdminTableHeaders: string[] = [
+  "Time", 
+  "Actor", 
+  "Action", 
+  "Target Staff", 
+  "Target Email", 
+  "Details"
+];
 

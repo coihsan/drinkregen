@@ -23,6 +23,8 @@ import {
 import { useStaff } from "@/hooks/use-staff";
 import { createAdminSchema } from "@/lib/schema/admin.schema";
 import { createAdminFromStaffAction } from "@/action/admin.action";
+import { useRouter } from "next/navigation";
+import PasswordRequirement from "@/components/primitive/password-requirement";
 
 type CreateAdminValues = {
   staffId: string;
@@ -32,6 +34,8 @@ type CreateAdminValues = {
 
 const CreateAdminForm = () => {
   const { staffs, isLoading } = useStaff();
+  const { register } = useForm()
+  const route = useRouter();
   const [isPending, startTransition] = useTransition();
 
   const eligibleStaffs = useMemo(
@@ -50,14 +54,20 @@ const CreateAdminForm = () => {
   });
 
   const selectedStaffId = form.watch("staffId");
-  const selectedStaff = eligibleStaffs.find((staff) => staff.id === selectedStaffId);
+  const selectedStaff = eligibleStaffs.find(
+    (staff) => staff.id === selectedStaffId,
+  );
 
   const onSubmit = async (values: CreateAdminValues) => {
     try {
       await createAdminFromStaffAction(values);
       startTransition(() => {
-        toast.success(`Admin untuk ${selectedStaff?.name ?? "staff"} berhasil dibuat.`);
+        toast.success(
+          `Admin untuk ${selectedStaff?.name ?? "staff"} berhasil dibuat.`,
+        );
         form.reset();
+        route.push("/admin");
+        route.refresh()
       });
     } catch (error) {
       console.error(error);
@@ -74,67 +84,73 @@ const CreateAdminForm = () => {
           <FieldSet>
             <FieldLegend>Create an Admin</FieldLegend>
             <FieldDescription>
-              Pilih staff yang sudah ada, lalu buatkan email dan password untuk akun admin.
+              Select an existing staff member, then create an email and password
+              for the admin account.
             </FieldDescription>
             <FieldDescription>
-              Hanya staff yang belum memiliki akun admin yang akan tampil di daftar.
+              Only staff members who do not have an admin account yet will
+              appear in the list.
             </FieldDescription>
           </FieldSet>
           <Controller
-          control={form.control}
-          name="staffId"
-          render={({ field }) => (
-            <Field>
-              <FieldLabel>Staff</FieldLabel>
-              <NativeSelect
-                className="w-full background"
-                disabled={isLoading || isPending}
-                value={field.value}
-                onChange={(event) => {
-                  const nextStaffId = event.target.value;
-                  const nextStaff = eligibleStaffs.find((staff) => staff.id === nextStaffId);
+            control={form.control}
+            name="staffId"
+            render={({ field }) => (
+              <Field>
+                <FieldLabel>Staff</FieldLabel>
+                <NativeSelect
+                  className="w-full background"
+                  disabled={isLoading || isPending}
+                  value={field.value}
+                  onChange={(event) => {
+                    const nextStaffId = event.target.value;
+                    const nextStaff = eligibleStaffs.find(
+                      (staff) => staff.id === nextStaffId,
+                    );
 
-                  field.onChange(nextStaffId);
+                    field.onChange(nextStaffId);
 
-                  if (nextStaff) {
-                    form.setValue("email", nextStaff.email, {
-                      shouldDirty: true,
-                      shouldValidate: true,
-                    });
-                  }
-                }}
-              >
-                <NativeSelectOption value="">
-                  {isLoading ? "Loading staff..." : "Pilih staff"}
-                </NativeSelectOption>
-                {eligibleStaffs.map((staff) => (
-                  <NativeSelectOption key={staff.id} value={staff.id}>
-                    {staff.name} ({staff.staffId})
+                    if (nextStaff) {
+                      form.setValue("email", nextStaff.email, {
+                        shouldDirty: true,
+                        shouldValidate: true,
+                      });
+                    }
+                  }}
+                >
+                  <NativeSelectOption value="">
+                    {isLoading ? "Loading staff..." : "Pilih staff"}
                   </NativeSelectOption>
-                ))}
-              </NativeSelect>
-              <FieldError>{form.formState.errors.staffId?.message}</FieldError>
-            </Field>
-          )}
+                  {eligibleStaffs.map((staff) => (
+                    <NativeSelectOption key={staff.id} value={staff.id}>
+                      {staff.name} ({staff.staffId})
+                    </NativeSelectOption>
+                  ))}
+                </NativeSelect>
+                <FieldError>
+                  {form.formState.errors.staffId?.message}
+                </FieldError>
+              </Field>
+            )}
           />
           {selectedStaff ? (
             <div className="grid gap-3 rounded-xl border border-dashed p-4 text-sm md:grid-cols-2">
-              <div>
-                <p className="text-muted-foreground">Nama staff</p>
-                <p className="font-medium">{selectedStaff.name}</p>
-              </div>
-              <div>
-                <p className="text-muted-foreground">Email staff saat ini</p>
-                <p className="font-medium">{selectedStaff.email}</p>
-              </div>
-              <div>
-                <p className="text-muted-foreground">Staff ID</p>
-                <p className="font-medium">RGN-{selectedStaff.staffId}</p>
-              </div>
-              <div>
-                <p className="text-muted-foreground">Position</p>
-                <p className="font-medium">{selectedStaff.position}</p>
-              </div>
+              <AdminTitleTable
+                title={"Staff ID"}
+                value={selectedStaff.staffId}
+              />
+              <AdminTitleTable
+                title={"Nama Staff"}
+                value={selectedStaff.name}
+              />
+              <AdminTitleTable
+                title={"Email staff saat ini"}
+                value={selectedStaff.email}
+              />
+              <AdminTitleTable
+                title={"Position"}
+                value={selectedStaff.position}
+              />
             </div>
           ) : null}
           <Controller
@@ -145,7 +161,7 @@ const CreateAdminForm = () => {
                 <FieldLabel>Email Login</FieldLabel>
                 <Input
                   type="email"
-                  placeholder="Masukkan email untuk login admin"
+                  placeholder="Enter admin login email"
                   autoComplete="off"
                   readOnly
                   disabled={isPending}
@@ -161,14 +177,17 @@ const CreateAdminForm = () => {
             render={({ field }) => (
               <Field>
                 <FieldLabel>Password</FieldLabel>
-                <Input
-                  type="password"
-                  placeholder="Minimal 8 karakter"
-                  autoComplete="new-password"
-                  disabled={isPending}
-                  {...field}
+                <PasswordRequirement 
+                label="Buat Password Baru"
+                {...register("password", { required: true })}
+                onChange={(e) => {
+                  field.onChange(e)
+                }}
+                placeholder="Masukkan password yang kuat..."
                 />
-                <FieldError>{form.formState.errors.password?.message}</FieldError>
+                <FieldError>
+                  {form.formState.errors.password?.message}
+                </FieldError>
               </Field>
             )}
           />
@@ -194,3 +213,18 @@ const CreateAdminForm = () => {
 };
 
 export default CreateAdminForm;
+
+const AdminTitleTable = ({
+  title,
+  value,
+}: {
+  title: string;
+  value: string;
+}) => {
+  return (
+    <div>
+      <p className="text-muted-foreground">{title}</p>
+      <p className="font-medium">{value}</p>
+    </div>
+  );
+};

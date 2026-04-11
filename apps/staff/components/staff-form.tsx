@@ -18,7 +18,7 @@ import { newStaffSchema, updateStaffSchema } from "@/lib/schema/staff.schema";
 import { useRouter } from "next/navigation";
 import { Info } from "lucide-react";
 import Warning from "@/components/warning";
-import { useRef, useTransition, useEffect } from "react";
+import { useRef, useTransition, useEffect, useState, useCallback } from "react";
 import DatePicker from "./date-picker";
 import { createNewStaff } from "@/action/staff.action";
 import { useSession } from "@/lib/auth-client";
@@ -26,9 +26,22 @@ import { useStaff } from "@/hooks/use-staff";
 import { Spinner } from "@workspace/ui/components/spinner";
 import { StaffTypes } from "@/types/staff.types";
 import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+  InputGroupText,
+} from "@workspace/ui/components/input-group";
+import {
   NativeSelect,
   NativeSelectOption,
 } from "@workspace/ui/components/native-select";
+
+import { useDropzone } from "@uploadthing/react";
+import {
+  generateClientDropzoneAccept,
+  generatePermittedFileTypes,
+} from "uploadthing/client";
+import { useUploadThing } from "@lib/uploadthing";
 
 type CreateFormValues = z.infer<typeof newStaffSchema>;
 type UpdateFormValues = z.infer<typeof updateStaffSchema>;
@@ -47,6 +60,7 @@ const StaffForm = ({ initialData, onSuccess }: StaffFormProps) => {
   const queryClient = useQueryClient();
   const [isPending, startTransition] = useTransition();
   const { divisions, updateDataStaffAsync, isUpdatingStaff } = useStaff();
+  const [username, setUsername] = useState("");
   const isEditMode = Boolean(initialData);
   const formSchema = isEditMode ? updateStaffSchema : newStaffSchema;
 
@@ -182,7 +196,7 @@ const StaffForm = ({ initialData, onSuccess }: StaffFormProps) => {
         id: createValues.id,
         staffId: createValues.staffId,
         name: createValues.name,
-        email: createValues.email,
+        email: createValues.email + "@drinkregen.com",
         phoneNumber: createValues.phoneNumber,
         position: createValues.position,
         activeStatus: createValues.activeStatus,
@@ -195,6 +209,7 @@ const StaffForm = ({ initialData, onSuccess }: StaffFormProps) => {
 
       await queryClient.invalidateQueries({ queryKey: ["staff", "list"] });
       await queryClient.invalidateQueries({ queryKey: ["staff", "archived"] });
+      await queryClient.invalidateQueries({ queryKey: ["activity-logs"] });
 
       startTransition(() => {
         router.push("/staff");
@@ -215,29 +230,75 @@ const StaffForm = ({ initialData, onSuccess }: StaffFormProps) => {
     }
   };
 
+  const [files, setFiles] = useState<File[]>([]);
+  const onDrop = useCallback((acceptedFiles: File[]) => {
+    setFiles(acceptedFiles);
+  }, []);
+  const { startUpload, routeConfig } = useUploadThing("imageUploader", {
+    onClientUploadComplete: () => {
+      alert("uploaded successfully!");
+    },
+    onUploadError: () => {
+      alert("error occurred while uploading");
+    },
+    onUploadBegin: (fileName) => {
+      console.log("upload has begun for", fileName);
+    },
+  });
+  const { getRootProps, getInputProps } = useDropzone({
+    onDrop,
+    accept: generateClientDropzoneAccept(
+      generatePermittedFileTypes(routeConfig).fileTypes,
+    ),
+  });
+
   return (
     <div className="mb-12">
       <form ref={reff} onSubmit={form.handleSubmit(onSubmit)} className="">
         <FieldGroup>
           <Controller
             control={form.control}
+            name="avatarUrl"
+            render={({ field }) => (
+              <Field>
+                <FieldLabel>Photo</FieldLabel>
+                <div {...getRootProps()} className="border">
+                  <div>
+                    {files.length > 0 && (
+                      <Button onClick={() => startUpload(files)}>
+                        Upload {files.length} files
+                      </Button>
+                    )}
+                  </div>
+                  <Input {...field} {...getInputProps()} />
+                  Drop files here!
+                </div>
+                <FieldError>
+                  {form.formState.errors.avatarUrl?.message}
+                </FieldError>
+              </Field>
+            )}
+          />
+          <Controller
+            control={form.control}
             name="staffId"
             render={({ field }) => (
               <Field>
                 <FieldLabel>Staff ID</FieldLabel>
-                <div className="flex items-center gap-2">
-                  <span className="font-semibold uppercase text-sm text-muted-foreground">
-                    rgn:
-                  </span>
-                  <Input
-                    className="border"
-                    type="text"
+                <InputGroup>
+                  <InputGroupInput
                     maxLength={5}
+                    type="text"
                     placeholder="Enter staff ID"
                     autoComplete="off"
+                    autoFocus
                     {...field}
+                    id="input-group-url"
                   />
-                </div>
+                  <InputGroupAddon>
+                    <InputGroupText>RGN-</InputGroupText>
+                  </InputGroupAddon>
+                </InputGroup>
                 <FieldError>
                   {form.formState.errors.staffId?.message}
                 </FieldError>
@@ -265,12 +326,28 @@ const StaffForm = ({ initialData, onSuccess }: StaffFormProps) => {
             render={({ field }) => (
               <Field>
                 <FieldLabel>Email</FieldLabel>
-                <Input
-                  type="email"
-                  placeholder="Enter email"
-                  {...field}
-                  autoComplete="off"
-                />
+                {isEditMode ? (
+                  <Input
+                    type="email"
+                    {...field}
+                    autoComplete="off"
+                  />
+                ) : (
+                  <InputGroup>
+                    <InputGroupAddon align={"inline-end"}>
+                      <InputGroupText>@drinkregen.com</InputGroupText>
+                    </InputGroupAddon>
+                    <InputGroupInput
+                      maxLength={5}
+                      type="text"
+                      placeholder="Enter name"
+                      autoComplete="off"
+                      autoFocus
+                      {...field}
+                      id="input-group-url"
+                    />
+                  </InputGroup>
+                )}
                 <FieldError>{form.formState.errors.email?.message}</FieldError>
               </Field>
             )}
@@ -313,30 +390,12 @@ const StaffForm = ({ initialData, onSuccess }: StaffFormProps) => {
           />
           <Controller
             control={form.control}
-            name="avatarUrl"
-            render={({ field }) => (
-              <Field>
-                <FieldLabel>Image</FieldLabel>
-                <Input
-                  type="text"
-                  placeholder="Enter image URL"
-                  {...field}
-                  autoComplete="off"
-                />
-                <FieldError>
-                  {form.formState.errors.avatarUrl?.message}
-                </FieldError>
-              </Field>
-            )}
-          />
-          <Controller
-            control={form.control}
             name="division"
             render={({ field }) => (
               <Field>
                 <FieldLabel>Division</FieldLabel>
                 <NativeSelect
-                  className="w-full"
+                  className="w-full bg-background"
                   value={field.value?.id ?? ""}
                   onChange={(event) => {
                     const selectedDivision = divisions.find(
@@ -431,15 +490,13 @@ const StaffForm = ({ initialData, onSuccess }: StaffFormProps) => {
               "Create"
             )}
           </Button>
-          {isEditMode ? null : (
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => window.history.back()}
-            >
-              Cancel
-            </Button>
-          )}
+          {/* <Button
+            type="button"
+            variant="outline"
+            onClick={() => window.history.back()}
+          >
+            Cancel
+          </Button> */}
         </Field>
       </form>
     </div>

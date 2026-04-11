@@ -1,11 +1,12 @@
 "use server";
 
-import { headers } from "next/headers";
 import { auth } from "@/lib/auth";
 import db from "@/lib/db";
 import { createAdminSchema } from "@/lib/schema/admin.schema";
 import { hashPassword } from "better-auth/crypto";
 import { protectedAdminEmails } from "@/lib/admin-config";
+import { assertCanAccessActivityLogs, insertActivityLog } from "@/lib/activity-log";
+import { assertSuperAdminAccess, getAuthenticatedActorAccess, isSuperAdminActor } from "@/lib/role-access";
 
 export type AdminStaffItem = {
   staffId: string;
@@ -17,16 +18,6 @@ export type AdminStaffItem = {
   divisionName: string;
   activeStatus: boolean;
   isProtected: boolean;
-};
-
-export type AdminAuditLogItem = {
-  id: string;
-  actorEmail: string;
-  action: string;
-  targetStaffName: string | null;
-  targetAdminEmail: string | null;
-  createdAt: Date;
-  details: string | null;
 };
 
 type CreateAdminInput = {
@@ -49,64 +40,16 @@ type ResetAdminPasswordInput = {
   password: string;
 };
 
-const MANAGEABLE_ROLES = new Set(["ADMIN", "admin", "OWNER", "owner"]);
-
 async function assertCanAccessAdminPanel() {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
-
-  if (!session?.user?.id) {
-    throw new Error("Unauthorized");
-  }
-
-  const actor = await db.user.findUnique({
-    where: { id: session.user.id },
-    select: { id: true, role: true, email: true },
-  });
-
-  if (!actor || !MANAGEABLE_ROLES.has(actor.role)) {
-    throw new Error("Anda tidak memiliki akses ke halaman admin.");
-  }
-
-  return session;
+  return assertCanAccessActivityLogs();
 }
 
-async function insertAdminAuditLog(params: {
-  actorUserId: string;
-  actorEmail: string;
-  action: string;
-  targetStaffId?: string | null;
-  targetUserId?: string | null;
-  targetEmail?: string | null;
-  details?: Record<string, unknown> | null;
-}) {
-  const detailsJson = params.details ? JSON.stringify(params.details) : null;
+export async function getAdminManagementScopeAction() {
+  const { actor } = await getAuthenticatedActorAccess();
 
-  await db.$executeRaw`
-    INSERT INTO "admin_audit_logs" (
-      "id",
-      "actorUserId",
-      "actorEmail",
-      "action",
-      "targetStaffId",
-      "targetUserId",
-      "targetEmail",
-      "details",
-      "createdAt"
-    )
-    VALUES (
-      ${crypto.randomUUID()},
-      ${params.actorUserId},
-      ${params.actorEmail},
-      ${params.action},
-      ${params.targetStaffId ?? null},
-      ${params.targetUserId ?? null},
-      ${params.targetEmail ?? null},
-      ${detailsJson ? detailsJson : null}::jsonb,
-      NOW()
-    )
-  `;
+  return {
+    canManageAdmins: isSuperAdminActor(actor),
+  };
 }
 
 export async function getAdminStaffListAction(): Promise<AdminStaffItem[]> {
@@ -140,31 +83,8 @@ export async function getAdminStaffListAction(): Promise<AdminStaffItem[]> {
   }));
 }
 
-export async function getAdminAuditLogsAction(): Promise<AdminAuditLogItem[]> {
-  await assertCanAccessAdminPanel();
-
-  return db.$queryRaw<AdminAuditLogItem[]>`
-    SELECT
-      l."id" AS "id",
-      l."actorEmail" AS "actorEmail",
-      l."action" AS "action",
-      s."name" AS "targetStaffName",
-      l."targetEmail" AS "targetAdminEmail",
-      l."createdAt" AS "createdAt",
-      CASE
-        WHEN l."details" IS NULL THEN NULL
-        ELSE l."details"::text
-      END AS "details"
-    FROM "admin_audit_logs" l
-    LEFT JOIN "staff" s
-      ON s."id" = l."targetStaffId"
-    ORDER BY l."createdAt" DESC
-    LIMIT 20
-  `;
-}
-
 export async function updateAdminLoginEmailAction(input: UpdateAdminLoginInput) {
-  const session = await assertCanAccessAdminPanel();
+  const { session } = await assertSuperAdminAccess();
 
   const normalizedEmail = input.email.trim().toLowerCase();
 
@@ -220,7 +140,7 @@ export async function updateAdminLoginEmailAction(input: UpdateAdminLoginInput) 
     },
   });
 
-  await insertAdminAuditLog({
+  await insertActivityLog({
     actorUserId: session.user.id,
     actorEmail: session.user.email,
     action: "UPDATE_ADMIN_LOGIN_EMAIL",
@@ -237,7 +157,7 @@ export async function updateAdminLoginEmailAction(input: UpdateAdminLoginInput) 
 }
 
 export async function resetAdminPasswordAction(input: ResetAdminPasswordInput) {
-  const session = await assertCanAccessAdminPanel();
+  const { session } = await assertSuperAdminAccess();
 
   if (!input.password || input.password.length < 8) {
     throw new Error("Password minimal 8 karakter.");
@@ -306,7 +226,7 @@ export async function resetAdminPasswordAction(input: ResetAdminPasswordInput) {
     where: { userId: staff.userId },
   });
 
-  await insertAdminAuditLog({
+  await insertActivityLog({
     actorUserId: session.user.id,
     actorEmail: session.user.email,
     action: "RESET_ADMIN_PASSWORD",
@@ -322,7 +242,7 @@ export async function resetAdminPasswordAction(input: ResetAdminPasswordInput) {
 }
 
 export async function demoteAdminToStaffAction(input: DemoteAdminInput) {
-  const session = await assertCanAccessAdminPanel();
+  const { session } = await assertSuperAdminAccess();
 
   const staff = (
     await db.$queryRaw<
@@ -379,7 +299,7 @@ export async function demoteAdminToStaffAction(input: DemoteAdminInput) {
     `;
   });
 
-  await insertAdminAuditLog({
+  await insertActivityLog({
     actorUserId: session.user.id,
     actorEmail: session.user.email,
     action: "DEMOTE_ADMIN_TO_STAFF",
@@ -396,7 +316,7 @@ export async function demoteAdminToStaffAction(input: DemoteAdminInput) {
 }
 
 export async function createAdminFromStaffAction(input: CreateAdminInput) {
-  const session = await assertCanAccessAdminPanel();
+  const { session } = await assertSuperAdminAccess();
 
   const validatedInput = createAdminSchema.parse(input);
 
@@ -459,7 +379,7 @@ export async function createAdminFromStaffAction(input: CreateAdminInput) {
       AND "userId" IS NULL
   `;
 
-  await insertAdminAuditLog({
+  await insertActivityLog({
     actorUserId: session.user.id,
     actorEmail: session.user.email,
     action: "CREATE_ADMIN_FROM_STAFF",

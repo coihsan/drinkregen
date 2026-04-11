@@ -1,11 +1,11 @@
-"use client";
-
 import { Button } from "@workspace/ui/components/button";
-import { useRouter } from "next/navigation";
 import AdminList from "./_components/admin-list";
+import { Plus } from "lucide-react";
+import Link from "next/link";
+import { getAdminManagementScopeAction } from "@/action/admin.action";
 
-const AdminPage = () => {
-  const route = useRouter();
+const AdminPage = async () => {
+  const { canManageAdmins } = await getAdminManagementScopeAction();
 
   return (
     <div className="space-y-6">
@@ -13,12 +13,19 @@ const AdminPage = () => {
         <div className="space-y-2">
           <h1 className="text-2xl font-semibold">Manage Admins</h1>
           <p className="text-sm text-muted-foreground">
-            Lihat seluruh staff yang sudah menjadi admin dan buat admin baru dari data staff yang ada.
+            View all staff members who are already admins and create new admins from existing staff data.
           </p>
         </div>
-        <Button onClick={() => route.push("/admin/new")}>Add Admin</Button>
+        {canManageAdmins ? (
+          <Button asChild>
+            <Link href="/admin/new">
+              <Plus />
+              Admin
+            </Link>
+          </Button>
+        ) : null}
       </div>
-      <AdminList />
+      <AdminList canManageAdmins={canManageAdmins} />
     </div>
   );
 };

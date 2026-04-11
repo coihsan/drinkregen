@@ -1,25 +1,30 @@
-import { Input } from "@workspace/ui/components/input"
-import { SearchIcon } from "lucide-react"
+import { InputGroup, InputGroupAddon, InputGroupInput } from "@workspace/ui/components/input-group";
+import { Search } from "lucide-react";
+import { ReactNode } from "react";
 
 interface SearchBarProps {
   className?: string;
   searchRef?: React.RefObject<HTMLInputElement>;
   searchQuery: (searchValues: string) => void;
+  totalIndex?: ReactNode;
+  placeHolder?: string
 }
 
-const SearchBar = ({ searchRef, searchQuery, className }: SearchBarProps) => {
+const SearchBar = ({ searchRef, searchQuery, className, totalIndex, placeHolder }: SearchBarProps) => {
   return (
-    <div className={`flex items-center w-full space-x-2 rounded-lg border px-3.5 ${className}`}>
-      <SearchIcon className="h-4 w-4" />
-      <Input
-        ref={searchRef}
+    <InputGroup className={`${className}`}>
+      <InputGroupInput
         type="search"
-        placeholder="Search"
-        className="w-full border-0 font-semibold ring-0 focus:ring-0 focus-visible:ring-0 focus-visible:ring-transparent"
+        ref={searchRef}
+        placeholder={placeHolder || "Search..."}
         onChange={(e) => searchQuery(e.target.value)}
       />
-    </div>
-  )
-}
+      <InputGroupAddon>
+        <Search />
+      </InputGroupAddon>
+      <InputGroupAddon align="inline-end">{totalIndex}</InputGroupAddon>
+    </InputGroup>
+  );
+};
 
 export default SearchBar;

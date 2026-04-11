@@ -38,15 +38,19 @@ const StaffArchivePage = () => {
       />
     );
   }
+  const totalArchivedStaff = () => {
+    return fetchStaffArchived.length
+  }
   return (
     <main>
       <SubHeader title="Staff Archive">
-        <SearchBar searchQuery={setQuery} />
+        <SearchBar totalIndex={totalArchivedStaff()} searchQuery={setQuery} />
       </SubHeader>
       {filteredStaffs.length === 0 ? (
         <BlankPage
           title="Not found"
           description="No staff members match your search criteria."
+          isButton
         />
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">

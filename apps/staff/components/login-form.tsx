@@ -18,17 +18,15 @@ import {
   FieldLabel,
 } from "@workspace/ui/components/field"
 import { Input } from "@workspace/ui/components/input"
-import { useState, useTransition } from "react"
+import { useState } from "react"
 import { Controller, useForm } from "react-hook-form"
 import z from "zod"
-import { useFormStatus } from "react-dom";
 import { signIn } from "@/lib/auth-client";
+import { Spinner } from "@workspace/ui/components/spinner";
 
 type LoginFormValues = z.infer<typeof LoginSchema>;
 
 const LoginForm = () => {
-  const { pending } = useFormStatus();
-  const [loading, startTransition] = useTransition();
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
 
@@ -40,7 +38,7 @@ const LoginForm = () => {
 		},
 	});
 
-  async function onSubmit(data: LoginFormValues) {
+  const onSubmit = async (data: LoginFormValues) => {
     setError(null);
     const res = await signIn.email({
       email: data.email, 
@@ -49,7 +47,7 @@ const LoginForm = () => {
     if (res.error) {
       setError(res.error.message || "Something went wrong."); 
     } else {
-      router.push("/dashboard"); 
+      router.push("/staff"); 
     } 
   } 
 
@@ -94,7 +92,7 @@ const LoginForm = () => {
                   <div className="flex items-center">
                     <FieldLabel htmlFor="password">Password</FieldLabel>
                   </div>
-                  <Input id="password" type="password" required {...field} />
+                  <Input id="password" placeholder="enter your password" type="password" required {...field} />
                   {form.formState.errors.password && (
                     <p className="text-sm text-destructive mt-1">
                       {String(form.formState.errors.password?.message)}
@@ -104,8 +102,10 @@ const LoginForm = () => {
               )}
             />
               <Field>
-                <Button disabled={pending} type="submit">
-                  {loading ? "Logging in..." : "Login"}
+                <Button disabled={form.formState.isSubmitting} type="submit">
+                  {form.formState.isSubmitting ? (
+                    <Spinner />
+                  ) :  "Login"}
                 </Button>
               </Field>
             </FieldGroup>

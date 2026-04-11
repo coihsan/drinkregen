@@ -55,12 +55,11 @@ const AppSidebar = ({ ...props }: React.ComponentProps<typeof Sidebar>) => {
         <NavMain items={SidebarItems} />
       </SidebarContent>
       <SidebarFooter>
-        <ModeToggle />
         <UserProfile
           userData={{
-            name: user?.name || "John Doe",
-            email: user?.email || "john.doe@example.com",
-            avatar: user?.image || "/placeholder-user.jpg",
+            name: user?.name || "Regen Staff",
+            email: user?.email || "regen@example.com",
+            avatar: user?.image || "/maskot.webp",
           }}
         />
       </SidebarFooter>

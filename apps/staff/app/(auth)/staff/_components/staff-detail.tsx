@@ -6,15 +6,11 @@ import { Button } from "@workspace/ui/components/button";
 import {
   Mail,
   Phone,
-  MapPin,
   Briefcase,
   Building2,
   Calendar,
-  Shield,
   Globe,
-  Timer,
 } from "lucide-react";
-import { formatPhoneNumber } from "@/lib/helpers";
 import {
   Sheet,
   SheetClose,
@@ -27,18 +23,16 @@ import {
 } from "@workspace/ui/components/sheet";
 import { Separator } from "@workspace/ui/components/separator";
 import EditStaff from "./edit-staff";
-import { isToday } from "date-fns";
 
 interface StaffDetailProps {
   staff: StaffTypes | null;
 }
 
 const StaffDetail = ({ staff }: StaffDetailProps) => {
-  if (!staff) return null;
-
   const [open, setOpen] = React.useState(false);
+  
+  if (!staff) return null;
   const data = staff;
-  const joined = data.joinedAt ? new Date(data.joinedAt) : null;
   const updatedAt = data.updatedAt ? new Date(data.updatedAt) : null;
   const createdByLabel =
     data.createdBy?.name ||
@@ -72,19 +66,44 @@ const StaffDetail = ({ staff }: StaffDetailProps) => {
               RGN-{data.staffId}
             </span>
           </div>
-          <StaffItem icon={<Mail className="w-5 h-5" />} title={data.email} />
-          <StaffItem icon={<Phone className="w-5 h-5" />} title={data.phoneNumber} />
-          <StaffItem icon={<Briefcase className="w-5 h-5" />} title={data.position} />
-          <StaffItem icon={<Globe className="w-5 h-5" />} title={data.coverArea} />
-          <StaffItem icon={<Building2 className="w-5 h-5" />} title={data.division.name} />
-          <StaffItem icon={<Calendar className="w-5 h-5" />} title={data.joinedAt.toLocaleString()} />
+          <StaffItem
+            icon={<Mail className="w-5 h-5 text-muted-foreground" />}
+            title={data.email}
+          />
+          <StaffItem
+            icon={<Phone className="w-5 h-5 text-muted-foreground" />}
+            title={data.phoneNumber}
+          />
+          <StaffItem
+            icon={<Briefcase className="w-5 h-5 text-muted-foreground" />}
+            title={data.position}
+          />
+          {data?.coverArea && (
+            <StaffItem
+              icon={<Globe className="w-5 h-5 text-muted-foreground" />}
+              title={data.coverArea}
+            />
+          )}
+          <StaffItem
+            icon={<Building2 className="w-5 h-5 text-muted-foreground" />}
+            title={data.division.name}
+          />
+          <StaffItem
+            icon={<Calendar className="w-5 h-5 text-muted-foreground" />}
+            title={new Date(data.joinedAt).toLocaleDateString("id-ID")}
+          />
           <div>
-            <p>Created by: <span className="text-green-500">{createdByLabel}</span></p>
+            <p>
+              Created by:{" "}
+              <span className="text-green-500">{createdByLabel}</span>
+            </p>
           </div>
           <div>
             <p>
               Last updated :{" "}
-              <span className="text-gray-50 font-semibold">{updatedAt ? updatedAt.toLocaleString("id-ID") : "N/A"}</span>
+              <span className="text-gray-50 font-semibold">
+                {updatedAt ? updatedAt.toLocaleString("id-ID") : "N/A"}
+              </span>
             </p>
             <p>Updated by: {data.updatedById}</p>
           </div>

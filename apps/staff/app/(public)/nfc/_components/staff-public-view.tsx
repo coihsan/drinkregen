@@ -13,7 +13,7 @@ const StaffPublicView = ({ staffId }: StaffPublicViewProps) => {
   const data = staffs.find((staff) => staff.id === staffId);
 
   if (!data) return <div>Staff not found</div>;
-  if (!data.isPublished) return <div>Staff not published</div>;
+  if (!data.isPublished) return <div className="text-xl font-medium text-center">This profile already exists in our system, but you do not have permission to view its content.</div>;
 
   const activeStatus = data.activeStatus ? "Active" : "Inactive";
 

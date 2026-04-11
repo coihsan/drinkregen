@@ -12,7 +12,7 @@ export const newStaffSchema = z.object({
   id: z.string(),
   name: z.string().min(2, "Full name must be at least 2 characters"),
   staffId: z.string().min(5, "Staff ID is required"),
-  email: z.string().min(5, "Email is required").email("Invalid email address"),
+  email: z.string().min(1, "Email is required").toLowerCase(),
   phoneNumber: z.string().min(10, "Phone number must be at least 10 characters"),
   position: z.string().min(2, "Position must be at least 2 characters"),
   avatarUrl: z.string().optional(),

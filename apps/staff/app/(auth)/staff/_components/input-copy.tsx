@@ -6,9 +6,10 @@ import { useState, useTransition } from "react";
 
 interface InputCopyProps {
   value: string;
+  className?: string;
 }
 
-const InputCopy = ({ value }: InputCopyProps) => {
+const InputCopy = ({ value, className }: InputCopyProps) => {
   const [pending] = useTransition();
   const [copied, setCopied] = useState(false);
 
@@ -24,7 +25,7 @@ const InputCopy = ({ value }: InputCopyProps) => {
 
   return (
     <div className="flex items-center gap-2 w-full">
-      <Input className="bg-white" type="text" value={value} readOnly />
+      <Input className={`${className}, 'bg-white h-12'`} type="text" value={value} readOnly />
       <Button variant={'ghost'} size={'icon'} onClick={handleCopy} disabled={pending}>
         {copied ? <CopyCheck className="text-green-600" /> : <Copy />}
       </Button>

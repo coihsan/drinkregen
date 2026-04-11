@@ -65,5 +65,16 @@ function redirectToLogin(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/nfc", "/nfc/:path*", "/staff", "/staff/:path*", "/staff/settings", "/admin"],
+  matcher: [
+    "/nfc",
+    "/nfc/:path*",
+    "/staff",
+    "/staff/:path*",
+    "/staff/settings",
+    "/admin",
+    "/admin/:path*",
+    "/activity-logs",
+    "/activity-logs/:path*",
+    "/admin:path*"
+  ],
 };

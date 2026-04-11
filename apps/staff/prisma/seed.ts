@@ -18,7 +18,6 @@ async function main() {
       email: "superadmin@webkantor.com",
       password: "GantiPasswordIni123!",
       role: "admin",
-
     },
   })
 

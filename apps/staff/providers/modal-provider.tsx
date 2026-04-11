@@ -1,5 +1,5 @@
 "use client";
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useState } from "react";
 
 interface ModalProviderProps {
   children: React.ReactNode;
@@ -27,11 +27,6 @@ const ModalProver: React.FC<ModalProviderProps> = ({ children }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [data, setData] = useState<Record<string, unknown>>({});
   const [showingModal, setShowingModal] = useState<React.ReactNode>(null);
-  const [isMounted, setIsMounted] = useState(false);
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
 
   const setOpen = async (
     modal: React.ReactNode,
@@ -54,8 +49,6 @@ const ModalProver: React.FC<ModalProviderProps> = ({ children }) => {
     setIsOpen(false);
     setData({});
   };
-
-  if (!isMounted) return null;
 
   return (
     <ModalContext.Provider value={{ data, setOpen, onCancel, isOpen, setClose }}>
