@@ -2,16 +2,7 @@
 
 import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import {
-  AlertCircle,
-  Info,
-  InfoIcon,
-  MoreHorizontal,
-  PencilLine,
-  RotateCcwKey,
-  ShieldX,
-  TriangleAlert,
-} from "lucide-react";
+import { InfoIcon, MoreHorizontal, PencilLine, RotateCcwKey, ShieldX, TriangleAlert } from "lucide-react";
 import { toast } from "sonner";
 import { Badge } from "@workspace/ui/components/badge";
 import { Button } from "@workspace/ui/components/button";
@@ -33,10 +24,8 @@ import {
 } from "@/action/admin.action";
 import ModalCustom from "@/components/primitive/modal-custom";
 import { ActiveModal } from "@/types/app.types";
-import PasswordVisible from "@/components/primitive/password-visible";
 import PasswordRequirement from "@/components/primitive/password-requirement";
 import WarningBox from "@/components/warning-box";
-import Image from "next/image";
 
 type AdminActionDialogsProps = {
   admin: AdminStaffItem;
@@ -113,6 +102,12 @@ const AdminActionDialogs = ({ admin }: AdminActionDialogsProps) => {
     updateEmailMutation.isPending ||
     resetPasswordMutation.isPending ||
     demoteMutation.isPending;
+  const hasAnyAction =
+    admin.canEditLogin || admin.canResetPassword || admin.canDemote;
+
+  if (!hasAnyAction) {
+    return null;
+  }
 
   return (
     <>
@@ -138,36 +133,43 @@ const AdminActionDialogs = ({ admin }: AdminActionDialogsProps) => {
               </div>
             </>
           ) : null}
-          <DropdownMenuSeparator />
-          <DropdownMenuItem
-            onClick={() => {
-              setEditedEmail(admin.adminEmail);
-              setActiveModal("edit-login");
-            }}
-            disabled={admin.isProtected}
-          >
-            <PencilLine />
-            Change email login
-          </DropdownMenuItem>
-          <DropdownMenuItem
-            onClick={() => {
-              setNewPassword("");
-              setActiveModal("reset-password");
-            }}
-            disabled={admin.isProtected}
-          >
-            <RotateCcwKey />
-            Reset password
-          </DropdownMenuItem>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem
-            variant="destructive"
-            onClick={() => setActiveModal("demote")}
-            disabled={admin.isProtected}
-          >
-            <ShieldX />
-            Demote
-          </DropdownMenuItem>
+          {admin.canEditLogin || admin.canResetPassword || admin.canDemote ? (
+            <DropdownMenuSeparator />
+          ) : null}
+          {admin.canEditLogin ? (
+            <DropdownMenuItem
+              onClick={() => {
+                setEditedEmail(admin.adminEmail);
+                setActiveModal("edit-login");
+              }}
+            >
+              <PencilLine />
+              Change email login
+            </DropdownMenuItem>
+          ) : null}
+          {admin.canResetPassword ? (
+            <DropdownMenuItem
+              onClick={() => {
+                setNewPassword("");
+                setActiveModal("reset-password");
+              }}
+            >
+              <RotateCcwKey />
+              Reset password
+            </DropdownMenuItem>
+          ) : null}
+          {admin.canDemote ? (
+            <>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem
+                variant="destructive"
+                onClick={() => setActiveModal("demote")}
+              >
+                <ShieldX />
+                Demote
+              </DropdownMenuItem>
+            </>
+          ) : null}
         </DropdownMenuContent>
       </DropdownMenu>
 

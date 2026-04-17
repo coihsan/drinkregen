@@ -5,7 +5,7 @@ import Link from "next/link";
 import { getAdminManagementScopeAction } from "@/action/admin.action";
 
 const AdminPage = async () => {
-  const { canManageAdmins } = await getAdminManagementScopeAction();
+  const { canCreateAdmins } = await getAdminManagementScopeAction();
 
   return (
     <div className="space-y-6">
@@ -16,7 +16,7 @@ const AdminPage = async () => {
             View all staff members who are already admins and create new admins from existing staff data.
           </p>
         </div>
-        {canManageAdmins ? (
+        {canCreateAdmins ? (
           <Button asChild>
             <Link href="/admin/new">
               <Plus />
@@ -25,7 +25,7 @@ const AdminPage = async () => {
           </Button>
         ) : null}
       </div>
-      <AdminList canManageAdmins={canManageAdmins} />
+      <AdminList />
     </div>
   );
 };

@@ -25,11 +25,7 @@ import { getAdminColumns } from "./admin-columns";
 import AdminTable from "./admin-table";
 import SearchBar from "@/components/search-bar";
 
-type AdminListProps = {
-  canManageAdmins: boolean;
-};
-
-const AdminList = ({ canManageAdmins }: AdminListProps) => {
+const AdminList = () => {
   const [query, setQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState<"all" | "active" | "inactive">("all");
   const [sorting, setSorting] = useState<SortingState>([
@@ -55,7 +51,17 @@ const AdminList = ({ canManageAdmins }: AdminListProps) => {
       );
     });
   }, [data, statusFilter]);
-  const columns = useMemo(() => getAdminColumns(canManageAdmins), [canManageAdmins]);
+  const hasManageableRows = useMemo(
+    () =>
+      filteredAdmins.some(
+        (admin) => admin.canEditLogin || admin.canResetPassword || admin.canDemote,
+      ),
+    [filteredAdmins],
+  );
+  const columns = useMemo(
+    () => getAdminColumns(hasManageableRows),
+    [hasManageableRows],
+  );
 
   const table = useReactTable({
     data: filteredAdmins,
@@ -80,6 +86,7 @@ const AdminList = ({ canManageAdmins }: AdminListProps) => {
         row.original.staffCode,
         row.original.staffEmail,
         row.original.adminEmail,
+        row.original.adminRole,
         row.original.position,
         row.original.divisionName,
       ].some((value) => value.toLowerCase().includes(normalizedQuery));

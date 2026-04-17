@@ -20,6 +20,8 @@ type AdminTableProps = {
 };
 
 const AdminTable = ({ table, isLoading, isError }: AdminTableProps) => {
+  const columnCount = table.getVisibleLeafColumns().length;
+
   return (
     <>
       <div className="rounded-xl border">
@@ -44,19 +46,19 @@ const AdminTable = ({ table, isLoading, isError }: AdminTableProps) => {
             <tbody>
               {isLoading ? (
                 <tr>
-                  <td className="px-4 py-8 text-sm text-muted-foreground" colSpan={7}>
+                  <td className="px-4 py-8 text-sm text-muted-foreground" colSpan={columnCount}>
                     Loading admin staff...
                   </td>
                 </tr>
               ) : isError ? (
                 <tr>
-                  <td className="px-4 py-8 text-sm text-destructive" colSpan={7}>
+                  <td className="px-4 py-8 text-sm text-destructive" colSpan={columnCount}>
                     Failed to load the admin list.
                   </td>
                 </tr>
               ) : table.getRowModel().rows.length === 0 ? (
                 <tr>
-                  <td className="px-4 py-8 text-sm text-muted-foreground" colSpan={7}>
+                  <td className="px-4 py-8 text-sm text-muted-foreground" colSpan={columnCount}>
                     No staff members have become admins yet.
                   </td>
                 </tr>

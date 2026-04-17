@@ -16,6 +16,10 @@
     "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
+    "types": [
+      "vitest/globals",
+      "@testing-library/jest-dom"
+    ],
     "jsx": "react-jsx",
     "incremental": true,
     "plugins": [

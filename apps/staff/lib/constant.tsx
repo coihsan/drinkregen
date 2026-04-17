@@ -52,3 +52,9 @@ export const AdminTableHeaders: string[] = [
   "Details"
 ];
 
+export const ERROR_MESSAGES: Record<string, string> = {
+  INVALID_EMAIL_OR_PASSWORD: "Email atau password yang kamu masukkan salah.",
+  USER_NOT_FOUND: "Akun dengan email ini tidak ditemukan.",
+  EMAIL_NOT_VERIFIED: "Email belum diverifikasi. Cek inbox kamu.",
+  TOO_MANY_REQUESTS: "Terlalu banyak percobaan. Coba lagi nanti.",
+};

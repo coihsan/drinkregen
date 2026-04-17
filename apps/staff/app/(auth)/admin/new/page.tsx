@@ -3,9 +3,9 @@ import { getAdminManagementScopeAction } from "@/action/admin.action";
 import { redirect } from "next/navigation";
 
 const CreateNewAdminPage = async () => {
-  const { canManageAdmins } = await getAdminManagementScopeAction();
+  const { canCreateAdmins } = await getAdminManagementScopeAction();
 
-  if (!canManageAdmins) {
+  if (!canCreateAdmins) {
     redirect("/admin");
   }
 

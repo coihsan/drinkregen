@@ -1,3 +1,5 @@
+"use client"
+
 import { useSidebar } from "@workspace/ui/components/sidebar";
 import { useTheme } from "next-themes";
 import Image from "next/image";
@@ -13,7 +15,7 @@ const LogoRegen = ({ width, height }: LogoRegenProps) => {
   const isDark = resolvedTheme === "dark";
 
   return (
-    <>
+    <div>
       {open ? (
         isDark ? (
           <Image
@@ -41,7 +43,7 @@ const LogoRegen = ({ width, height }: LogoRegenProps) => {
           alt="logo regen"
         />
       )}
-    </>
+    </div>
   );
 };
 export default LogoRegen;

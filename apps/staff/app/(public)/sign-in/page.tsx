@@ -1,36 +1,40 @@
 "use client";
 
 import LoginForm from "@/components/login-form";
+import { useTheme } from "next-themes";
 import Image from "next/image";
 
 const SignInPage = () => {
+  const { resolvedTheme } = useTheme();
+  const isDark = resolvedTheme === "dark";
+  const height = 40;
+  const width = 200;
 
   return (
-    <main>
-      <div className="grid min-h-svh lg:grid-cols-2">
-        <div className="flex flex-col gap-4 p-6 md:p-10">
-          <div className="flex justify-center gap-2 md:justify-start">
-            <a href="#" className="flex items-center gap-2 font-medium">
-              <Image src={'/regen.webp'} width={100} height={30} alt="regen logo" />
-            </a>
+    <div className="flex min-h-svh flex-col items-center justify-center gap-6 bg-muted p-6 md:p-10">
+      <div className="flex w-full max-w-sm flex-col gap-6">
+        <a href="#" className="flex items-center gap-2 self-center font-medium">
+          <div>
+            {isDark ? (
+              <Image
+                src={"/regen-logo.webp"}
+                width={width}
+                height={height}
+                alt="logo regen"
+              />
+            ) : (
+              <Image
+                src={"/regen-dark.webp"}
+                width={width}
+                height={height}
+                alt="logo regen"
+              />
+            )}
           </div>
-          <div className="flex flex-1 items-center justify-center">
-            <div className="w-full max-w-xs">
-              <LoginForm />
-            </div>
-          </div>
-        </div>
-        <div className="relative hidden bg-muted lg:block">
-          <Image
-            width={400}
-            height={600}
-            src="/placeholder.svg"
-            alt="Image"
-            className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
-          />
-        </div>
+        </a>
+        <LoginForm />
       </div>
-    </main>
+    </div>
   );
-}
+};
 export default SignInPage;

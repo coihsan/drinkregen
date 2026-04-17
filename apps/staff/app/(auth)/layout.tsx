@@ -1,5 +1,5 @@
-import type { Metadata } from "next";
 import "../globals.css";
+import type { Metadata } from "next";
 import {
   SidebarInset,
   SidebarProvider,
@@ -34,7 +34,7 @@ export default function RootLayout({
         <SidebarInset>
           <SiteHeader className="sticky top-0 z-50 w-full overflow-hidden" />
           <ScrollArea>
-            <div className="flex-1 p-6">{children}</div>
+            <div className="flex-1 p-6 bg-muted dark:bg-background">{children}</div>
           </ScrollArea>
         </SidebarInset>
         <Toaster position="top-center" />

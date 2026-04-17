@@ -7,6 +7,11 @@ import { Button } from "@workspace/ui/components/button";
 import { AdminStaffItem } from "@/action/admin.action";
 import AdminActionDialogs from "./admin-action-dialogs";
 
+const roleLabelMap: Record<AdminStaffItem["adminRole"], string> = {
+  admin: "Admin",
+  superadmin: "Super Admin",
+};
+
 const SortButton = ({
   label,
   onClick,
@@ -60,6 +65,20 @@ export const getAdminColumns = (
     ),
   },
     {
+    accessorKey: "adminRole",
+    header: ({ column }) => (
+      <SortButton
+        label="Role"
+        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+      />
+    ),
+    cell: ({ row }) => (
+      <Badge variant={row.original.adminRole === "superadmin" ? "secondary" : "outline"}>
+        {roleLabelMap[row.original.adminRole]}
+      </Badge>
+    ),
+  },
+    {
     accessorKey: "position",
     header: ({ column }) => (
       <SortButton
@@ -86,7 +105,7 @@ export const getAdminColumns = (
           {row.original.activeStatus ? "Active" : "Inactive"}
         </Badge>
         {row.original.isProtected ? (
-          <Badge variant="secondary">Protected</Badge>
+          <Badge variant="secondary">🔒</Badge>
         ) : null}
       </div>
     ),
@@ -98,7 +117,12 @@ export const getAdminColumns = (
       id: "actions",
       header: "Actions",
       enableSorting: false,
-      cell: ({ row }) => <AdminActionDialogs admin={row.original} />,
+      cell: ({ row }) =>
+        row.original.canEditLogin ||
+        row.original.canResetPassword ||
+        row.original.canDemote ? (
+          <AdminActionDialogs admin={row.original} />
+        ) : null,
     });
   }
 

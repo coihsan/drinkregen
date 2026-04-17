@@ -18,56 +18,30 @@ import { useTheme } from "next-themes";
 import LogoRegen from "./logo-regen";
 
 const AppSidebar = ({ ...props }: React.ComponentProps<typeof Sidebar>) => {
-  const {
-    open,
-  } = useSidebar();
+  const { open } = useSidebar();
   const { data: session, isPending } = useSession();
   const user = session?.user;
-  const { resolvedTheme } = useTheme()
+  const { resolvedTheme } = useTheme();
   const isDark = resolvedTheme === "dark";
 
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
         <div className="w-full flex items-center justify-center h-[40px]">
-          <LogoRegen width={100} height={10} />
-          {/* {open ? (
-            isDark ? <Image
-            suppressHydrationWarning
-              loading="eager"
-              src="/regen.webp"
-              alt="Logo Regen"
-              width={110}
-              height={32}
-            /> : <Image
-              loading="eager"
-              src="/regen-dark.webp"
-              alt="Logo Regen"
-              width={110}
-              height={32}
-            />
-          ) : (
-            <Image
-              loading="eager"
-              src="/favicon.png"
-              alt="Logo Regen"
-              width={110}
-              height={32}
-            />
-          )} */}
+          <LogoRegen width={150} height={10} />
         </div>
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={SidebarItems} />
       </SidebarContent>
       <SidebarFooter>
-        {isPending && <UserProfile
+        <UserProfile
           userData={{
             name: user?.name || "Regen Staff",
             email: user?.email || "regen@example.com",
             avatar: user?.image || "/maskot.webp",
           }}
-        />}
+        />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

@@ -28,7 +28,7 @@ const StaffCard = ({ staff }: StaffCardProps) => {
   return (
     <Card
       size="default"
-      className={`bg-muted-foreground/3 ${staff.activeStatus === true && "grayscale"}}`}
+      className={`bg-background shadow-md ${staff.activeStatus === true && "grayscale"}}`}
     >
       <CardHeader className="flex items-center justify-between gap-2">
         <div>
@@ -53,11 +53,11 @@ const StaffCard = ({ staff }: StaffCardProps) => {
           </Avatar>
           <div className="flex flex-col items-center">
             <h1 className="text-xl text-center font-bold">{data.name}</h1>
-            <h3 className="text-md text-center font-semibold">
+            <h3 className="text-md text-center font-semibold text-secondary">
               {data.position} at {data.division?.name || "N/A"}
             </h3>
             <Badge
-              className="text-[11px] text-muted-foreground"
+              className="text-[11px] text-muted-foreground mt-2"
               variant={"outline"}
             >
               RGN-{data.staffId}

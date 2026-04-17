@@ -58,7 +58,7 @@ const StaffDetail = ({ staff }: StaffDetailProps) => {
         <Separator orientation="horizontal" />
         <div className="p-4 space-y-4">
           <div>
-            <h2 className="font-semibold text-lg">{data.name}</h2>
+            <h2 className="font-bold text-2xl">{data.name}</h2>
             <h3>
               {data.position} at {data.division?.name}
             </h3>

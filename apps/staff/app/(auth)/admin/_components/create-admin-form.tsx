@@ -25,16 +25,12 @@ import { createAdminSchema } from "@/lib/schema/admin.schema";
 import { createAdminFromStaffAction } from "@/action/admin.action";
 import { useRouter } from "next/navigation";
 import PasswordRequirement from "@/components/primitive/password-requirement";
+import { z } from "zod";
 
-type CreateAdminValues = {
-  staffId: string;
-  email: string;
-  password: string;
-};
+type CreateAdminValues = z.infer<typeof createAdminSchema>;
 
 const CreateAdminForm = () => {
   const { staffs, isLoading } = useStaff();
-  const { register } = useForm()
   const route = useRouter();
   const [isPending, startTransition] = useTransition();
 
@@ -50,6 +46,7 @@ const CreateAdminForm = () => {
       staffId: "",
       email: "",
       password: "",
+      role: "admin",
     },
   });
 
@@ -90,6 +87,10 @@ const CreateAdminForm = () => {
             <FieldDescription>
               Only staff members who do not have an admin account yet will
               appear in the list.
+            </FieldDescription>
+            <FieldDescription>
+              Super Admin can decide whether the selected staff account should
+              become an `Admin` or `Super Admin`.
             </FieldDescription>
           </FieldSet>
           <Controller
@@ -155,6 +156,27 @@ const CreateAdminForm = () => {
           ) : null}
           <Controller
             control={form.control}
+            name="role"
+            render={({ field }) => (
+              <Field>
+                <FieldLabel>Role</FieldLabel>
+                <NativeSelect
+                  className="w-full background"
+                  disabled={isPending}
+                  value={field.value}
+                  onChange={(event) => field.onChange(event.target.value)}
+                >
+                  <NativeSelectOption value="admin">Admin</NativeSelectOption>
+                  <NativeSelectOption value="superadmin">
+                    Super Admin
+                  </NativeSelectOption>
+                </NativeSelect>
+                <FieldError>{form.formState.errors.role?.message}</FieldError>
+              </Field>
+            )}
+          />
+          <Controller
+            control={form.control}
             name="email"
             render={({ field }) => (
               <Field>
@@ -178,12 +200,12 @@ const CreateAdminForm = () => {
               <Field>
                 <FieldLabel>Password</FieldLabel>
                 <PasswordRequirement 
-                label="Buat Password Baru"
-                {...register("password", { required: true })}
-                onChange={(e) => {
-                  field.onChange(e)
-                }}
-                placeholder="Masukkan password yang kuat..."
+                  label="Buat Password Baru"
+                  value={field.value}
+                  onChange={field.onChange}
+                  onBlur={field.onBlur}
+                  name={field.name}
+                  placeholder="Masukkan password yang kuat..."
                 />
                 <FieldError>
                   {form.formState.errors.password?.message}
