@@ -22,7 +22,7 @@ interface DataTableProps<T> {
 
 export function DataTable<T>({ data, columns }: DataTableProps<T>) {
   return (
-    <div className="text-card-foreground overflow-hidden rounded-2xl border">
+    <div className="text-card-foreground bg-background overflow-hidden rounded-2xl border">
       <Table>
         <TableHeader className="bg-muted/50 py-9">
           <TableRow className="hover:bg-transparent">

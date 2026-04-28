@@ -60,7 +60,7 @@ const StaffManagementPage = () => {
 
   return (
     <ViewTransition default={"none"} enter="slide-up" exit="slide-down">
-      <div className="relative">
+      <div className="relative overflow-x-scroll bg-background p-6 rounded-xl">
         <SubHeader
           title={`${greetingBasedOnTime()}, ${user?.user.name || "User"}!`}
         >

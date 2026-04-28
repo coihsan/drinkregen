@@ -1,8 +1,11 @@
 import { SiteLink } from "@/lib/const";
 import NavItem from "./nav-item";
 import LogoRegen from "../global/logo";
+import { Button } from "@workspace/ui/components/button";
+import { Menu } from "lucide-react";
 
 const SiteHeader = () => {
+  
   return (
     <div className="sticky top-0 left-0 mx-auto w-full z-100">
       <header className="flex items-center justify-between py-6 px-5">
@@ -15,7 +18,7 @@ const SiteHeader = () => {
           ))}
         </nav>
         <div>
-          <LogoRegen isLink width={140} height={20} />
+          <Button className="scale-120" variant={'default'} size={'lg'}><Menu /></Button>
         </div>
       </header>
     </div>

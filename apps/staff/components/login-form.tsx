@@ -10,7 +10,7 @@ import {
   CardContent,
   CardDescription,
   CardHeader,
-  CardTitle,pn
+  CardTitle,
 } from "@workspace/ui/components/card";
 import {
   Field,
@@ -35,7 +35,7 @@ const LoginForm = () => {
   const [isVisible, setIsVisible] = useState(false);
 
   const form = useForm<LoginFormValues>({
-    resolver: zodResolver(LoginSchema),
+    resolver: zodResolver(LoginSchema as any),
     defaultValues: {
       email: "",
       password: "",

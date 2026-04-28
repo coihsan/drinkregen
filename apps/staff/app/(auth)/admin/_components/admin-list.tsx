@@ -99,7 +99,7 @@ const AdminList = () => {
 
   return (
     <>
-      <section className="space-y-4 rounded-2xl border bg-background p-6 overflow-x-auto sm:overflow-x-hidden">
+      <section className="space-y-4 rounded-2xl border bg-background p-6">
         <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
           <div>
             <h2 className="text-lg font-semibold">Admin Staff</h2>

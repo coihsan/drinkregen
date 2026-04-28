@@ -32,7 +32,7 @@ export default function RootLayout({
       <AppSidebar className="flex-0" variant="inset" />
       <main className="flex min-h-screen w-full flex-col">
         <SidebarInset>
-          <SiteHeader className="sticky top-0 z-50 w-full overflow-hidden" />
+          <SiteHeader className="sticky top-0 z-50 w-full" />
           <ScrollArea>
             <div className="flex-1 p-6 bg-muted dark:bg-background">{children}</div>
           </ScrollArea>

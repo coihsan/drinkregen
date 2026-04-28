@@ -1,7 +1,7 @@
 "use client";
 
 import { type ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown } from "lucide-react";
+import { ArrowUpDown, Ellipsis, EllipsisVertical } from "lucide-react";
 import { Badge } from "@workspace/ui/components/badge";
 import { Button } from "@workspace/ui/components/button";
 import { AdminStaffItem } from "@/action/admin.action";
@@ -104,9 +104,9 @@ export const getAdminColumns = (
         <Badge variant={row.original.activeStatus ? "active" : "inactive"}>
           {row.original.activeStatus ? "Active" : "Inactive"}
         </Badge>
-        {row.original.isProtected ? (
+        {/* {row.original.isProtected ? (
           <Badge variant="secondary">🔒</Badge>
-        ) : null}
+        ) : null} */}
       </div>
     ),
   },
@@ -122,7 +122,7 @@ export const getAdminColumns = (
         row.original.canResetPassword ||
         row.original.canDemote ? (
           <AdminActionDialogs admin={row.original} />
-        ) : null,
+        ) : (<Button className="disabled:pointer-events-none enabled:hover:bg-blue-600 cursor-not-allowed" disabled aria-disabled variant="outline"><Ellipsis /></Button>),
     });
   }
 

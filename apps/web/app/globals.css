@@ -1,6 +1,1 @@
-@import "tailwindcss";
-
-
-html, body{
-    background-color: white;
-}
+@import "@workspace/ui/globals.css";

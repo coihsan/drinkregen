@@ -1,31 +1,22 @@
-import type { MetadataRoute } from 'next'
+// import type { MetadataRoute } from 'next'
+// import { BASE_URL } from '@/lib/const'
  
-export default function sitemap(): MetadataRoute.Sitemap {
-  return [
-    {
-      url: 'https://acme.com',
-      lastModified: new Date(),
-      changeFrequency: 'yearly',
-      priority: 1,
-      videos: [
-        {
-          title: 'example',
-          thumbnail_loc: 'https://example.com/image.jpg',
-          description: 'this is the description',
-        },
-      ],
-    },
-    {
-      url: 'https://acme.com/about',
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.8,
-    },
-    {
-      url: 'https://acme.com/blog',
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 0.5,
-    },
-  ]
-}
+// export async function generateSitemaps() {
+//   return [{ id: 0 }, { id: 1 }, { id: 2 }, { id: 3 }]
+// }
+ 
+// export default async function sitemap(props: {
+//   id: Promise<string>
+// }): Promise<MetadataRoute.Sitemap> {
+//   const id = await props.id
+//   // Google's limit is 50,000 URLs per sitemap
+//   const start = id * 50000
+//   const end = start + 50000
+//   const products = await getProducts(
+//     `SELECT id, date FROM products WHERE id BETWEEN ${start} AND ${end}`
+//   )
+//   return products.map((product) => ({
+//     url: `${BASE_URL}/product/${product.id}`,
+//     lastModified: product.date,
+//   }))
+// }

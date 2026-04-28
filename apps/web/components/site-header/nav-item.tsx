@@ -14,7 +14,7 @@ const NavItem = ({ url, title }: NavMainProps) => {
   return (
     <Link
       href={url}
-      className={`${pathname === url ? "text-lime-600" : "text-primary"} relative`}
+      className={`${pathname === url ? "text-lime-600" : "text-primary"} relative font-semibold uppercase`}
     >
       {title}
     </Link>
