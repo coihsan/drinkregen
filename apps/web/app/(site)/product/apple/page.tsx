@@ -1,8 +1,8 @@
 import { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: 'Regen Orang - High Vitamin C',
-  description: 'Tempat belajar Next.js App Router terlengkap di Indonesia.',
+  title: 'Regen Apple - Immune Support',
+  description: 'Bebas Gula, Manis Alami, Stevia dan Tanpa bahan pengawet.',
   keywords: ['Regen Asli Nol Kalori', 'Bebas Gula', 'Manis Alami', 'Stevia'],
   authors: [{ name: 'Regen' }],
   robots: {
@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 const ApplePage = () => {
     return (
         <div>
-            Apple Page
+          <h1>Apple Page</h1>
         </div>
     )
 }

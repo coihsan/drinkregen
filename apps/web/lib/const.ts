@@ -35,3 +35,30 @@ export const socialLink = [
     {url: "#", icon: BrandTiktok, label: "TikTok",  title: "@drinkregenid", bgColor: "bg-black"},
     {url: "#", icon: BrandYoutube, label: "Youtube",  title: "@drinkregenid", bgColor: "bg-red-600"}
 ]
+
+export const HeroContent = [
+    {
+        desktopImageUrl: "/img-1.png",
+        tabletImageUrl: "/img-1-tablet.png",
+        mobileImageUrl: "/img-1-mobile.png",
+        alt: "Regen hero banner 1"
+    },
+    {
+        desktopImageUrl: "/img-2.png",
+        tabletImageUrl: "/img-2-tablet.png",
+        mobileImageUrl: "/img-2-mobile.png",
+        alt: "Regen hero banner 2"
+    },
+    {
+        desktopImageUrl: "/img-3.png",
+        tabletImageUrl: "/img-3-tablet.png",
+        mobileImageUrl: "/img-3-mobile.png",
+        alt: "Regen hero banner 3"
+    },
+]
+
+export const contactInfo = {
+    email: "info@drinkregen.id",
+    phone: "+62 812 3456 7890",
+    address: "Jl. Raya Bogor No. 123, Jakarta"
+};

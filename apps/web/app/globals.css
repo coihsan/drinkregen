@@ -1,1 +1,11 @@
 @import "@workspace/ui/globals.css";
+
+@keyframes hero-progress {
+  from {
+    transform: scaleX(0);
+  }
+
+  to {
+    transform: scaleX(1);
+  }
+}

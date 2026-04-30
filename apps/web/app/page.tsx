@@ -1,8 +1,12 @@
+import HeroSection from "@/components/hero";
+import { HeroContent } from "@/lib/const";
 import { ViewTransition } from "react";
+
 export default function Page() {
   return (
     <ViewTransition>
-      <div className="px-9">
+      <div>
+        <HeroSection slides={HeroContent} />
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent ut
         dolor nulla. Nulla vulputate euismod semper. Quisque non dictum nibh,
         sed aliquam sapien. Donec venenatis eros vehicula leo tincidunt,

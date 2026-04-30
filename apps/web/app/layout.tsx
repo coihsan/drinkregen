@@ -32,7 +32,8 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <Script
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        {/* <Script
           src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}
           strategy="afterInteractive"
         />
@@ -44,11 +45,9 @@ export default function RootLayout({
 
             gtag('config', ${gaId});
           `}
-        </Script>
+        </Script> */}
       </head>
-      <body
-        className={`${fontSans.variable} ${fontMono.variable} font-sans antialiased `}
-      >
+      <body className={`${fontSans.variable} ${fontMono.variable} font-sans antialiased `}>
         <TooltipProvider>
           <WebVitals />
           <main>

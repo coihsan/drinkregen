@@ -1,8 +1,8 @@
 import { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: 'Regen Orang - High Vitamin C',
-  description: 'Tempat belajar Next.js App Router terlengkap di Indonesia.',
+  title: 'Regen Orange - High Vitamin C',
+  description: 'Bebas Gula, Manis Alami, Stevia dan Tanpa bahan pengawet.',
   keywords: ['Regen Asli Nol Kalori', 'Bebas Gula', 'Manis Alami', 'Stevia'],
   authors: [{ name: 'Regen' }],
   robots: {

@@ -1,21 +1,30 @@
-import { Metadata } from "next"
+import BannerHeader from "@/components/global/banner-header";
+import { Metadata } from "next";
+import { ViewTransition } from "react";
 
 export const metadata: Metadata = {
-  title: 'Tentang Regen',
-  description: 'Tempat belajar Next.js App Router terlengkap di Indonesia.',
-  keywords: ['Regen Asli Nol Kalori', 'Bebas Gula', 'Manis Alami', 'Stevia'],
-  authors: [{ name: 'Regen' }],
+  title: "Tentang Regen",
+  description: 'Bebas Gula, Manis Alami, Stevia dan Tanpa bahan pengawet.',
+  keywords: ["Regen Asli Nol Kalori", "Bebas Gula", "Manis Alami", "Stevia", "Glikosida Steviol", "Regen Komposisi", "PT Global Enak Nikmat"],
+  authors: [{ name: "Regen" }],
   robots: {
     index: true,
     follow: true,
   },
-}
+};
 
 const ProductPage = () => {
-    return (
-        <div className="text-2xl w-full h-full flex items-center justify-center mx-auto">
-            Product Page
+  return (
+    <ViewTransition share={"auto"}>
+      <div className="w-full h-full mx-auto">
+        <BannerHeader
+          content={[{ desktopImageUrl: "/img-3.png", alt: "Banner product regen" }]}
+        />
+        <div className="p-6">
+          <h1>Product Page</h1>
         </div>
-    )
-}
-export default ProductPage
+      </div>
+    </ViewTransition>
+  );
+};
+export default ProductPage;

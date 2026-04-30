@@ -1,3 +1,4 @@
+import BannerHeader from '@/components/global/banner-header'
 import { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -13,8 +14,17 @@ export const metadata: Metadata = {
 
 const TentangKami = () => {
     return (
-        <div className="text-2xl w-full h-full flex items-center justify-center mx-auto">
-            Tentang Kami
+        <div className="text-2xl w-full h-full">
+          <BannerHeader content={[{
+            desktopImageUrl: "/img-3.png",
+            tabletImageUrl: "/img-3.png",
+            mobileImageUrl: "/img-3.png",
+            alt: "Hero Slide 1",
+            arialLabel: "Banner header tentang kami"
+          }]} />
+            <div className=''>
+              Tentang Kami
+            </div>
         </div>
     )
 }

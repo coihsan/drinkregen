@@ -1,8 +1,9 @@
+import BannerHeader from "@/components/global/banner-header"
 import { Metadata } from "next"
 
 export const metadata: Metadata = {
-  title: 'Regen Orang - High Vitamin C',
-  description: 'Tempat belajar Next.js App Router terlengkap di Indonesia.',
+  title: 'Regen Lemon Lime - Mood Booster',
+  description: 'Bebas Gula, Manis Alami, Stevia dan Tanpa bahan pengawet.',
   keywords: ['Regen Asli Nol Kalori', 'Bebas Gula', 'Manis Alami', 'Stevia'],
   authors: [{ name: 'Regen' }],
   robots: {
@@ -14,7 +15,13 @@ export const metadata: Metadata = {
 const LemonLimePage = () => {
     return (
         <div>
-            LemonLime Page
+            <BannerHeader content={[{
+            desktopImageUrl: "/img-3.png",
+            tabletImageUrl: "/img-3.png",
+            mobileImageUrl: "/img-3.png",
+            alt: "Hero Slide 1",
+            arialLabel: "Banner header tentang kami"
+            }]} />
         </div>
     )
 }

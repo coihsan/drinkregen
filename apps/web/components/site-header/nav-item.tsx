@@ -1,20 +1,18 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 
 interface NavMainProps {
   url: string;
   title: string;
-  
+  className?: string;
 }
 
-const NavItem = ({ url, title }: NavMainProps) => {
-  const pathname = usePathname();
+const NavItem = ({ url, title, className }: NavMainProps) => {
   return (
     <Link
       href={url}
-      className={`${pathname === url ? "text-lime-600" : "text-primary"} relative font-semibold uppercase`}
+      className={`relative font-semibold ${className}`}
     >
       {title}
     </Link>
