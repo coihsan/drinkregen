@@ -17,7 +17,7 @@ const SocialLink = ({className} : SocialLinkPropss) => {
       {socialLink.map((Index, key) => (
         <HoverCard openDelay={100} closeDelay={200} key={key}>
           <HoverCardTrigger asChild> 
-            <Link className="p-3 rounded-lg bg-amber-300 hover:scale-110 hover:-translate-y-2 transition-all" href={Index.url}>
+            <Link className="p-3 rounded-lg flex items-center justify-center bg-amber-300 hover:scale-110 hover:-translate-y-2 transition-all" href={Index.url}>
               {(() => {
                 const Icon = Index.icon as any;
                 if (typeof Icon === "function") return <Icon />;

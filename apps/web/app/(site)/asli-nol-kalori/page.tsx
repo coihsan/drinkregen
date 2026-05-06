@@ -1,3 +1,4 @@
+import BannerHeader from "@/components/global/banner-header";
 import { Metadata } from "next";
 import { ViewTransition } from "react";
 
@@ -12,13 +13,17 @@ export const metadata: Metadata = {
   },
 };
 
-const PromosiPage = () => {
+const AsliNolKaloriPage = () => {
   return (
     <ViewTransition share={"auto"}>
-      <div className="text-2xl w-full h-full flex items-center justify-center mx-auto">
-        Promo Page
-      </div>
+      <BannerHeader
+          content={[{ 
+            desktopImageUrl: "/banner-product.webp", 
+            tabletImageUrl: "/banner-product-tablet.webp",
+            mobileImageUrl: "/banner-product-mobile.webp",
+            alt: "Banner product regen" }]}
+        />
     </ViewTransition>
   );
 };
-export default PromosiPage;
+export default AsliNolKaloriPage;

@@ -7,6 +7,8 @@ import type { Metadata } from "next";
 import { WebVitals } from "@/components/web-vitals";
 import Script from "next/script";
 import { TooltipProvider } from "@workspace/ui/components/tooltip";
+import { getLatestInstagramPosts } from "@/lib/instagram";
+import InstagramPostSlider from "@/components/instagram-post-slider";
 
 export const metadata: Metadata = {
   title: "Regen | Asli Nol Kalori",
@@ -23,12 +25,13 @@ const fontMono = Geist_Mono({
   variable: "--font-mono",
 });
 
-export default function RootLayout({
+const RootLayout = async ({
   children,
 }: Readonly<{
   children: React.ReactNode;
-}>) {
+}>) => {
   const gaId = process.env.NEXT_PUBLIC_GA_ID;
+  const instagramPosts = await getLatestInstagramPosts();
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
@@ -53,6 +56,7 @@ export default function RootLayout({
           <main>
             <SiteHeader />
             {children}
+            <InstagramPostSlider posts={instagramPosts} />
             <Footer />
           </main>
         </TooltipProvider>
@@ -60,3 +64,4 @@ export default function RootLayout({
     </html>
   );
 }
+export default RootLayout;

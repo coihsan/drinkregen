@@ -12,20 +12,10 @@ const LogoRegen = ({ width, height, isLink }: LogoRegenProps) => {
     <>
       {isLink ? (
         <Link href={"/"}>
-          <Image
-            src={"/regen.webp"}
-            width={width}
-            height={height}
-            alt="logo regen"
-          />
+          <Image src={"/regen.webp"} width={width} height={height} alt="logo regen" />
         </Link>
       ) : (
-        <Image
-          src={"/regen.webp"}
-          width={width}
-          height={height}
-          alt="logo regen"
-        />
+        <Image src={"/regen.webp"} width={width} height={height} alt="logo regen" />
       )}
     </>
   );

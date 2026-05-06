@@ -18,7 +18,11 @@ const ProductPage = () => {
     <ViewTransition share={"auto"}>
       <div className="w-full h-full mx-auto">
         <BannerHeader
-          content={[{ desktopImageUrl: "/img-3.png", alt: "Banner product regen" }]}
+          content={[{ 
+            desktopImageUrl: "/banner-product.webp", 
+            tabletImageUrl: "/banner-product-tablet.webp",
+            mobileImageUrl: "/banner-product-mobile.webp",
+            alt: "Banner product regen" }]}
         />
         <div className="p-6">
           <h1>Product Page</h1>

@@ -1,13 +1,17 @@
+import BannerBuyRegenContent from "@/components/banner-buy-regen";
 import HeroSection from "@/components/hero";
 import { HeroContent } from "@/lib/const";
 import { ViewTransition } from "react";
 
-export default function Page() {
+export default async function Page() {
+  
+
   return (
     <ViewTransition>
       <div>
         <HeroSection slides={HeroContent} />
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent ut
+        <div className="px-4">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent ut
         dolor nulla. Nulla vulputate euismod semper. Quisque non dictum nibh,
         sed aliquam sapien. Donec venenatis eros vehicula leo tincidunt,
         volutpat varius est viverra. Donec sodales risus vitae eleifend tempor.
@@ -89,6 +93,8 @@ export default function Page() {
         ullamcorper libero. Donec nec magna odio. Sed a diam ac nunc pretium
         euismod id quis arcu. Vestibulum efficitur viverra placerat. Cras
         egestas consectetur tellus, at molestie lectus.
+        </div>
+        <BannerBuyRegenContent />
       </div>
     </ViewTransition>
   );
