@@ -78,9 +78,9 @@ export default ProductDetail300ml;
 
 const NutritionTagListItem = () => {
   return (
-    <ul className="flex flex-warp gap-2 items-center">
+    <ul className="flex flex-wrap gap-2 items-center">
       {NutritionTagList.map((item, key) => (
-        <li key={key} className="flex items-center font-semibold gap-2 px-4 py-2 rounded-full bg-white shadow-md">
+        <li key={key} className="flex items-center justify-center flex-wrap font-semibold gap-2 px-4 py-2 rounded-full bg-white shadow-md w-auto">
           <CheckCheck className="text-green-500" /> {item}
         </li>
       ))}

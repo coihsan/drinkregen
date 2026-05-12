@@ -4,7 +4,7 @@ import SocialLink from "./social-link";
 
 const Footer = () => {
   return (
-    <footer className="w-full bg-[#27C00C] relative overflow-hidden">
+    <footer className="w-full relative bg-[#27C00C] relative overflow-hidden">
       <Image
         src={"/icons/logo-regen-white.svg"}
         alt="footer background"
@@ -19,7 +19,7 @@ const Footer = () => {
             width={250}
             height={109}
             alt="regen logo"
-            className="z-10 pb-5 mx-auto md:mx-0"
+            className="inset-0 z-10 pb-5 mx-auto md:mx-0"
           />
           <p className="text-center text-white md:text-start">
             Jl. K.S. Tubun No.81B, RT.9/RW.5, Slipi, Kec. Palmerah, Kota Jakarta
@@ -30,17 +30,17 @@ const Footer = () => {
           <SocialLink className="w-full pb-4 mx-auto" />
           <QuickLink className="sm:text-center flex-wrap items-center justify-center flex gap-2 text-white" />
         </div>
-      </div>
-      <div className="flex items-center justify-center w-full text-white bg-green-600 py-6 flex-wrap gap-2 z-10">
-        <p>2026 © Copyright Regen. All rights Reserved</p>
-      </div>
       <Image
         src={"/element/pattern.svg"}
         alt="footer background"
         width={1440}
         height={810}
-        className="object-fit z-1 w-full md:object-cover object-center absolute top-0 opacity-20 pointer-events-none"
+        className=" object-fit z-0 w-full md:object-cover object-center absolute top-0 opacity-20 pointer-events-none"
       />
+      </div>
+      <div className="flex items-center justify-center w-full text-white bg-green-600 py-6 flex-wrap gap-2 z-10">
+        <p>2026 © Copyright Regen. All rights Reserved</p>
+      </div>
     </footer>
   );
 };

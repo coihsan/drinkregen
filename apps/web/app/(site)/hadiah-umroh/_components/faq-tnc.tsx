@@ -4,6 +4,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@workspace/ui/components/accordion";
+import Link from "next/link";
 
 const FAQTNC = () => {
   return (
@@ -11,15 +12,15 @@ const FAQTNC = () => {
       type="single"
       collapsible
       defaultValue="tentang-promo"
-      className="max-w-3xl h-auto mx-auto grid gap-4 text-gray-700">
+      className="max-w-4xl h-auto mx-auto grid gap-4 text-gray-700">
       <AccordionItem value="tentang-promo" >
         <AccordionTrigger className="text-green-700 text-lg font-bold">Tentang Promo</AccordionTrigger>
         <AccordionContent className="h-full">
           <ul className="list-disc pl-6">
-            <li>Program undian eksklusif dari REGEN untuk mengajakmu berkesempatan memenangkan <span className="font-bold">hadiah UMROH 2 Orang</span> dan <span className="font-bold">UANG TUNAI JUTAAN RUPIAH</span>.</li>
+            <li>Program undian eksklusif dari REGEN untuk mengajakmu berkesempatan memenangkan <span className="font-bold">Hadiah UMROH 2 Orang</span> dan <span className="font-bold">UANG TUNAI JUTAAN RUPIAH</span>.</li>
             <li>Program ini bersifat hadiah langsung tanpa diundi. Jika Anda menemukan kode unik di balik tutup botol kemasan khusus, Anda otomatis berhak mengklaim hadiah yang ditentukan berdasarkan kode uniknya. Peserta tidak dapat menukar atau memilih jenis hadiah lain.</li>
             <li>Periode promosi berlangsung <span className="font-bold">31 Maret s/d 31 Desember 2026</span>.</li>
-            <li><span className="font-semibold">Tidak semua kode unik memiliki hadiah</span>, hanya kode unik tertentu yang memiliki hadiah sesuai dengan kode unik yang sudah ditetapkan pada sistem kami.</li>
+            <li>Sebagai informasi <span className="font-semibold underline">Tidak semua kode unik memiliki hadiah</span>, Hadiah hanya terdapat pada kode tertentu yang sudah diatur di dalam sistem kami.</li>
           </ul>
         </AccordionContent>
       </AccordionItem>
@@ -30,7 +31,7 @@ const FAQTNC = () => {
             <ol className="list-decimal pl-6">
                 <li>Beli produk REGEN 300ml bertanda khusus.</li>
                 <li>Temukan Kode Unik berhadiah di balik tutup botol.</li>
-                <li>Pindai (scan) QR Code pada kemasan untuk masuk ke microsite.</li>
+                <li>Pindai (scan) QR Code pada kemasan untuk masuk ke microsite yang terdapat pada situs ini <Link className="hover:underline transition-all" href={'https://regen.satu.app/'} target="_blank" aria-label="regen-satu-app">regen.satu.app</Link>.</li>
                 <li>Ikuti langkah-langkah dengan melengkapi dokumen terkait saat proses klaim kode unik.</li>
                 <li>Jika klaim anda berhasil, mohon simpan kemasan dan tutup botol yang memuat kode unik untuk verifikasi klaim hadiah lebih lanjut.</li>
                 <li>Jika klaim Anda gagal karena kendala sistem, Anda dapat mencoba kembali menggunakan kode yang sama selama periode klaim masih berlaku.</li>

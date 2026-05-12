@@ -21,13 +21,13 @@ export const metadata: Metadata = {
 
 const fontSans = Barlow({
   subsets: ["latin"],
-  weight: ['400', '700'],
+  weight: ['100', '200', '300' ,'400', '500', '600', '700', '800', '900'],
   variable: "--font-sans",
 });
 
 const fontMono = Barlow_Condensed({
   subsets: ["latin"],
-  weight: ['400', '700'],
+  weight: ['100', '200', '300' ,'400', '500', '600', '700', '800', '900'],
   variable: "--variable",
 });
 
