@@ -1,33 +1,122 @@
-import BannerBuyRegenContent from "@/components/banner-buy-regen";
+import BannerBuyRegenContent from "@/components/global/banner-buy-regen";
 import BannerHeader from "@/components/global/banner-header";
-import { ViewTransition } from "react"
+import BannerVideo from "@/components/global/banner-video";
+import ProductItem300ml from "./_components/300ml-product-item";
+import * as motion from "motion/react-client";
+import type { Variants } from "motion/react";
+import TextHighLight from "@/components/global/text-highlight";
+import TextStyleHeadline from "@/components/global/text-style-headline";
+import RevealEffect from "@/components/global/reveal-effect";
+import { ItemProduct300ml } from "@/lib/product";
+import Ellipse from "@/components/design/element/ellipse";
+import BGDot from "@/components/design/background/bg-dot";
 
 const Regen300mlPage = () => {
-    return (
-        <ViewTransition>
-            <BannerHeader
-                content={[{ 
-                    desktopImageUrl: "/banner-product.webp", 
-                    tabletImageUrl: "/banner-product-tablet.webp",
-                    mobileImageUrl: "/banner-product-mobile.webp",
-                    alt: "Banner product regen" 
-                    }]}>
-            </BannerHeader>
-            <div className="px-4 py-12 h-full">
-                <h1 className="text-3xl font-bold mb-4">Regen 300ml</h1>
-                <p className="text-lg mb-8">Regen 300ml adalah varian terbaru dari produk Regen yang hadir dengan kemasan praktis dan ukuran yang pas untuk kebutuhan harian Anda. Dengan rasa yang tetap lezat dan manis alami, Regen 300ml cocok untuk menemani aktivitas Anda kapan saja dan di mana saja.</p>
-                <h2 className="text-2xl font-semibold mb-4">Keunggulan Regen 300ml</h2>
-                <ul className="list-disc pl-6 mb-8">
-                    <li>Ukuran Praktis: Dengan kemasan 300ml, Anda dapat dengan mudah membawa Regen ke mana pun Anda pergi, baik itu ke kantor, sekolah, atau saat berolahraga.</li>
-                    <li>Rasa Tetap Lezat: Meskipun dalam ukuran yang lebih kecil, Regen 300ml tetap mempertahankan rasa manis alami yang menjadi ciri khas produk Regen.</li>
-                    <li>Manis Alami: Seperti varian lainnya, Regen 300ml menggunakan pemanis alami dari stevia, sehingga memberikan kenikmatan tanpa kalori tambahan.</li>
-                    <li>Cocok untuk Segala Aktivitas: Dengan ukuran yang pas, Regen 300ml adalah pilihan ideal untuk menemani berbagai aktivitas Anda sepanjang hari.</li>
-                </ul>
-                <h2 className="text-2xl font-semibold mb-4">Dapatkan Regen 300ml Sekarang!</h2>
-                <p className="text-lg mb-8">Jangan lewatkan kesempatan untuk mencoba kelezatan dan kesegaran Regen 300ml. Dapatkan produk ini di toko online favorit Anda atau di gerai-gerai terdekat. Nikmati setiap tegukan Regen 300ml yang menyegarkan dan bebas gula, kapan saja dan di mana saja!</p>
-            </div>
-            <BannerBuyRegenContent /> 
-        </ViewTransition>
-    )
-}
+  const containerVariants: Variants = {
+    offscreen: { opacity: 0 },
+    onscreen: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.3,
+      },
+    },
+  };
+
+  const textVariants: Variants = {
+    offscreen: {
+      opacity: 0,
+      y: 20,
+    },
+    onscreen: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.8,
+        ease: "easeOut",
+      },
+    },
+  };
+
+  const sentence =
+    "Regen yang hadir dengan kemasan praktis dan ukuran yang pas untuk kebutuhan harian Anda.";
+  const words = sentence.split(" ");
+  return (
+    <main>
+      <BannerHeader
+        content={[
+          {
+            type: "image",
+            desktopImageUrl: "/img-3.png",
+            tabletImageUrl: "/img-3-tablet.png",
+            mobileImageUrl: "/img-3-mobile.png",
+            alt: "Banner product regen",
+          },
+        ]}
+      />
+      <div className="h-full">
+        <div className="min-h-[500px] md:min-h-[700px] bg-green-50 flex-col flex flex-row items-center justify-center relative">
+          <motion.div
+            variants={containerVariants}
+            initial="offscreen"
+            whileInView="onscreen"
+            viewport={{ once: true, amount: 0.5 }}
+            className="max-w-[1000px] mx-auto text-center relative"
+          >
+            <motion.h1
+              variants={textVariants}
+              className="text-lg font-bold mb-4"
+            >
+              <TextHighLight text="Regen 300ml" />
+            </motion.h1>
+
+            <motion.p className="text-2xl md:text-4xl lg:text-6xl px-6 md:px-12 lg:px-0 text-muted-foreground">
+              {words.map((word, i) => (
+                <motion.span
+                  key={i}
+                  variants={textVariants}
+                  className="inline-block mr-2"
+                >
+                  {word}
+                </motion.span>
+              ))}
+              <motion.span
+                variants={textVariants}
+                className="font-bold text-green-500"
+              >
+                Regen 300ml cocok untuk menemani aktivitas Anda kapan saja dan
+                di mana saja.
+              </motion.span>
+            </motion.p>
+          </motion.div>
+        </div>
+        <div className="container">
+          <RevealEffect>
+            <BannerVideo
+              isRounded
+              source="/videos/tirta-lychee-peach.mp4"
+              type="video/mp4"
+            />
+          </RevealEffect>
+          <div className="py-12 md:py-24">
+            {ItemProduct300ml.map((item, key) => (
+              <ProductItem300ml
+              bgColor={item.bgColor}
+                key={key}
+                titleColor={item.titleColor}
+                productName={item.name}
+                description={item.description}
+                sourceImage={item.imageUrl}
+                productUSP={item.usp}
+                urlProduct={item.url}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+      <BGDot />
+      <BannerBuyRegenContent />
+    </main>
+  );
+};
 export default Regen300mlPage;

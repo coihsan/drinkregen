@@ -1,6 +1,5 @@
 import BannerHeader from "@/components/global/banner-header";
 import { Metadata } from "next";
-import { ViewTransition } from "react";
 
 export const metadata: Metadata = {
   title: "Tentang Regen",
@@ -15,10 +14,11 @@ export const metadata: Metadata = {
 
 const ProductPage = () => {
   return (
-    <ViewTransition share={"auto"}>
+    <main>
       <div className="w-full h-full mx-auto">
         <BannerHeader
           content={[{ 
+            type:"image",
             desktopImageUrl: "/banner-product.webp", 
             tabletImageUrl: "/banner-product-tablet.webp",
             mobileImageUrl: "/banner-product-mobile.webp",
@@ -28,7 +28,7 @@ const ProductPage = () => {
           <h1>Product Page</h1>
         </div>
       </div>
-    </ViewTransition>
+    </main>
   );
 };
 export default ProductPage;

@@ -4,32 +4,43 @@ import SocialLink from "./social-link";
 
 const Footer = () => {
   return (
-    <footer className="w-full bg-lime-500 relative overflow-hidden">
-      <div className="flex-col md:flex items-start justify-between w-full px-6 py-12 mx-auto z-10">
-        <div>
-          <Image
-            src={"/regen.webp"}
-            width={150}
-            height={109}
-            alt="regen logo"
-            className="z-10"
-          />
-          <p>PT Global Enak Nikmat</p>
-          <SocialLink className="w-full" />
-        </div>
-        <QuickLink className="sm:flex-col sm:text-center flex-wrap flex items-center gap-4" />
-      </div>
+    <footer className="w-full bg-[#27C00C] relative overflow-hidden">
       <Image
         src={"/icons/logo-regen-white.svg"}
         alt="footer background"
         width={1440}
         height={810}
-        className="object-fit z-1 w-full md:object-cover object-center absolute top-0 opacity-20 pointer-events-none"
+        className="object-fit block z-1 w-full md:object-cover object-center opacity-20 pointer-events-none"
       />
-      <div className="flex items-center justify-center w-full text-white bg-green-600 py-6 flex-wrap gap-2">
-        <p>PT Global Enak Nikmat</p>
+      <div className="flex flex-col md:flex-row items-center justify-between w-full px-6 py-12 mx-auto z-50">
+        <div className="w-full md:max-w-sm items-center justify-center">
+          <Image
+            src={"/element/logo-pt-global-enak-nikmat.svg"}
+            width={250}
+            height={109}
+            alt="regen logo"
+            className="z-10 pb-5 mx-auto md:mx-0"
+          />
+          <p className="text-center text-white md:text-start">
+            Jl. K.S. Tubun No.81B, RT.9/RW.5, Slipi, Kec. Palmerah, Kota Jakarta
+            Barat, Daerah Khusus Ibukota Jakarta 11410
+          </p>
+        </div>
+        <div className="flex-col w-full md:max-w-sm pt-12 md:pt-0">
+          <SocialLink className="w-full pb-4 mx-auto" />
+          <QuickLink className="sm:text-center flex-wrap items-center justify-center flex gap-2 text-white" />
+        </div>
+      </div>
+      <div className="flex items-center justify-center w-full text-white bg-green-600 py-6 flex-wrap gap-2 z-10">
         <p>2026 © Copyright Regen. All rights Reserved</p>
       </div>
+      <Image
+        src={"/element/pattern.svg"}
+        alt="footer background"
+        width={1440}
+        height={810}
+        className="object-fit z-1 w-full md:object-cover object-center absolute top-0 opacity-20 pointer-events-none"
+      />
     </footer>
   );
 };

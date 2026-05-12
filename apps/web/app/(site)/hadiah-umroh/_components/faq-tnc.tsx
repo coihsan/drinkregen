@@ -13,7 +13,7 @@ const FAQTNC = () => {
       defaultValue="tentang-promo"
       className="max-w-3xl h-auto mx-auto grid gap-4 text-gray-700">
       <AccordionItem value="tentang-promo" >
-        <AccordionTrigger className="text-green-700 text-lg">Tentang Promo</AccordionTrigger>
+        <AccordionTrigger className="text-green-700 text-lg font-bold">Tentang Promo</AccordionTrigger>
         <AccordionContent className="h-full">
           <ul className="list-disc pl-6">
             <li>Program undian eksklusif dari REGEN untuk mengajakmu berkesempatan memenangkan <span className="font-bold">hadiah UMROH 2 Orang</span> dan <span className="font-bold">UANG TUNAI JUTAAN RUPIAH</span>.</li>
@@ -24,7 +24,7 @@ const FAQTNC = () => {
         </AccordionContent>
       </AccordionItem>
       <AccordionItem value="cara-ikut-promo">
-        <AccordionTrigger className="text-green-700 text-lg">Bagaimana cara bisa mengikuti promo ini?</AccordionTrigger>
+        <AccordionTrigger className="text-green-700 text-lg font-bold">Bagaimana cara bisa mengikuti promo ini?</AccordionTrigger>
         <AccordionContent className="h-full">
             <p>Anda bisa mengikuti program Buka Regen, Buka Rejeki berhadiah jutaan rupiah dengan cara  :</p>
             <ol className="list-decimal pl-6">
@@ -38,7 +38,7 @@ const FAQTNC = () => {
         </AccordionContent>
       </AccordionItem>
       <AccordionItem value="ketentuan-peserta">
-        <AccordionTrigger className="text-green-700 text-lg">Siapa saja yang boleh mengikuti program ini?</AccordionTrigger>
+        <AccordionTrigger className="text-green-700 text-lg font-bold">Siapa saja yang boleh mengikuti program ini?</AccordionTrigger>
         <AccordionContent className="h-full">
             <ul className="list-disc pl-6">
                 <li>Program ini terbuka untuk seluruh Warga Negara Indonesia (WNI)</li>
@@ -53,7 +53,7 @@ const FAQTNC = () => {
         </AccordionContent>
       </AccordionItem>
       <AccordionItem value="syarat-ketentuan">
-        <AccordionTrigger className="text-green-700 text-lg">Syarat dan Ketentuan Lainnya</AccordionTrigger>
+        <AccordionTrigger className="text-green-700 text-lg font-bold">Syarat dan Ketentuan Lainnya</AccordionTrigger>
         <AccordionContent className="h-full">
             <h2 className="text-2xl font-bold">Mengenai Program Regen, Buka Rejeki</h2>
             <p className="uppercase font-semibold text-muted-foreground">Syarat & Ketentuan Program</p>

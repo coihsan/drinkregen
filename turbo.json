@@ -4,7 +4,7 @@
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
-      "inputs": ["$TURBO_DEFAULT$", ".env*"],
+      "inputs": ["$TURBO_DEFAULT$", "$INSTAGRAM_BUSINESS_ACCOUNT_ID$", ".env*"],
       "outputs": [".next/**", "!.next/cache/**"]
     },
     "lint": {

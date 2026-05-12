@@ -9,15 +9,31 @@ import { useEffect, useState } from "react";
 import { useIsMobile } from "@workspace/ui/hooks/use-mobile";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { motion, useScroll, useMotionValueEvent } from "motion/react";
 
 const SiteHeader = () => {
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
   const [hasScrolled, setHasScrolled] = useState(false);
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const pathname = usePathname();
   const mobile = useIsMobile();
+
+  const { scrollY } = useScroll();
+  const [hidden, setHidden] = useState(false);
+
+  useMotionValueEvent(scrollY, "change", (current) => {
+    const previous = scrollY.getPrevious() ?? 0;
+    if (current > previous && current > 150) {
+      setHidden(true);
+    } else {
+      setHidden(false);
+    }
+  });
 
   useEffect(() => {
     const handleScroll = () => {
-      setHasScrolled(window.scrollY > 24);
+      setHasScrolled(window.scrollY > 164);
     };
 
     handleScroll();
@@ -26,16 +42,27 @@ const SiteHeader = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  useEffect(() => {
+    setOpenDropdown(null);
+  }, [pathname]);
+
   return (
     <div className="relative z-[100]">
       <div
-        className={`fixed left-0 top-0 mx-auto w-full transition-all duration-300 ${
-          hasScrolled
-            ? "bg-[#FFD70C] shadow-lg shadow-black/5 backdrop-blur-md"
-            : "bg-transparent"
-        }`}
+        className={`fixed left-0 top-2 mx-auto w-full transition-all duration-300 px-4`}
       >
-        <header className="flex items-center justify-between py-6 px-5">
+        <motion.header
+          className={`flex items-center justify-between py-2 ${mobile ? "px-3" : "px-9"} rounded-full ${
+            hasScrolled
+              ? "bg-white shadow-lg shadow-black/5 backdrop-blur-md"
+              : "bg-transparent"
+          }}`}
+          animate={{
+            y: hidden ? -140 : 0,
+            opacity: hidden ? 0 : 1,
+          }}
+          transition={{ duration: 0.3, ease: "easeInOut" }}
+        >
           <div>
             <LogoRegen
               isLink
@@ -53,7 +80,7 @@ const SiteHeader = () => {
               if (!item.submenu?.length) {
                 return (
                   <Link
-                    className="rounded-lg text-shadow-md px-2.5 py-2 text-base font-semibold text-current transition-colors hover:bg-white/15 focus:bg-white/15 focus:outline-none lg:text-lg"
+                    className="rounded-lg px-2.5 py-2 text-base font-semibold text-current transition-colors hover:bg-white/15 focus:bg-white/15 focus:outline-none lg:text-lg"
                     href={item.url}
                     key={item.title}
                   >
@@ -62,21 +89,47 @@ const SiteHeader = () => {
                 );
               }
 
+              const isDropdownOpen = openDropdown === item.title;
+
               return (
-                <div className="group" key={item.title}>
+                <div
+                  className="group"
+                  key={item.title}
+                  onBlur={(event) => {
+                    if (!event.currentTarget.contains(event.relatedTarget)) {
+                      setOpenDropdown(null);
+                    }
+                  }}
+                  onFocus={() => setOpenDropdown(item.title)}
+                  onMouseEnter={() => setOpenDropdown(item.title)}
+                  onMouseLeave={() => setOpenDropdown(null)}
+                >
                   <Link
                     aria-haspopup="true"
+                    aria-expanded={isDropdownOpen}
                     className="flex items-center gap-1 rounded-lg px-2.5 py-2 text-base font-semibold text-current transition-colors hover:bg-white/15 focus:bg-white/15 focus:outline-none lg:text-lg"
                     href={item.url}
+                    onClick={() => setOpenDropdown(null)}
                   >
                     {item.title}
-                    <ChevronDown className="size-4 transition-transform duration-300 group-hover:rotate-180 group-focus-within:rotate-180" />
+                    <ChevronDown
+                      className={`size-4 transition-transform duration-300 ${
+                        isDropdownOpen ? "rotate-180" : ""
+                      }`}
+                    />
                   </Link>
-                  <div className="invisible fixed left-1/2 top-[88px] z-[130] max-h-[calc(100vh-112px)] w-[min(calc(100vw-2rem),900px)] -translate-x-1/2 translate-y-2 overflow-y-auto rounded-lg bg-white p-4 text-neutral-950 opacity-0 shadow-2xl ring-1 ring-black/10 transition-all duration-200 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100">
+                  <div
+                    className={`fixed left-1/2 top-[88px] z-[130] max-h-[calc(100vh-112px)] w-[min(calc(100vw-2rem),900px)] -translate-x-1/2 overflow-y-auto rounded-lg bg-white p-4 text-neutral-950 shadow-2xl ring-1 ring-black/10 transition-all duration-200 ${
+                      isDropdownOpen
+                        ? "visible translate-y-0 opacity-100"
+                        : "invisible translate-y-2 opacity-0"
+                    }`}
+                  >
                     <div className="grid min-h-[300px] gap-4 lg:grid-cols-[260px_minmax(0,1fr)]">
                       <Link
                         className="group/link flex h-full min-h-36 flex-col items-start justify-between rounded-lg bg-[#FFD70C] p-5 text-neutral-950 transition-colors hover:bg-[#FFD70C]/90 focus:bg-[#FFD70C]/90 focus:outline-none"
                         href={item.url}
+                        onClick={() => setOpenDropdown(null)}
                       >
                         <span>
                           <span className="block text-2xl font-black">
@@ -99,6 +152,7 @@ const SiteHeader = () => {
                             className="group/product flex flex-col h-full items-center gap-4 rounded-lg border border-neutral-200 p-3 transition-colors hover:border-fuchsia-600 hover:bg-neutral-50 focus:border-fuchsia-600 focus:bg-neutral-50 focus:outline-none"
                             href={submenu.url}
                             key={submenu.title}
+                            onClick={() => setOpenDropdown(null)}
                           >
                             <span className="relative flex size-60 shrink-0 overflow-hidden rounded-md">
                               <Image
@@ -111,8 +165,9 @@ const SiteHeader = () => {
                             </span>
                             <span className="min-w-0 text-center">
                               <span className="block text-base font-bold text-neutral-600 group-hover/product:text-fuchsia-600 group-focus-within/product:text-fuchsia-600">
-                                {submenu.description}
+                                {submenu.title}
                               </span>
+                                {submenu.description}
                             </span>
                           </Link>
                         ))}
@@ -134,7 +189,7 @@ const SiteHeader = () => {
               <Menu />
             </Button>
           </div>
-        </header>
+        </motion.header>
       </div>
       <MobileNav
         isOpen={isMobileNavOpen}

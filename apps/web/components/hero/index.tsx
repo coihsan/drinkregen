@@ -3,12 +3,30 @@
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 
-type HeroSlide = {
+type HeroImageSlide = {
+  type?: "image";
+  id?: string;
   desktopImageUrl: string;
   tabletImageUrl?: string;
   mobileImageUrl?: string;
   alt?: string;
 };
+
+type HeroVideoSlide = {
+  type: "video";
+  id?: string;
+  desktopVideoUrl: string;
+  tabletVideoUrl?: string;
+  mobileVideoUrl?: string;
+  videoType?: string;
+  posterImageUrl?: string;
+  posterTabletImageUrl?: string;
+  posterMobileImageUrl?: string;
+  previewImageUrl?: string;
+  alt?: string;
+};
+
+export type HeroSlide = HeroImageSlide | HeroVideoSlide;
 
 interface HeroSectionProps {
   slides: HeroSlide[];
@@ -18,8 +36,141 @@ const swipeThreshold = 60;
 const autoSlideDelay = 5000;
 const slideTransitionDuration = 700;
 
-const getPreviewImage = (slide: HeroSlide) =>
-  slide.mobileImageUrl ?? slide.tabletImageUrl ?? slide.desktopImageUrl;
+const isVideoSlide = (slide: HeroSlide): slide is HeroVideoSlide =>
+  slide.type === "video";
+
+const getSlideKey = (slide: HeroSlide) =>
+  slide.id ??
+  (isVideoSlide(slide) ? slide.desktopVideoUrl : slide.desktopImageUrl);
+
+const getPreviewImage = (slide: HeroSlide) => {
+  if (isVideoSlide(slide)) {
+    return (
+      slide.previewImageUrl ??
+      slide.posterMobileImageUrl ??
+      slide.posterTabletImageUrl ??
+      slide.posterImageUrl
+    );
+  }
+
+  return slide.mobileImageUrl ?? slide.tabletImageUrl ?? slide.desktopImageUrl;
+};
+
+const getPreviewVideo = (slide: HeroVideoSlide) =>
+  slide.mobileVideoUrl ?? slide.tabletVideoUrl ?? slide.desktopVideoUrl;
+
+const HeroMedia = ({
+  isPriority,
+  slide,
+  slideNumber,
+}: {
+  isPriority: boolean;
+  slide: HeroSlide;
+  slideNumber: number;
+}) => {
+  const alt = slide.alt ?? `Hero slide ${slideNumber}`;
+
+  if (isVideoSlide(slide)) {
+    return (
+      <video
+        aria-label={alt}
+        autoPlay
+        className="h-full w-full object-cover"
+        loop
+        muted
+        playsInline
+        poster={
+          slide.posterImageUrl ??
+          slide.posterTabletImageUrl ??
+          slide.posterMobileImageUrl
+        }
+        preload={isPriority ? "auto" : "metadata"}
+      >
+        {slide.mobileVideoUrl ? (
+          <source
+            media="(max-width: 767px)"
+            src={slide.mobileVideoUrl}
+            type={slide.videoType ?? "video/mp4"}
+          />
+        ) : null}
+        {slide.tabletVideoUrl ? (
+          <source
+            media="(max-width: 1023px)"
+            src={slide.tabletVideoUrl}
+            type={slide.videoType ?? "video/mp4"}
+          />
+        ) : null}
+        <source
+          src={slide.desktopVideoUrl}
+          type={slide.videoType ?? "video/mp4"}
+        />
+      </video>
+    );
+  }
+
+  return (
+    <picture>
+      <source
+        media="(max-width: 767px)"
+        srcSet={
+          slide.mobileImageUrl ?? slide.tabletImageUrl ?? slide.desktopImageUrl
+        }
+      />
+      <source
+        media="(max-width: 1023px)"
+        srcSet={slide.tabletImageUrl ?? slide.desktopImageUrl}
+      />
+      <Image
+        loading="eager"
+        alt={alt}
+        className="object-cover"
+        draggable={false}
+        fill
+        priority={isPriority}
+        sizes="100vw"
+        src={slide.desktopImageUrl}
+      />
+    </picture>
+  );
+};
+
+const HeroPreview = ({ slide }: { slide: HeroSlide }) => {
+  const previewImage = getPreviewImage(slide);
+
+  if (previewImage) {
+    return (
+      <Image
+        alt={slide.alt ?? "Next hero slide"}
+        className="object-cover transition duration-500 group-hover:scale-105"
+        draggable={false}
+        fill
+        sizes="96px"
+        src={previewImage}
+      />
+    );
+  }
+
+  if (isVideoSlide(slide)) {
+    return (
+      <video
+        aria-label={slide.alt ?? "Next hero slide"}
+        className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+        autoPlay
+        loop
+        muted
+        playsInline
+        preload="metadata"
+      >
+        <source
+          src={getPreviewVideo(slide)}
+          type={slide.videoType ?? "video/mp4"}
+        />
+      </video>
+    );
+  }
+
+  return null;
+};
 
 const HeroSection = ({ slides }: HeroSectionProps) => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -69,28 +220,31 @@ const HeroSection = ({ slides }: HeroSectionProps) => {
     }, slideTransitionDuration);
   }, []);
 
-  const moveSlide = useCallback((direction: 1 | -1) => {
-    if (slides.length < 2) return;
-    if (resetTimeoutRef.current) return;
+  const moveSlide = useCallback(
+    (direction: 1 | -1) => {
+      if (slides.length < 2) return;
+      if (resetTimeoutRef.current) return;
 
-    const isMovingPastLastSlide =
-      direction === 1 && activeIndex === slides.length - 1;
-    const isMovingBeforeFirstSlide = direction === -1 && activeIndex === 0;
-    const nextActiveIndex =
-      (activeIndex + direction + slides.length) % slides.length;
+      const isMovingPastLastSlide =
+        direction === 1 && activeIndex === slides.length - 1;
+      const isMovingBeforeFirstSlide = direction === -1 && activeIndex === 0;
+      const nextActiveIndex =
+        (activeIndex + direction + slides.length) % slides.length;
 
-    setIsTransitionEnabled(true);
-    setActiveIndex(nextActiveIndex);
-    setTrackIndex((currentIndex) => currentIndex + direction);
+      setIsTransitionEnabled(true);
+      setActiveIndex(nextActiveIndex);
+      setTrackIndex((currentIndex) => currentIndex + direction);
 
-    if (isMovingPastLastSlide) {
-      resetTrackAfterLoop(1);
-    }
+      if (isMovingPastLastSlide) {
+        resetTrackAfterLoop(1);
+      }
 
-    if (isMovingBeforeFirstSlide) {
-      resetTrackAfterLoop(slides.length);
-    }
-  }, [activeIndex, resetTrackAfterLoop, slides.length]);
+      if (isMovingBeforeFirstSlide) {
+        resetTrackAfterLoop(slides.length);
+      }
+    },
+    [activeIndex, resetTrackAfterLoop, slides.length],
+  );
 
   const finishSwipe = (clientX: number) => {
     if (startXRef.current === null) return;
@@ -136,7 +290,7 @@ const HeroSection = ({ slides }: HeroSectionProps) => {
   return (
     <section
       aria-roledescription="carousel"
-      aria-label="Hero image slider"
+      aria-label="Hero media slider"
       className={`relative h-dvh w-full touch-pan-y overflow-hidden bg-black select-none ${
         isDragging ? "cursor-grabbing" : "cursor-grab"
       }`}
@@ -171,39 +325,22 @@ const HeroSection = ({ slides }: HeroSectionProps) => {
             slides.length > 1
               ? (index - 1 + slides.length) % slides.length
               : index;
-          const isFirstRealSlide = slides.length > 1 ? index === 1 : index === 0;
+          const isFirstRealSlide =
+            slides.length > 1 ? index === 1 : index === 0;
 
           return (
             <div
               aria-hidden={activeIndex !== originalIndex}
               className="relative h-full w-full shrink-0"
-              key={`${slide.desktopImageUrl}-${index}`}
+              key={`${getSlideKey(slide)}-${index}`}
             >
-              <picture>
-                <source
-                  media="(max-width: 767px)"
-                  srcSet={
-                    slide.mobileImageUrl ??
-                    slide.tabletImageUrl ??
-                    slide.desktopImageUrl
-                  }
-                />
-                <source
-                  media="(max-width: 1023px)"
-                  srcSet={slide.tabletImageUrl ?? slide.desktopImageUrl}
-                />
-                <Image
-                  loading="eager"
-                  alt={slide.alt ?? `Hero slide ${originalIndex + 1}`}
-                  className="object-cover"
-                  draggable={false}
-                  fill
-                  priority={isFirstRealSlide}
-                  sizes="100vw"
-                  src={slide.desktopImageUrl}
-                />
-              </picture>
-              <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/35" />
+              <HeroMedia
+                isPriority={isFirstRealSlide}
+                slide={slide}
+                slideNumber={originalIndex + 1}
+              />
+              {/* overlay */}
+              {/* <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/35" /> */}
             </div>
           );
         })}
@@ -221,14 +358,7 @@ const HeroSection = ({ slides }: HeroSectionProps) => {
             type="button"
           >
             <span className="relative block aspect-[4/3] w-20 overflow-hidden rounded-2xl bg-white/10 md:w-24">
-              <Image
-                alt={slides[nextIndex]?.alt ?? `Next hero slide ${nextIndex + 1}`}
-                className="object-cover transition duration-500 group-hover:scale-105"
-                draggable={false}
-                fill
-                sizes="96px"
-                src={getPreviewImage(slides[nextIndex]!)}
-              />
+              <HeroPreview slide={slides[nextIndex]!} />
             </span>
             <span className="w-20 md:w-24">
               <span className="mt-3 block h-1 overflow-hidden rounded-full bg-white/25">
@@ -252,7 +382,7 @@ const HeroSection = ({ slides }: HeroSectionProps) => {
                 className={`h-2 rounded-full transition-all ${
                   activeIndex === index ? "w-9 bg-white" : "w-2 bg-white/45"
                 }`}
-                key={`${slide.desktopImageUrl}-indicator`}
+                key={`${getSlideKey(slide)}-indicator`}
                 onClick={() => {
                   goToSlide(index);
                   pauseAutoSlideBriefly();

@@ -10,23 +10,20 @@ interface SocialLinkPropss {
 const SocialLink = ({className} : SocialLinkPropss) => {
   return (
     <div className={className}>
-      <div>
-        <p>Ikuti Kami:</p>
-      </div>
-      <div className="grid grid-cols-4 gap-2 w-full">
+      <div className="grid grid-cols-3 gap-2 justify-center w-full">
       {socialLink.map((Index, key) => (
         <HoverCard openDelay={100} closeDelay={200} key={key}>
           <HoverCardTrigger asChild> 
-            <Link className="p-3 rounded-lg flex items-center justify-center bg-amber-300 hover:scale-110 hover:-translate-y-2 transition-all" href={Index.url}>
+            <Link className="flex items-center justify-center hover:scale-110 hover:-translate-y-2 transition-all" href={Index.url}>
               {(() => {
                 const Icon = Index.icon as any;
                 if (typeof Icon === "function") return <Icon />;
                 if (Icon && typeof Icon === "object" && Icon.src)
                   return (
-                    <Image width={32} height={32} src={Icon.src} alt={Index.label} />
+                    <Image className="text-white" width={60} height={60} src={Icon.src} alt={Index.label} />
                   );
                 return (
-                  <Image width={32} height={32} src={Icon} alt={Index.label} />
+                  <Image className="text-white" width={60} height={60} src={Icon} alt={Index.label} />
                 );
               })()}
             </Link>

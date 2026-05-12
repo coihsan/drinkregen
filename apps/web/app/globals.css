@@ -1,4 +1,19 @@
 @import "@workspace/ui/globals.css";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: HEADOH;
+  font-display: swap;
+  font-style: normal;
+  font-weight: normal;
+  src: url('/fonts/HEADOH.ttf') format('truetype');
+}
+
+.font-headoh{
+  font-family: HEADOH;
+}
 
 @keyframes hero-progress {
   from {
@@ -8,4 +23,48 @@
   to {
     transform: scaleX(1);
   }
+}
+
+body {
+  scroll-behavior: smooth;
+}
+
+@layer utilities{
+  .container{
+    @apply px-4 py-6 md:px-9 md:py-12 mx-auto
+  }
+}
+
+.parallax {
+  overflow: hidden;
+  letter-spacing: -2px;
+  line-height: 0.8;
+  margin: 0;
+  white-space: nowrap;
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+.parallax .scroller {
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 64px;
+  display: flex;
+  white-space: nowrap;
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+.parallax span {
+  display: block;
+  margin-right: 30px;
+}
+
+.scrollBody {
+  width: 100vw;
+  position: fixed;
+  top: 0;
+
+  display: flex;
+  flex-direction: column;
 }
