@@ -1,0 +1,70 @@
+---
+import { Image } from "astro:assets";
+import { StepMendapatkanHadiah } from "@/lib/umroh";
+import BannerHeader from "@/src/components/BannerHeader.tsx";
+import Layout from "@/src/layouts/Layout.astro";
+import FAQTNC from "@/src/components/FAQTNC.tsx";
+
+const metadata = {
+  title: "Regen Berhadiah Umroh & Uang Tunai",
+  description: "Ikuti Program Buka Regen, Buka Rejeki dan menangkan kesempatan umroh berdua serta uang tunai jutaan rupiah dengan membeli Regen di Toko kesayangan Anda",
+  keywords: ["Regen Asli Nol Kalori", "Bebas Gula", "Manis Alami", "Stevia", "Regen code unik", "Regen Berhadiah Umroh", "Regen Berhadiah Uang Tunai"],
+  authors: [{ name: "Regen" }],
+  robots: {
+    index: true,
+    follow: true,
+  },
+};
+
+const bannerContent = [
+  {
+    type: "image" as const,
+    desktopImageUrl: "/banner-umroh-desktop.webp",
+    tabletImageUrl: "/slide-1-tablet.jpg",
+    mobileImageUrl: "/slide-1-mobile.jpg",
+    alt: "Banner product regen",
+  },
+];
+---
+
+<Layout metadata={metadata}>
+  <main>
+    <BannerHeader client:load content={bannerContent} />
+    <div class="container mx-auto">
+      <div class="py-4 min-h-[300px] mb-4 flex flex-col items-center justify-center text-center px-4 bg-white mb-10">
+        <h1 class="font-headoh text-6xl line-none text-pink-500 text-3xl uppercase">Punya Kode Unik?</h1>
+        <h3 class="font-headoh text-4xl pb-5">Cek Kode Unikmu disini</h3>
+        <a 
+          target="_blank" 
+          href="https://regen.satu.app" 
+          class="wrapperButton"
+        >
+          https://regen.satu.app
+        </a>
+      </div>
+
+      <div class="min-h-[500px] flex items-center justify-center mb-20">
+        <div>
+          <h1 class="font-bold text-4xl text-center text-gray-500 mb-8">CARA MENDAPATKAN HADIAH</h1>
+          <div class="flex flex-col md:flex-row items-center justify-stretch gap-2 mx-auto w-full">
+            {StepMendapatkanHadiah.map((item) => (
+              <div class="flex flex-col items-center max-w-[300px]">
+                <Image 
+                  class="size-60 object-cover object-center" 
+                  src={item.sourceImg as any} 
+                  width={300} 
+                  height={300} 
+                  alt="cara mendapatkan hadiah" 
+                />
+                <h2 class="font-bold text-center text-xl text-gray-400 mx-auto w-full lg:max-w-[200px] mt-4">
+                  {item.title}
+                </h2>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+      <FAQTNC client:load />
+    </div>
+  </main>
+</Layout>

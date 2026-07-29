@@ -1,0 +1,24 @@
+'Log files:
+D:\Website\drinkregen\.npm-cache\_logs\2026-07-03T06_31_25_121Z-debug-0.log
+
+# npm resolution error report
+
+While resolving: astro-lenis@1.0.5
+Found: astro@7.0.5
+node_modules/astro
+  astro@"^7.0.5" from the root project
+
+Could not resolve dependency:
+peer astro@"^5.13.8" from astro-lenis@1.0.5
+node_modules/astro-lenis
+  astro-lenis@"^1.0.5" from the root project
+
+Conflicting peer dependency: astro@5.18.2
+node_modules/astro
+  peer astro@"^5.13.8" from astro-lenis@1.0.5
+  node_modules/astro-lenis
+    astro-lenis@"^1.0.5" from the root project
+
+Fix the upstream dependency conflict, or retry
+this command with --force or --legacy-peer-deps
+to accept an incorrect (and potentially broken) dependency resolution.

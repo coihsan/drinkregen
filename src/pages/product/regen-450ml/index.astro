@@ -1,0 +1,49 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import Regen450mlPage from "../../../components/450ml.page.tsx";
+import { PRODUCT450ML_VARIANTS } from "@/lib/product-catalog";
+
+const itemListElement = PRODUCT450ML_VARIANTS.map((variant, index) => {
+  const urlPath = variant.detailUrl; 
+  const absoluteUrl = Astro.site ? new URL(urlPath, Astro.site).href : `https://drinkregen.com${urlPath}`;
+  const absoluteImage = Astro.site ? new URL(variant.bottleImage, Astro.site).href : `https://drinkregen.com${variant.bottleImage}`;
+
+  return {
+    "@type": "ListItem",
+    "position": index + 1,
+    "url": absoluteUrl,
+    "name": variant.name,
+    "image": absoluteImage
+  };
+});
+
+const pageSchema = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "Regen 450ml - #RechargeDenganRegen",
+  "description": "Jelajahi semua varian minuman Regen 450ml. Bebas gula, dan kaya manfaat untuk hidrasi harianmu.",
+  "url": Astro.url.href,
+  "mainEntity": {
+    "@type": "ItemList",
+    "itemListElement": itemListElement
+  }
+};
+---
+
+<Layout
+  title="Semua Varian Regen 450ml | #RechargeDenganRegen"
+  description="Jelajahi berbagai rasa menyegarkan dari REGEN 450ML. Minuman isotonik bervitamin, bebas gula, dengan kemasan lebih besar untuk hidrasi maksimal."
+  schemaData={pageSchema}
+  openGraph={{
+    title: "Varian REGEN 450ML",
+    description: "Jelajahi berbagai rasa menyegarkan dari REGEN 450ML. Minuman isotonik bervitamin, bebas gula, dengan kemasan lebih besar untuk hidrasi maksimal.",
+    image: { 
+      url: "/og-image-regen-450ml.jpg",
+      width: 1200,
+      height: 630,
+      alt: "Koleksi Botol REGEN 450ML",
+    },
+  }}
+>
+  <Regen450mlPage client:load />
+</Layout>

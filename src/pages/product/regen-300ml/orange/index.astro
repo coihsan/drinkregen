@@ -1,0 +1,65 @@
+---
+import Layout from "@/src/layouts/Layout.astro";
+import { getProductVariant } from "@/lib/product-catalog";
+import { DetailProductAvailableByVariant } from "@/lib/product-availability";
+import BannerHeader from "@/src/components/BannerHeader";
+import ProductDetail300ml from "@/src/components/product/ProductDetail300ml";
+import BannerBuyProductRegenByItem from "@/src/components/product/BannerBuyProductRegenByItem";
+import { generateRegenProductSchema } from "@/utils/seo";
+
+const productId = "orange";
+const productSize = "300ml";
+
+const data = getProductVariant(productSize, productId)!;
+const DetailProductAvailable = DetailProductAvailableByVariant[productSize][productId];
+
+const productSchema = generateRegenProductSchema({
+  size: productSize,
+  flavorId: productId,
+  pageUrl: Astro.url.href,
+  siteUrl: Astro.site?.href,
+});
+---
+
+<Layout 
+title="Regen Orange - High Vitamin C" 
+description="Bebas Gula, Manis Alami, Stevia dan Tanpa bahan pengawet."
+schemaData={productSchema},
+openGraph={{
+  basic: {
+    title: "Bebas Gula, Manis Alami, Stevia dan Tanpa bahan pengawet.",
+    type: "website",
+    image: "/300ml/orange.webp"
+  }
+}}
+twitter={{
+  creator: "@drinkregen"
+}}>
+  <BannerHeader client:load
+        content={[
+          {
+            type: "image",
+            desktopImageUrl: "/banner-product/orange-desktop.webp",
+            tabletImageUrl: "/banner-product/orange-desktop.webp",
+            mobileImageUrl: "/banner-product/orange-mobile.webp",
+            alt: "Banner product regen",
+          },
+        ]}
+      />
+      <div class="container">
+        <ProductDetail300ml
+        client:load
+          vitaminColor={data.vitaminColor}
+          vitaminContent={data.vitamin}
+          productName={data.displayName}
+          productUSP={data.usp}
+          productComp={data.komposisi}
+          description={data.description}
+          nutritionFacts={data.nutritionFacts}
+          vitaminFacts={data.vitaminFacts}
+          titleColor={data.titleColor}
+          sourceImage={data.bottleImage}
+        />
+      </div>
+      <BannerBuyProductRegenByItem client:load content={DetailProductAvailable} />
+</Layout>

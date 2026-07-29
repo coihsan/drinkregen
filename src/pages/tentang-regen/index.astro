@@ -1,0 +1,66 @@
+---
+import BannerHeader from "@/src/components/BannerHeader.tsx";
+
+const schemaData = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "Regen",
+  url: "https://drinkregen.com",
+  logo: "https://drinkregen.com/logo.png",
+  description:
+    "Penjelasan resmi, padat, dan jelas mengenai apa itu perusahaan Regen.",
+  foundingDate: "2026",
+  sameAs: [
+    "https://www.instagram.com/drinkregenid",
+    "https://www.tiktok.com/company/@drinkregenid",
+  ],
+};
+
+const jsonLd = JSON.stringify(schemaData);
+import Layout from "@/src/layouts/Layout.astro";
+
+const bannerContent = [
+  {
+    type: "image" as const,
+    desktopImageUrl: "/banner-umroh-desktop.webp",
+    tabletImageUrl: "/slide-1-tablet.jpg",
+    mobileImageUrl: "/slide-1-mobile.jpg",
+    alt: "Banner product regen",
+  },
+];
+---
+
+<Layout
+  title="Tentang Regen - Minuman Vitamin dan #BebasGula"
+  description="Kenali Regen dari PT Global Enak Nikmat. Minuman penyegar andalan untuk gaya hidup aktifmu. Balikin fokus dan energi instan dengan rasa yang juara!"
+  openGraph={{
+    title: "Tentang Regen - - Minuman Vitamin dan #BebasGula",
+    description:
+      "Kenali Regen dari PT Global Enak Nikmat. Minuman penyegar andalan untuk gaya hidup aktifmu. Balikin fokus dan energi instan dengan rasa yang juara!",
+    images: [
+      {
+        url: "/og-image-regen.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Regen Apple - Immune Support",
+      },
+    ],
+    schemaData: { jsonLd },
+  }}
+>
+  <BannerHeader client:load content={bannerContent} />
+  <article class="container prose lg:prose-xl">
+    <h1 class="text-6xl font-bold">Mengenal Lebih Dekat Regen</h1>
+    <h2>Rehidrasi Optimal, Tanpa Rasa B ersalah.</h2>
+    <p>
+      REGEN adalah minuman hidrasi fungsional generasi baru yang hadir untuk
+      membantu masyarakat Indonesia menjalani gaya hidup yang lebih sehat tanpa
+      harus mengorbankan rasa.
+    </p>
+    <p
+      class="wrapperButton"
+    >
+      Untuk Generasi Baru
+    </p>
+  </article>
+</Layout>

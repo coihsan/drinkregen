@@ -1,0 +1,14 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { DEFAULT_META } from "../../../lib/const.web";
+---
+<Layout
+  title={DEFAULT_META.title}
+  description={DEFAULT_META.description}
+  openGraph={DEFAULT_META.openGraph}
+  twitter={DEFAULT_META.twitter}
+  extend={{ link: [{ rel: "icon", href: "/Favicon.ico" }], meta: [] }}
+  image={DEFAULT_META.openGraph.images[0]?.url || "/og-image.jpg"}
+  >
+  <h1>Helllo</h1>
+</Layout>

@@ -1,0 +1,49 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import Regen300mlPage from "../../../components/300ml.page.tsx";
+import { PRODUCT300ML_VARIANTS } from "@/lib/product-catalog";
+
+const itemListElement = PRODUCT300ML_VARIANTS.map((variant, index) => {
+  const urlPath = variant.detailUrl; 
+  const absoluteUrl = Astro.site ? new URL(urlPath, Astro.site).href : `https://drinkregen.com${urlPath}`;
+  const absoluteImage = Astro.site ? new URL(variant.bottleImage, Astro.site).href : `https://drinkregen.com${variant.bottleImage}`;
+
+  return {
+    "@type": "ListItem",
+    "position": index + 1,
+    "url": absoluteUrl,
+    "name": variant.name,
+    "image": absoluteImage
+  };
+});
+
+const pageSchema = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "Regen 300ml - Minuman Vitamin #BebasGula",
+  "description": "Jelajahi semua varian minuman vitamin Regen 300ml. Bebas gula, manis alami dari Stevia, dan kaya manfaat untuk hidrasi harianmu.",
+  "url": Astro.url.href,
+  "mainEntity": {
+    "@type": "ItemList",
+    "itemListElement": itemListElement
+  }
+};
+---
+
+<Layout
+  title="Regen Varian 300ml | Minuman Vitamin #BebasGula"
+  description="Temukan varian Regen 300ml favoritmu: Apple, Orange, Lychee, Watermelon, Peach, dan Lemon Lime. Manis alami Stevia tanpa pengawet."
+  schemaData={pageSchema}
+  openGraph={{
+    title: "Varian Lengkap REGEN 300ML",
+    description: "Jelajahi berbagai rasa menyegarkan dari REGEN 300ML. Minuman isotonik bervitamin, bebas gula dengan manis alami Stevia.",
+    image: {
+      url: "/og-image-regen-300ml.jpg",
+      width: 1200,
+      height: 630,
+      alt: "Varian Botol REGEN 300ML",
+    },
+  }}
+>
+  <Regen300mlPage client:load />
+</Layout>

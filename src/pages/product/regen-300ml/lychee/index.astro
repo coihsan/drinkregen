@@ -1,0 +1,71 @@
+---
+import BannerHeader from "@/src/components/BannerHeader";
+import Layout from "../../../../layouts/Layout.astro";
+import ProductDetail300ml from "@/src/components/product/ProductDetail300ml";
+import BannerBuyProductRegenByItem from "@/src/components/product/BannerBuyProductRegenByItem";
+import { DetailProductAvailableByVariant } from "@/lib/product-availability";
+import { getProductVariant } from "@/lib/product-catalog";
+import { generateRegenProductSchema } from "@/utils/seo";
+
+const productId = "lychee";
+const productSize = "300ml";
+
+const data = getProductVariant(productSize, productId)!;
+const DetailProductAvailable = DetailProductAvailableByVariant[productSize][productId];
+
+const productSchema = generateRegenProductSchema({
+  size: productSize,
+  flavorId: productId,
+  pageUrl: Astro.url.href,
+  siteUrl: Astro.site?.href,
+});
+---
+
+<Layout
+  title="Regen Lychee - Inner Power"
+  description="Bebas Gula, Manis Alami, Stevia dan Tanpa bahan pengawet."
+  schemaData={productSchema},
+  openGraph={{
+    title: "Regen Lychee - Inner Power",
+    description:
+      "Bebas Gula, Manis Alami, Stevia dan Tanpa bahan pengawet.",
+    images: [
+      {
+        url: "/og-image-regen.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Regen Lychee - Inner Power",
+      },
+    ],
+  }}
+>
+  <BannerHeader client:load
+        content={[
+          {
+            type: "image",
+            desktopImageUrl: "/banner-product/lychee-desktop.webp",
+            tabletImageUrl: "/banner-product/lychee-desktop.webp",
+            mobileImageUrl: "/banner-product/lychee-mobile.webp",
+            alt: "Banner product regen",
+          },
+        ]}
+      />
+      <div>
+        <div class="container">
+          <ProductDetail300ml
+          client:load
+            vitaminColor={data.vitaminColor}
+            vitaminContent={data.vitamin}
+            productName={data.displayName}
+            productUSP={data.usp}
+            productComp={data.komposisi}
+            description={data.description}
+            nutritionFacts={data.nutritionFacts}
+            vitaminFacts={data.vitaminFacts}
+            titleColor={data.titleColor}
+            sourceImage={data.bottleImage}
+          />
+        </div>
+        <BannerBuyProductRegenByItem client:load content={DetailProductAvailable} />
+      </div>
+</Layout>

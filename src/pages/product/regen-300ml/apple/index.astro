@@ -1,0 +1,72 @@
+---
+import Layout from "../../../../layouts/Layout.astro";
+import BannerHeader from "../../../../components/BannerHeader.tsx";
+import ProductDetail300ml from "@/src/components/product/ProductDetail300ml";
+import BannerBuyProductRegenByItem from "@/src/components/product/BannerBuyProductRegenByItem";
+import { getProductVariant } from "@/lib/product-catalog";
+import { DetailProductAvailableByVariant } from "@/lib/product-availability";
+import { generateRegenProductSchema } from "@/utils/seo";
+
+const productId = "apple";
+const productSize = "300ml";
+
+const data = getProductVariant(productSize, productId)!;
+const DetailProductAvailable = DetailProductAvailableByVariant[productSize][productId];
+
+const productSchema = generateRegenProductSchema({
+  size: productSize,
+  flavorId: productId,
+  pageUrl: Astro.url.href,
+  siteUrl: Astro.site?.href,
+});
+---
+
+<Layout
+  title="Regen Apple - Immune Support"
+  description="Minuman Vitamin Regen Rasa Apel, Bebas Gula, Manis Alami, Stevia dan Tanpa bahan pengawet."
+  schemaData={productSchema},
+  openGraph={{
+    title: "Regen Apple - Immune Support",
+    description:
+      "Minuman Vitamin Regen Rasa Apel Bebas Gula, Stevia dan Tanpa bahan pengawet.",
+    images: [
+      {
+        url: "/og-image-regen.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Regen Apple - Immune Support",
+      },
+    ],
+  }}
+>
+  <BannerHeader
+  client:load
+        content={[
+          {
+            type: "image",
+            desktopImageUrl: "/banner-product/apple-desktop.webp",
+            tabletImageUrl: "/banner-product/apple-desktop.webp",
+            mobileImageUrl: "/banner-product/apple-mobile.webp",
+            alt: "Banner product regen",
+          },
+        ]}
+      />
+      <div>
+        <div class="container">
+          <ProductDetail300ml
+          client:load
+            vitaminColor={data.vitaminColor}
+            vitaminContent={data.vitamin}
+            productName={data.displayName}
+            productUSP={data.usp}
+            productComp={data.komposisi}
+            description={data.description}
+            nutritionFacts={data.nutritionFacts}
+            vitaminFacts={data.vitaminFacts}
+            titleColor={data.titleColor}
+            sourceImage={data.bottleImage}
+          />
+        </div>
+        <BannerBuyProductRegenByItem client:load content={DetailProductAvailable} />
+      </div>
+</Layout>

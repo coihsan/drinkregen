@@ -1,0 +1,70 @@
+---
+import Layout from "../../../../layouts/Layout.astro";
+import BannerHeader from "../../../../components/BannerHeader.tsx";
+import ProductDetail300ml from "@/src/components/product/ProductDetail300ml";
+import { getProductVariant } from "@/lib/product-catalog";
+import { generateRegenProductSchema } from "@/utils/seo";
+
+const productId = "watermelon";
+const productSize = "450ml";
+
+const data = getProductVariant(productSize, productId)!;
+
+const productSchema = generateRegenProductSchema({
+  size: productSize,
+  flavorId: productId,
+  pageUrl: Astro.url.href,
+  siteUrl: Astro.site?.href,
+});
+---
+
+<Layout
+  title="Regen Watermelon - Hydration Hero"
+  description="Bebas Gula, Sukralosa dan Tanpa bahan pengawet."
+  schemaData={productSchema},
+  openGraph={{
+    title: "Regen Watermelon - Hydration Hero",
+    description:
+      "Bebas Gula, Sukralosa dan Tanpa bahan pengawet.",
+    images: [
+      {
+        url: "/og-image-regen.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Regen Watermelon - Hydration Hero",
+      },
+    ],
+  }}
+>
+  <BannerHeader
+  client:load
+    content={[
+      {
+        type: "image",
+        desktopImageUrl: "/banner-product/450ml/450ml-watermelon-desktop.webp",
+        tabletImageUrl: "/banner-product/450ml/450ml-watermelon-desktop.webp",
+        mobileImageUrl: "/banner-product/450ml/450ml-watermelon-mobile.webp",
+        alt: "Banner product regen",
+      },
+    ]}
+  />
+  <div>
+    <div class="container">
+      <ProductDetail300ml
+      client:load
+        vitaminColor={data.vitaminColor}
+        vitaminContent={data.vitamin}
+        productName={data.displayName}
+        productUSP={data.usp}
+        productComp={data.komposisi}
+        description={data.description}
+        nutritionFacts={data.nutritionFacts}
+        vitaminFacts={data.vitaminFacts}
+        titleColor={data.titleColor}
+        sourceImage={data.bottleImage}
+        nutritionTags={["0 Kalori", "0% Gula", "Sukralosa"]}
+        compositionNote="Menggunakan pemanis buatan sukralosa"
+      />
+    </div>
+  </div>
+</Layout>

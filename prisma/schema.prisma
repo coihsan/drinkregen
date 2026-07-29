@@ -1,0 +1,155 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma/client"
+}
+
+datasource db {
+  provider = "postgres"
+}
+
+model User {
+  id               String           @id
+  name             String
+  email            String           @unique
+  emailVerified    Boolean
+  image            String?
+  role             String           @default("admin")
+  banned           Boolean?
+  twoFactorEnabled Boolean?         @default(false)
+  banReason        String?
+  banExpires       DateTime?
+  createdAt        DateTime
+  updatedAt        DateTime
+  accounts         Account[]
+  sessions         Session[]
+  createdStaff     Staff[]          @relation("StaffCreatedBy")
+  staffProfile     Staff?
+  permissions      UserPermission[]
+
+  @@map("users")
+}
+
+model Session {
+  id        String   @id
+  userId    String
+  token     String   @unique
+  expiresAt DateTime
+  ipAddress String?
+  userAgent String?
+  createdAt DateTime
+  updatedAt DateTime
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
+}
+
+model Account {
+  id                   String    @id
+  userId               String
+  accountId            String
+  providerId           String
+  password             String?
+  accessToken          String?
+  refreshToken         String?
+  accessTokenExpiresAt DateTime?
+  createdAt            DateTime
+  updatedAt            DateTime
+  user                 User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("accounts")
+}
+
+model UserPermission {
+  id         String     @id @default(cuid())
+  userId     String
+  permission Permission
+  grantedAt  DateTime   @default(now())
+  grantedBy  String?
+  user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, permission])
+  @@map("user_permissions")
+}
+
+model AdminAuditLog {
+  id            String   @id @default(cuid())
+  actorUserId   String
+  actorEmail    String
+  action        String
+  targetStaffId String?
+  targetUserId  String?
+  targetEmail   String?
+  details       Json?
+  createdAt     DateTime @default(now())
+
+  @@map("admin_audit_logs")
+}
+
+model Staff {
+  id            String   @id @default(cuid())
+  name          String
+  staffId       String   @unique
+  email         String   @unique
+  userId        String?  @unique
+  phoneNumber   String
+  position      String
+  avatarUrl     String?
+  isArchived    Boolean  @default(false)
+  createdById   String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  activeStatus  Boolean  @default(true)
+  isPublished   Boolean  @default(true)
+  updatedById   String?
+  coverArea     String?
+  joinedAt      DateTime @default(now())
+  divisionId    String
+  createdBy     User?    @relation("StaffCreatedBy", fields: [createdById], references: [id])
+  user          User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  division      Division @relation(fields: [divisionId], references: [id], onDelete: Cascade)
+
+  // Custom NFC expansions 
+  bio           String?
+  skills        String[]     
+  socials       SocialLinks? 
+  themeStyle    String  @default("cyberpunk")
+  companyName   String  @default("Regen")
+
+  @@map("staff")
+}
+
+model SocialLinks {
+  id        String   @id @default(cuid())
+  staffId   String   @unique              
+  staff     Staff    @relation(fields: [staffId], references: [id], onDelete: Cascade)
+  instagram String
+  linkedin  String
+  github    String
+  twitter   String
+  tiktok    String
+  behance   String
+  spotify   String
+
+  @@map("social_links") 
+}
+
+model Division {
+  id        String   @id
+  name      String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  staff     Staff[]
+
+  @@map("division")
+}
+
+enum Permission {
+  MANAGE_STAFF
+  MANAGE_LUCKY_DRAW
+}

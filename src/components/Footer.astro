@@ -1,0 +1,39 @@
+---
+import QuickLink from "./QuickLink";
+import SocialLink from "./SocialLink.astro";
+import LogoRegenWhite from "../assets/icons/logo-regen-white.svg";
+import PatternFooter from "../../public/element/pattern.svg";
+import LogoPTGlobalEnakNikmat from "../../public/element/logo-pt-global-enak-nikmat.svg";
+---
+
+<footer class="w-full bg-[#27C00C] relative overflow-hidden">
+  <LogoRegenWhite
+    class="object-fit relative top-0 inset-0 block z-1 w-full md:object-cover object-center opacity-20 pointer-events-none"
+  />
+  <PatternFooter
+  class="absolute inset-0 z-0 w-full h-full object-cover opacity-10 pointer-events-none"
+  preserveAspectRatio="xMidYMid slice"
+/>
+  <div
+    class="flex flex-col md:flex-row items-center justify-between w-full px-6 py-12 mx-auto relative z-50"
+  >
+    <div class="w-full md:max-w-sm items-center justify-center">
+      <LogoPTGlobalEnakNikmat class="inset-0 z-10 pb-5 mx-auto md:mx-0" />
+      <p class="text-center text-white md:text-start">
+        Jl. K.S. Tubun No.81B, RT.9/RW.5, Slipi, Kec. Palmerah, Kota Jakarta
+        Barat, Daerah Khusus Ibukota Jakarta 11410
+      </p>
+    </div>
+    <div class="flex-col w-full md:max-w-sm pt-12 md:pt-0">
+      <SocialLink class="w-full pb-4 mx-auto" />
+      <QuickLink
+        className="sm:text-center flex-wrap items-center justify-center flex gap-2 text-white"
+      />
+    </div>
+  </div>
+  <div
+    class="flex items-center justify-center w-full text-white bg-lime-400 py-4 flex-wrap gap-2 relative z-50"
+  >
+    <p>2026 © Copyright Regen. All rights Reserved</p>
+  </div>
+</footer>

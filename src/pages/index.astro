@@ -1,11 +1,60 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
+import Layout from "../layouts/Layout.astro";
+import HeroSection from "../components/HeroSection.tsx";
+import { HeroContent, DEFAULT_META } from "../../lib/const.web";
+import ScrollText from "../components/ScrollText.tsx";
+import {  WaveText} from "../components/WaveText.tsx";
+import RevealEffect from "../components/RevealEffect.tsx";
+import BannerVideo from "../components/BannerVideo.tsx";
+import BannerBuyRegenContent from "../components/BannerBuyRegenContent.astro";
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const videoData = {
+  title: "Dr Tirta Buka Regen, Buka Rejeki Berhadiah Umroh dan Uang Tunai",
+  description: "Beli Minuman Regen di toko kesayangan Anda, dan menangkan kesempatan hadiah Umroh berdua",
+  source: "https://drinkregen.com/videos/promo-utama.mp4",
+  poster: "https://drinkregen.com/images/video-thumb-16x9.jpg",
+  uploadDate: "2026-07-10T08:00:00+07:00"
+};
+
+const videoSchema = {
+  "@context": "https://schema.org",
+  "@type": "VideoObject",
+  "name": videoData.title,
+  "description": videoData.description,
+  "thumbnailUrl": [videoData.poster],
+  "uploadDate": videoData.uploadDate,
+  "contentUrl": videoData.source,
+};
 ---
 
-<Layout>
-	<Welcome />
+<Layout 
+  title={DEFAULT_META.title} 
+  description={DEFAULT_META.description}
+  openGraph={DEFAULT_META.openGraph}
+  twitter={DEFAULT_META.twitter}
+  extend={{ link: [{ rel: "icon", href: "/Favicon.ico" }], meta: [] }}
+  image={DEFAULT_META.openGraph.images[0]?.url || "/og-image.jpg"}
+>
+  <div class="w-full h-[calc(100vh-80px)]">
+    <HeroSection client:load slides={HeroContent} />
+  </div>
+  <ScrollText client:load />
+  <div class="container">
+    <div class="pb-12 flex flex-col mx-auto">
+      <WaveText client:load
+        once={false}
+        text="BARU!"
+        className="font-thunderhouse text-gray-400 text-6xl md:text-6xl lg:text-9xl pb-5 -rotate-5 justify-center leading-[0.8]"
+      />
+      <WaveText client:load
+        once={false}
+        text="REGEN 300ML"
+        className="font-thunderhouse text-amber-500 text-8xl md:text-8xl lg:text-9xl justify-center leading-[0.8]"
+      />
+    </div>
+    <RevealEffect client:load>
+      <BannerVideo client:load isRounded source="/videos/regen-orange.mp4" />
+    </RevealEffect>
+  </div>
+  <BannerBuyRegenContent />
 </Layout>

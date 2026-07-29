@@ -1,0 +1,157 @@
+0 verbose cli C:\Program Files\nodejs\node.exe C:\Program Files\nodejs\node_modules\npm\bin\npm-cli.js
+1 info using npm@10.9.2
+2 info using node@v22.14.0
+3 silly config load:file:C:\Program Files\nodejs\node_modules\npm\npmrc
+4 silly config load:file:D:\Website\drinkregen\.npmrc
+5 silly config load:file:C:\Users\ihsan_tx2bvvq\.npmrc
+6 silly config load:file:C:\Users\ihsan_tx2bvvq\AppData\Roaming\npm\etc\npmrc
+7 verbose title npm install lenis@1.3.11
+8 verbose argv "install" "lenis@1.3.11" "--cache" ".\\.npm-cache"
+9 verbose logfile logs-max:10 dir:D:\Website\drinkregen\.npm-cache\_logs\2026-07-03T06_31_25_121Z-
+10 verbose logfile D:\Website\drinkregen\.npm-cache\_logs\2026-07-03T06_31_25_121Z-debug-0.log
+11 silly logfile done cleaning log files
+12 silly packumentCache heap:4345298944 maxSize:1086324736 maxEntrySize:543162368
+13 silly idealTree buildDeps
+14 silly fetch manifest lenis@1.3.11
+15 silly packumentCache full:https://registry.npmjs.org/lenis cache-miss
+16 verbose shrinkwrap failed to load node_modules/.package-lock.json missing from node_modules: node_modules/@astrojs/compiler-binding-darwin-arm64
+17 http fetch GET 200 https://registry.npmjs.org/npm 480ms
+18 http fetch GET 200 https://registry.npmjs.org/lenis 278ms (cache miss)
+19 silly packumentCache full:https://registry.npmjs.org/lenis set size:undefined disposed:false
+20 silly fetch manifest @nuxt/kit@>=3.0.0
+21 silly packumentCache full:https://registry.npmjs.org/@nuxt%2fkit cache-miss
+22 http fetch GET 200 https://registry.npmjs.org/@nuxt%2fkit 235ms (cache miss)
+23 silly packumentCache full:https://registry.npmjs.org/@nuxt%2fkit set size:undefined disposed:false
+24 silly fetch manifest react@^19.2.7
+25 silly packumentCache full:https://registry.npmjs.org/react cache-miss
+26 http fetch GET 200 https://registry.npmjs.org/react 253ms (cache miss)
+27 silly packumentCache full:https://registry.npmjs.org/react set size:undefined disposed:false
+28 silly fetch manifest vue@>=3.0.0
+29 silly packumentCache full:https://registry.npmjs.org/vue cache-miss
+30 http fetch GET 200 https://registry.npmjs.org/vue 120ms (cache miss)
+31 silly packumentCache full:https://registry.npmjs.org/vue set size:undefined disposed:false
+32 silly fetch manifest typescript@*
+33 silly packumentCache full:https://registry.npmjs.org/typescript cache-miss
+34 http fetch GET 200 https://registry.npmjs.org/typescript 243ms (cache miss)
+35 silly packumentCache full:https://registry.npmjs.org/typescript set size:undefined disposed:false
+36 silly placeDep ROOT lenis@1.3.11 OK for: drinkregen@0.0.1 want: 1.3.11
+37 silly fetch manifest typescript@^5.0.0 || ^6.0.0
+38 silly packumentCache full:https://registry.npmjs.org/typescript cache-miss
+39 http cache https://registry.npmjs.org/typescript 31ms (cache hit)
+40 silly packumentCache full:https://registry.npmjs.org/typescript set size:15410956 disposed:false
+41 silly placeDep ROOT typescript@6.0.3 OK for: @astrojs/check@0.9.9 want: ^5.0.0 || ^6.0.0
+42 silly fetch manifest astro@^4.14.0 || ^5.0.0
+43 silly packumentCache full:https://registry.npmjs.org/astro cache-miss
+44 http fetch GET 200 https://registry.npmjs.org/astro 155ms (cache miss)
+45 silly packumentCache full:https://registry.npmjs.org/astro set size:undefined disposed:false
+46 warn ERESOLVE overriding peer dependency {
+46 warn ERESOLVE   code: 'ERESOLVE',
+46 warn ERESOLVE   edge: {
+46 warn ERESOLVE     type: 'peer',
+46 warn ERESOLVE     name: 'astro',
+46 warn ERESOLVE     spec: '^4.14.0 || ^5.0.0',
+46 warn ERESOLVE     error: 'INVALID',
+46 warn ERESOLVE     from: {
+46 warn ERESOLVE       name: 'astro-integration-kit',
+46 warn ERESOLVE       version: '0.19.1',
+46 warn ERESOLVE       location: 'node_modules/astro-integration-kit',
+46 warn ERESOLVE       isWorkspace: false,
+46 warn ERESOLVE       dependents: [Array]
+46 warn ERESOLVE     }
+46 warn ERESOLVE   },
+46 warn ERESOLVE   dep: {
+46 warn ERESOLVE     name: 'astro',
+46 warn ERESOLVE     version: '5.18.2',
+46 warn ERESOLVE     whileInstalling: {
+46 warn ERESOLVE       name: 'astro-integration-kit',
+46 warn ERESOLVE       version: '0.19.1',
+46 warn ERESOLVE       path: 'D:\\Website\\drinkregen\\node_modules\\astro-integration-kit'
+46 warn ERESOLVE     },
+46 warn ERESOLVE     location: 'node_modules/astro',
+46 warn ERESOLVE     isWorkspace: false,
+46 warn ERESOLVE     dependents: [ [Object] ]
+46 warn ERESOLVE   },
+46 warn ERESOLVE   force: false,
+46 warn ERESOLVE   isMine: false,
+46 warn ERESOLVE   strictPeerDeps: false,
+46 warn ERESOLVE   current: {
+46 warn ERESOLVE     name: 'astro',
+46 warn ERESOLVE     version: '7.0.5',
+46 warn ERESOLVE     location: 'node_modules/astro',
+46 warn ERESOLVE     isWorkspace: false,
+46 warn ERESOLVE     dependents: [ [Object] ]
+46 warn ERESOLVE   },
+46 warn ERESOLVE   peerConflict: {
+46 warn ERESOLVE     current: {
+46 warn ERESOLVE       name: 'astro',
+46 warn ERESOLVE       version: '7.0.5',
+46 warn ERESOLVE       location: 'node_modules/astro',
+46 warn ERESOLVE       isWorkspace: false,
+46 warn ERESOLVE       dependents: [Array]
+46 warn ERESOLVE     },
+46 warn ERESOLVE     peer: {
+46 warn ERESOLVE       name: 'astro',
+46 warn ERESOLVE       version: '5.18.2',
+46 warn ERESOLVE       whileInstalling: [Object],
+46 warn ERESOLVE       location: 'node_modules/astro',
+46 warn ERESOLVE       isWorkspace: false,
+46 warn ERESOLVE       dependents: [Array]
+46 warn ERESOLVE     }
+46 warn ERESOLVE   }
+46 warn ERESOLVE }
+47 silly fetch manifest astro@^5.13.8
+48 silly packumentCache full:https://registry.npmjs.org/astro cache-miss
+49 http cache https://registry.npmjs.org/astro 22ms (cache hit)
+50 silly packumentCache full:https://registry.npmjs.org/astro set size:9288586 disposed:false
+51 verbose stack Error: could not resolve
+51 verbose stack     at PlaceDep.failPeerConflict (C:\Program Files\nodejs\node_modules\npm\node_modules\@npmcli\arborist\lib\place-dep.js:503:25)
+51 verbose stack     at new PlaceDep (C:\Program Files\nodejs\node_modules\npm\node_modules\@npmcli\arborist\lib\place-dep.js:157:21)
+51 verbose stack     at #buildDepStep (C:\Program Files\nodejs\node_modules\npm\node_modules\@npmcli\arborist\lib\arborist\build-ideal-tree.js:920:18)
+51 verbose stack     at async Arborist.buildIdealTree (C:\Program Files\nodejs\node_modules\npm\node_modules\@npmcli\arborist\lib\arborist\build-ideal-tree.js:181:7)
+51 verbose stack     at async Promise.all (index 1)
+51 verbose stack     at async Arborist.reify (C:\Program Files\nodejs\node_modules\npm\node_modules\@npmcli\arborist\lib\arborist\reify.js:131:5)
+51 verbose stack     at async Install.exec (C:\Program Files\nodejs\node_modules\npm\lib\commands\install.js:150:5)
+51 verbose stack     at async Npm.exec (C:\Program Files\nodejs\node_modules\npm\lib\npm.js:207:9)
+51 verbose stack     at async module.exports (C:\Program Files\nodejs\node_modules\npm\lib\cli\entry.js:74:5)
+52 error code ERESOLVE
+53 error ERESOLVE could not resolve
+54 error
+55 error While resolving: astro-lenis@1.0.5
+55 error Found: astro@7.0.5
+55 error node_modules/astro
+55 error   astro@"^7.0.5" from the root project
+55 error
+55 error Could not resolve dependency:
+55 error peer astro@"^5.13.8" from astro-lenis@1.0.5
+55 error node_modules/astro-lenis
+55 error   astro-lenis@"^1.0.5" from the root project
+55 error
+55 error Conflicting peer dependency: astro@5.18.2
+55 error node_modules/astro
+55 error   peer astro@"^5.13.8" from astro-lenis@1.0.5
+55 error   node_modules/astro-lenis
+55 error     astro-lenis@"^1.0.5" from the root project
+55 error
+55 error Fix the upstream dependency conflict, or retry
+55 error this command with --force or --legacy-peer-deps
+55 error to accept an incorrect (and potentially broken) dependency resolution.
+56 error
+56 error
+56 error For a full report see:
+56 error D:\Website\drinkregen\.npm-cache\_logs\2026-07-03T06_31_25_121Z-eresolve-report.txt
+57 silly unfinished npm timer reify 1783060285819
+58 silly unfinished npm timer reify:loadTrees 1783060285821
+59 silly unfinished npm timer idealTree:buildDeps 1783060286028
+60 silly unfinished npm timer idealTree:node_modules/astro-lenis 1783060287634
+61 verbose cwd D:\Website\drinkregen
+62 verbose os Windows_NT 10.0.26200
+63 verbose node v22.14.0
+64 verbose npm  v10.9.2
+65 notice
+65 notice New major version of npm available! 10.9.2 -> 11.18.0
+65 notice Changelog: https://github.com/npm/cli/releases/tag/v11.18.0
+65 notice To update run: npm install -g npm@11.18.0
+65 notice  { force: true, [Symbol(proc-log.meta)]: true }
+66 verbose exit 1
+67 verbose code 1
+68 error A complete log of this run can be found in: D:\Website\drinkregen\.npm-cache\_logs\2026-07-03T06_31_25_121Z-debug-0.log
