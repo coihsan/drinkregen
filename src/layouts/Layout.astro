@@ -5,18 +5,11 @@ import SmoothScroll from "../components/SmoothScroll.tsx";
 import { ClientRouter } from "astro:transitions";
 import Navigation from "../components/Navigation.tsx";
 import Footer from "../components/Footer.astro";
-import { getLatestInstagramPosts } from "@/lib/instagram";
 import { DEFAULT_META } from "@/lib/const.web";
 import InstagramPostSlider from "../components/InstagramPostSlider.tsx";
 import { Font } from "astro:assets";
 import { fade } from "astro:transitions";
 import GoogleAnalytics from "../components/GoogleAnalytics.astro";
-
-// import { API_BASE_URL } from "@/lib/api";
-// const response = await fetch(`${API_BASE_URL}/instagram`);
-// const { data } = await response.json();
-
-const instagramPosts = await getLatestInstagramPosts();
 
 interface Metadata {
   title?: string;
@@ -125,17 +118,19 @@ const finalExtend = extend || {
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <GoogleAnalytics measurementId={'G-YLZY6Y5923'} />
+    <!-- <GoogleAnalytics measurementId={'G-YLZY6Y5923'} /> -->
     <ClientRouter />
     <SEO
       title={finalTitle}
       description={finalDescription}
       openGraph={finalOpenGraph}
+
       twitter={finalTwitter}
       extend={finalExtend}
     />
     <Font cssVariable="--font-headoh" />
     <Font cssVariable="--font-thunderhouse" />
+    <Font cssVariable="--font-russo" />
     {schemaData && (
       <script is:inline type="application/ld+json" set:html={JSON.stringify(schemaData)}></script>
     )}
@@ -161,7 +156,7 @@ const finalExtend = extend || {
 
       requestAnimationFrame(raf);
     </script>
-      <InstagramPostSlider client:load posts={instagramPosts} />
+      <InstagramPostSlider client:load />
     </SmoothScroll>
     <Footer />
   </body>

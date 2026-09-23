@@ -1,0 +1,162 @@
+/* REGEN palette. Explicit HEX values from the Lemon Lime guideline take precedence.
+   Green, forest, coral, electric, red and cream sampled from supplied JPEG swatches.
+   Ink and tonal mixes support readable text, borders and accessible controls. */
+:root {
+  --regen-green: #58B648;
+  --regen-orange: #FFC100;
+  --regen-forest: #268A42;
+  --regen-coral: #F2606B;
+  --regen-lime: #9CCB3D;
+  --regen-electric: #CBE102;
+  --regen-red: #EF3C59;
+  --regen-gold: #ffc49a;
+  --regen-yellow: #FDF16C;
+  --regen-olive: #5C9742;
+  --regen-citrus: #BCD749;
+  --regen-cream: #FEFF99;
+  --regen-ink: #183B2B;
+  --regen-paper: #F8FBF1;
+  --regen-surface: #EFF7E0;
+  --regen-border: #CBE3D2;
+  --regen-muted: #206638;
+  --regen-green-soft: #DAEFD7;
+  --regen-coral-soft: #FCDADD;
+  --regen-gold-soft: #FCECBA;
+  --regen-red-dark: #9E283B;
+  --regen-gold-dark: #765C0C;
+  --regen-green-dark: #1D6832;
+}
+
+@theme {
+  --color-brand-green-50: color-mix(in srgb, var(--regen-green) 7.000000000000001%, white);
+  --color-brand-green-100: color-mix(in srgb, var(--regen-green) 15%, white);
+  --color-brand-green-200: color-mix(in srgb, var(--regen-green) 30%, white);
+  --color-brand-green-300: color-mix(in srgb, var(--regen-green) 55.00000000000001%, white);
+  --color-brand-green-400: color-mix(in srgb, var(--regen-green) 80%, white);
+  --color-brand-green-500: var(--regen-green);
+  --color-brand-green-600: color-mix(in srgb, var(--regen-green) 82%, black);
+  --color-brand-green-700: color-mix(in srgb, var(--regen-green) 65%, black);
+  --color-brand-green-800: color-mix(in srgb, var(--regen-green) 48%, black);
+  --color-brand-green-900: color-mix(in srgb, var(--regen-green) 32%, black);
+  --color-brand-green-950: color-mix(in srgb, var(--regen-green) 22%, black);
+  --color-brand-lime-50: color-mix(in srgb, var(--regen-lime) 7.000000000000001%, white);
+  --color-brand-lime-100: color-mix(in srgb, var(--regen-lime) 15%, white);
+  --color-brand-lime-200: color-mix(in srgb, var(--regen-lime) 30%, white);
+  --color-brand-lime-300: color-mix(in srgb, var(--regen-lime) 55.00000000000001%, white);
+  --color-brand-lime-400: color-mix(in srgb, var(--regen-lime) 80%, white);
+  --color-brand-lime-500: var(--regen-lime);
+  --color-brand-lime-600: color-mix(in srgb, var(--regen-lime) 82%, black);
+  --color-brand-lime-700: color-mix(in srgb, var(--regen-lime) 65%, black);
+  --color-brand-lime-800: color-mix(in srgb, var(--regen-lime) 48%, black);
+  --color-brand-lime-900: color-mix(in srgb, var(--regen-lime) 32%, black);
+  --color-brand-lime-950: color-mix(in srgb, var(--regen-lime) 22%, black);
+  --color-brand-coral-50: color-mix(in srgb, var(--regen-coral) 7.000000000000001%, white);
+  --color-brand-coral-100: color-mix(in srgb, var(--regen-coral) 15%, white);
+  --color-brand-coral-200: color-mix(in srgb, var(--regen-coral) 30%, white);
+  --color-brand-coral-300: color-mix(in srgb, var(--regen-coral) 55.00000000000001%, white);
+  --color-brand-coral-400: color-mix(in srgb, var(--regen-coral) 80%, white);
+  --color-brand-coral-500: var(--regen-coral);
+  --color-brand-coral-600: color-mix(in srgb, var(--regen-coral) 82%, black);
+  --color-brand-coral-700: color-mix(in srgb, var(--regen-coral) 65%, black);
+  --color-brand-coral-800: color-mix(in srgb, var(--regen-coral) 48%, black);
+  --color-brand-coral-900: color-mix(in srgb, var(--regen-coral) 32%, black);
+  --color-brand-coral-950: color-mix(in srgb, var(--regen-coral) 22%, black);
+  --color-brand-red-50: color-mix(in srgb, var(--regen-red) 7.000000000000001%, white);
+  --color-brand-red-100: color-mix(in srgb, var(--regen-red) 15%, white);
+  --color-brand-red-200: color-mix(in srgb, var(--regen-red) 30%, white);
+  --color-brand-red-300: color-mix(in srgb, var(--regen-red) 55.00000000000001%, white);
+  --color-brand-red-400: color-mix(in srgb, var(--regen-red) 80%, white);
+  --color-brand-red-500: var(--regen-red);
+  --color-brand-red-600: color-mix(in srgb, var(--regen-red) 82%, black);
+  --color-brand-red-700: color-mix(in srgb, var(--regen-red) 65%, black);
+  --color-brand-red-800: color-mix(in srgb, var(--regen-red) 48%, black);
+  --color-brand-red-900: color-mix(in srgb, var(--regen-red) 32%, black);
+  --color-brand-red-950: color-mix(in srgb, var(--regen-red) 22%, black);
+  --color-brand-gold-50: color-mix(in srgb, var(--regen-gold) 7.000000000000001%, white);
+  --color-brand-gold-100: color-mix(in srgb, var(--regen-gold) 15%, white);
+  --color-brand-gold-200: color-mix(in srgb, var(--regen-gold) 30%, white);
+  --color-brand-gold-300: color-mix(in srgb, var(--regen-gold) 55.00000000000001%, white);
+  --color-brand-gold-400: color-mix(in srgb, var(--regen-gold) 80%, white);
+  --color-brand-gold-500: var(--regen-gold);
+  --color-brand-gold-600: color-mix(in srgb, var(--regen-gold) 82%, black);
+  --color-brand-gold-700: color-mix(in srgb, var(--regen-gold) 65%, black);
+  --color-brand-gold-800: color-mix(in srgb, var(--regen-gold) 48%, black);
+  --color-brand-gold-900: color-mix(in srgb, var(--regen-gold) 32%, black);
+  --color-brand-gold-950: color-mix(in srgb, var(--regen-gold) 22%, black);
+  --color-brand-ink: var(--regen-ink);
+  --color-brand-paper: var(--regen-paper);
+}
+
+:root {
+  --background: var(--regen-paper);
+  --foreground: var(--regen-ink);
+  --card: #ffffff;
+  --card-foreground: var(--regen-ink);
+  --popover: #ffffff;
+  --popover-foreground: var(--regen-ink);
+  --primary: var(--regen-green-dark);
+  --primary-foreground: #ffffff;
+  --secondary: var(--regen-citrus);
+  --secondary-foreground: var(--regen-ink);
+  --muted: var(--regen-surface);
+  --muted-foreground: var(--regen-muted);
+  --accent: var(--regen-yellow);
+  --accent-foreground: var(--regen-ink);
+  --destructive: var(--regen-red-dark);
+  --border: var(--regen-border);
+  --input: var(--regen-border);
+  --ring: var(--regen-forest);
+  --chart-1: var(--regen-forest);
+  --chart-2: var(--regen-coral);
+  --chart-3: var(--regen-gold);
+  --chart-4: var(--regen-lime);
+  --chart-5: var(--regen-red);
+  --sidebar: var(--regen-surface);
+  --sidebar-foreground: var(--regen-ink);
+  --sidebar-primary: var(--primary);
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: var(--regen-yellow);
+  --sidebar-accent-foreground: var(--regen-ink);
+  --sidebar-border: var(--regen-border);
+  --sidebar-ring: var(--regen-forest);
+}
+.dark {
+  --background: var(--regen-ink);
+  --foreground: var(--regen-paper);
+  --card: var(--regen-green-dark);
+  --card-foreground: var(--regen-paper);
+  --popover: var(--regen-green-dark);
+  --popover-foreground: var(--regen-paper);
+  --primary: var(--regen-citrus);
+  --primary-foreground: var(--regen-ink);
+  --secondary: var(--regen-green-dark);
+  --secondary-foreground: var(--regen-paper);
+  --muted: var(--regen-green-dark);
+  --muted-foreground: var(--regen-surface);
+  --accent: var(--regen-olive);
+  --accent-foreground: #ffffff;
+  --destructive: var(--regen-red);
+  --border: color-mix(in srgb, var(--regen-citrus) 25%, transparent);
+  --input: var(--border);
+  --ring: var(--regen-citrus);
+  --sidebar: var(--regen-ink);
+  --sidebar-foreground: var(--regen-paper);
+  --sidebar-accent: var(--regen-green-dark);
+  --sidebar-accent-foreground: var(--regen-paper);
+  --sidebar-border: var(--border);
+  --sidebar-ring: var(--ring);
+}
+
+:root {
+  --regen-ink-a30: #183B2B30;
+  --regen-ink-a1a: #183B2B1a;
+  --regen-ink-a20: #183B2B20;
+  --regen-ink-a25: #183B2B25;
+  --regen-ink-a13: #183B2B13;
+  --regen-ink-a40: #183B2B40;
+  --regen-ink-a26: #183B2B26;
+}
+
+@layer base {
+  body { background-color: var(--background); color: var(--foreground); }
+}

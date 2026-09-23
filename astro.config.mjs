@@ -1,27 +1,28 @@
 // @ts-check
 import { defineConfig, fontProviders } from "astro/config";
-
 import react from "@astrojs/react";
-import lenis from "lenis";
 import tailwindcss from "@tailwindcss/vite";
-import partytown from '@astrojs/partytown';
-import tunnel from 'astro-tunnel';
-import sitemap from '@astrojs/sitemap';
-const isDevServer = process.env.NODE_ENV === "development";
+import partytown from "@astrojs/partytown";
+import tunnel from "astro-tunnel";
+import sitemap from "@astrojs/sitemap";
 
 // https://astro.build/config
 export default defineConfig({
   site: "https://drinkregen.com/",
-  integrations: [react(),
-    partytown(), 
-    tunnel(), 
+
+  output: "static",
+
+  integrations: [
+    react(),
+    partytown(),
+    tunnel(),
     sitemap({
       filter: (page) => {
-        return !page.includes('/admin/') && !page.includes('/staff/');
-      }
-    })],
-    
-  output: "static",
+        return !page.includes("/admin/") && !page.includes("/staff/");
+      },
+    }),
+  ],
+
   fonts: [
     {
       provider: fontProviders.local(),
@@ -31,6 +32,18 @@ export default defineConfig({
         variants: [
           {
             src: ["./src/assets/fonts/thunderhouse.woff2"],
+          },
+        ],
+      },
+    },
+    {
+      provider: fontProviders.local(),
+      name: "Russo One",
+      cssVariable: "--font-russo",
+      options: {
+        variants: [
+          {
+            src: ["./src/assets/fonts/russo.ttf"],
           },
         ],
       },
@@ -51,5 +64,8 @@ export default defineConfig({
 
   vite: {
     plugins: [tailwindcss()],
+    optimizeDeps: {
+      include: ["motion/react"],
+    },
   },
 });

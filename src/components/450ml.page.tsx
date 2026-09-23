@@ -19,7 +19,7 @@ const Regen450mlPage = () => {
           },
         ]}
       />
-      <div className="container bg-rose-400">
+      <div className="container bg-brand-red-400">
         <RevealEffect>
           <BannerVideo
             isRounded

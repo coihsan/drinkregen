@@ -1,0 +1,47 @@
+---
+import Layout from "@/src/layouts/Layout.astro";
+import "@/src/styles/reseller-regen.css";
+
+const title = "Jadi Reseller REGEN — Tumbuh Bersama REGEN";
+const description = "Bawa kesegaran sehat ke kotamu. Jadilah reseller atau agen distribusi resmi REGEN dan ketahui skema kerja sama, harga khusus, serta dukungan promosi.";
+const resellerForm = "https://forms.gle/Uj8hBioBRQPgvvMNA";
+const benefits = [
+  { number: "01", title: "Skema kerja sama", description: "Kenali peluang menjadi reseller atau agen distribusi REGEN di wilayahmu." },
+  { number: "02", title: "Harga khusus", description: "Diskusikan harga khusus untuk mitra bersama tim Area Manager kami." },
+  { number: "03", title: "Dukungan promosi", description: "Cari tahu dukungan promosi yang tersedia untuk membantu pertumbuhan usahamu." },
+];
+---
+
+<Layout title={title} description={description} openGraph={{ title, description, url: "https://drinkregen.com/jadi-reseller-regen", images: [{ url: "https://drinkregen.com/banner-product.webp", alt: "Pilihan produk REGEN untuk mitra reseller" }] }}>
+  <article class="reseller-page regen-page" lang="id">
+    <section class="reseller-hero regen-hero" aria-labelledby="reseller-title">
+      <div class="hero-copy">
+        <p class="eyebrow regen-eyebrow"><span aria-hidden="true">✳</span> PELUANG KEMITRAAN REGEN</p>
+        <h1 class="regen-title" id="reseller-title">Tumbuh<br />bersama <span>REGEN.</span></h1>
+        <h2>Bawa kesegaran sehat ke kotamu.</h2>
+        <p class="hero-description regen-lead">Permintaan minuman manis bebas gula terus melonjak. Ambil peluang ini dan jadilah mitra distribusi resmi REGEN untuk menjangkau konsumen di wilayahmu.</p>
+        <a class="reseller-button regen-button" href="#daftar-reseller">Isi Formulir Reseller <span aria-hidden="true">↘</span></a>
+      </div>
+      <div class="product-scene">
+        <div class="scene-circle" aria-hidden="true"></div>
+        <span class="scene-word" aria-hidden="true">GROW<br />TOGETHER.</span>
+        <img class="bottle bottle-left" src="/300ml/lemonlime.webp" alt="REGEN Lemon Lime" width="480" height="720" />
+        <img class="bottle bottle-right" src="/300ml/lychee.webp" alt="REGEN Lychee" width="480" height="720" />
+        <img class="bottle bottle-front" src="/300ml/orange.webp" alt="REGEN Orange" width="480" height="720" fetchpriority="high" />
+        <div class="partner-stamp"><span>JADI MITRA</span><strong>REGEN</strong><span>TUMBUH BERSAMA ↗</span></div>
+        <span class="scene-caption">Kesegaran REGEN. Peluang untuk kotamu.</span>
+      </div>
+      <div class="hero-bottom"><span>BEBAS GULA</span><span>FULL RASA</span><span>TUMBUH BERSAMA</span></div>
+    </section>
+
+    <section class="partnership-section regen-section" aria-labelledby="partnership-title">
+      <div class="section-heading"><p class="eyebrow regen-eyebrow">LANGKAH BARU UNTUK USAHAMU</p><h2 class="regen-heading" id="partnership-title">Peluang segar.<br /><span>Mulai dari sini.</span></h2><p>Kenali lebih dekat kesempatan kerja sama bersama tim Area Manager REGEN.</p></div>
+      <div class="benefits">{benefits.map(benefit => <section class="benefit"><span class="benefit-number">{benefit.number}</span><h3>{benefit.title}</h3><p>{benefit.description}</p><span class="benefit-arrow" aria-hidden="true">↗</span></section>)}</div>
+    </section>
+
+    <section class="registration-section regen-section" id="daftar-reseller" aria-labelledby="registration-title">
+      <div class="registration-copy"><p class="eyebrow regen-eyebrow">MULAI CERITA SUKSESMU</p><h2 class="regen-heading" id="registration-title">Kotamu, Peluangmu<br /><span>Bersama REGEN.</span></h2></div>
+      <div class="registration-card regen-card"><span class="card-symbol" aria-hidden="true">↗</span><p>Tertarik menjadi reseller atau agen distribusi? Cukup isi formulir singkat di bawah ini. Tim Area Manager kami akan segera menghubungi kamu untuk menjelaskan skema kerja sama, harga khusus, dan dukungan promosi yang tersedia.</p><a class="reseller-button regen-button" href={resellerForm} target="_blank" rel="noopener noreferrer">Isi Formulir Reseller <span aria-hidden="true">↗</span><span class="sr-only"> (buka tab baru)</span></a><span class="form-note">Formulir dibuka melalui Google Forms di tab baru.</span><div class="next-step"><span aria-hidden="true">✓</span><p>Isi formulir. Terhubung dengan tim.<br /><strong>Temukan peluang kerja samamu.</strong></p></div></div>
+    </section>
+  </article>
+</Layout>

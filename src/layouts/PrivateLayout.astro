@@ -1,0 +1,165 @@
+---
+import { SEO } from "astro-seo";
+import "../styles/global.css";
+import SmoothScroll from "../components/SmoothScroll.tsx";
+import { ClientRouter } from "astro:transitions";
+import Navigation from "../components/Navigation.tsx";
+import Footer from "../components/Footer.astro";
+import { DEFAULT_META } from "@/lib/const.web";
+import InstagramPostSlider from "../components/InstagramPostSlider.tsx";
+import { Font } from "astro:assets";
+import { fade } from "astro:transitions";
+import GoogleAnalytics from "../components/GoogleAnalytics.astro";
+
+interface Metadata {
+  title?: string;
+  description?: string;
+  productImage?: string;
+  openGraph?: any;
+  twitter?: any;
+  extend?: {
+    link?: { rel: string; href: string }[];
+    meta?: { name: string; content: string }[];
+  };
+  schemaData?: any
+}
+
+const { title, description, openGraph, twitter, extend, schemaData } =
+  Astro.props as Metadata;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+
+const finalTitle = title || DEFAULT_META.title;
+const finalDescription = description || DEFAULT_META.description;
+
+const defaultOpenGraphForSEO = {
+  basic: {
+    title: DEFAULT_META.openGraph.title,
+    type: DEFAULT_META.openGraph.type,
+    image: DEFAULT_META.openGraph.images[0]?.url || "/og-image.jpg",
+  },
+  optional: {
+    description: DEFAULT_META.openGraph.description,
+    url: canonicalURL,
+    siteName: DEFAULT_META.openGraph.siteName,
+    locale: DEFAULT_META.openGraph.locale,
+  },
+  image: {
+    url: DEFAULT_META.openGraph.images[0]?.url || "/og-image.jpg",
+    width: DEFAULT_META.openGraph.images[0]?.width,
+    height: DEFAULT_META.openGraph.images[0]?.height,
+    alt: DEFAULT_META.openGraph.images[0]?.alt,
+  },
+};
+
+const normalizeOpenGraph = (value: any) => {
+  if (!value) return defaultOpenGraphForSEO;
+
+  const imageData =
+    value.images?.[0] || value.image || DEFAULT_META.openGraph.images[0];
+
+  return {
+    basic: {
+      title: value.basic?.title || value.title || DEFAULT_META.openGraph.title,
+      type: value.basic?.type || value.type || DEFAULT_META.openGraph.type,
+      image:
+        value.basic?.image ||
+        value.image ||
+        imageData?.url ||
+        DEFAULT_META.openGraph.images[0]?.url ||
+        "/og-image.jpg",
+    },
+    optional: {
+      description:
+        value.optional?.description ||
+        value.description ||
+        DEFAULT_META.openGraph.description,
+      url: value.optional?.url || value.url || DEFAULT_META.openGraph.url,
+      siteName:
+        value.optional?.siteName ||
+        value.siteName ||
+        DEFAULT_META.openGraph.siteName,
+      locale:
+        value.optional?.locale || value.locale || DEFAULT_META.openGraph.locale,
+    },
+    image: {
+      url:
+        value.image?.url ||
+        value.basic?.image ||
+        imageData?.url ||
+        DEFAULT_META.openGraph.images[0]?.url ||
+        "/og-image.jpg",
+      width:
+        value.image?.width ||
+        imageData?.width ||
+        DEFAULT_META.openGraph.images[0]?.width,
+      height:
+        value.image?.height ||
+        imageData?.height ||
+        DEFAULT_META.openGraph.images[0]?.height,
+      alt:
+        value.image?.alt ||
+        imageData?.alt ||
+        DEFAULT_META.openGraph.images[0]?.alt,
+    },
+  };
+};
+
+const finalOpenGraph = normalizeOpenGraph(openGraph);
+const finalTwitter = twitter || DEFAULT_META.twitter;
+const finalExtend = extend || {
+  link: [{ rel: "icon", href: "/Favicon.ico" }],
+  meta: [],
+};
+---
+
+<!doctype html>
+<html lang="en" transition:name="root" transition:animate={fade({ duration: "0.4s" })}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- <GoogleAnalytics measurementId={'G-YLZY6Y5923'} /> -->
+    <ClientRouter />
+    <SEO
+      title={finalTitle}
+      description={finalDescription}
+      openGraph={finalOpenGraph}
+      twitter={finalTwitter}
+      extend={finalExtend}
+    />
+    <Font cssVariable="--font-headoh" />
+    <Font cssVariable="--font-thunderhouse" />
+    <Font cssVariable="--font-russo" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    {schemaData && (
+      <script is:inline type="application/ld+json" set:html={JSON.stringify(schemaData)}></script>
+    )}
+  </head>
+  <body>
+    <Navigation client:load />
+    <SmoothScroll client:load>
+      <slot />
+      <script>
+      import Lenis from 'lenis';
+
+      const lenis = new Lenis({
+        duration: 1.2,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        smoothWheel: true,
+      });
+
+      function raf(time: number) {
+        lenis.raf(time);
+        requestAnimationFrame(raf);
+      }
+
+      requestAnimationFrame(raf);
+    </script>
+      <InstagramPostSlider client:load />
+    </SmoothScroll>
+    <Footer />
+  </body>
+</html>

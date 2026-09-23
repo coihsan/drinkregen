@@ -6,6 +6,7 @@ import BannerBuyProductRegenByItem from "@/src/components/product/BannerBuyProdu
 import { getProductVariant } from "@/lib/product-catalog";
 import { DetailProductAvailableByVariant } from "@/lib/product-availability";
 import { generateRegenProductSchema } from "@/utils/seo";
+import BannerReseller from "@/src/components/BannerReseller.astro";
 
 const productId = "apple";
 const productSize = "300ml";
@@ -68,5 +69,6 @@ const productSchema = generateRegenProductSchema({
           />
         </div>
         <BannerBuyProductRegenByItem client:load content={DetailProductAvailable} />
+        <BannerReseller />
       </div>
 </Layout>

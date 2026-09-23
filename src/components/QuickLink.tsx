@@ -10,7 +10,7 @@ const QuickLink = ({ className }: QuickLinkProps) => {
       <ul className={className}>
         {SiteLink.map((item, key) => (
           <li key={key}>
-            <a className="hover:text-yellow-400 transition-color duration-500" href={item.url}>{item.title}</a>
+            <a className="hover:underline transition-color duration-500" href={item.url}>{item.title}</a>
           </li>
         ))}
       </ul>

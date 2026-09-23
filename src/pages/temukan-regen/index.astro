@@ -1,0 +1,32 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import ProductChannels from "../../components/ProductChannels";
+import HeroSection from "@/src/components/HeroSection";
+import { HeroContent } from "@/lib/const.web";
+import BannerReseller from "@/src/components/BannerReseller.astro";
+const title = "Temukan Regen — Toko Online & Offline";
+const description = "Temukan semua varian Regen dan lokasi pembeliannya secara online maupun offline.";
+---
+
+<Layout
+  title={title}
+  description={description}
+  openGraph={{
+    title,
+    description,
+    images: [
+      {
+        url: "/og-image-regen.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Temukan Regen",
+      },
+    ],
+  }}
+>
+<HeroSection client:load slides={HeroContent} />
+  <main lang="id">
+    <ProductChannels client:load />
+    <BannerReseller />
+  </main>
+</Layout>

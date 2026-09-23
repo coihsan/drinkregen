@@ -1,66 +1,137 @@
 ---
-import BannerHeader from "@/src/components/BannerHeader.tsx";
+import Layout from "@/src/layouts/Layout.astro";
+import "@/src/styles/tentang-regen.css";
 
+const title = "Tentang REGEN — Manisnya Tetap Ada, Gulanya Nggak.";
+const description = "Kenali REGEN, minuman bervitamin bebas gula dari PT Global Enak Nikmat dengan vitamin C, vitamin B kompleks, dan manis alami stevia.";
 const schemaData = {
   "@context": "https://schema.org",
   "@type": "Organization",
-  name: "Regen",
+  name: "REGEN",
+  legalName: "PT Global Enak Nikmat",
   url: "https://drinkregen.com",
-  logo: "https://drinkregen.com/logo.png",
-  description:
-    "Penjelasan resmi, padat, dan jelas mengenai apa itu perusahaan Regen.",
-  foundingDate: "2026",
-  sameAs: [
-    "https://www.instagram.com/drinkregenid",
-    "https://www.tiktok.com/company/@drinkregenid",
-  ],
+  logo: "https://drinkregen.com/regen-logo.webp",
+  description,
 };
-
-const jsonLd = JSON.stringify(schemaData);
-import Layout from "@/src/layouts/Layout.astro";
-
-const bannerContent = [
-  {
-    type: "image" as const,
-    desktopImageUrl: "/banner-umroh-desktop.webp",
-    tabletImageUrl: "/slide-1-tablet.jpg",
-    mobileImageUrl: "/slide-1-mobile.jpg",
-    alt: "Banner product regen",
-  },
+const stores = [
+  { name: "Indomaret", logo: "/store/indomaret.svg" },
+  { name: "Alfamart", logo: "/store/alfamart.svg" },
+  { name: "Alfamidi", logo: "/store/alfamidi.svg" },
+  { name: "Lawson", logo: "/store/lawson.svg" },
+  { name: "FamilyMart", logo: "/store/familymart.svg" },
 ];
 ---
 
-<Layout
-  title="Tentang Regen - Minuman Vitamin dan #BebasGula"
-  description="Kenali Regen dari PT Global Enak Nikmat. Minuman penyegar andalan untuk gaya hidup aktifmu. Balikin fokus dan energi instan dengan rasa yang juara!"
-  openGraph={{
-    title: "Tentang Regen - - Minuman Vitamin dan #BebasGula",
-    description:
-      "Kenali Regen dari PT Global Enak Nikmat. Minuman penyegar andalan untuk gaya hidup aktifmu. Balikin fokus dan energi instan dengan rasa yang juara!",
-    images: [
-      {
-        url: "/og-image-regen.jpg",
-        width: 1200,
-        height: 630,
-        alt: "Regen Apple - Immune Support",
-      },
-    ],
-    schemaData: { jsonLd },
-  }}
->
-  <BannerHeader client:load content={bannerContent} />
-  <article class="container prose lg:prose-xl">
-    <h1 class="text-6xl font-bold">Mengenal Lebih Dekat Regen</h1>
-    <h2>Rehidrasi Optimal, Tanpa Rasa B ersalah.</h2>
-    <p>
-      REGEN adalah minuman hidrasi fungsional generasi baru yang hadir untuk
-      membantu masyarakat Indonesia menjalani gaya hidup yang lebih sehat tanpa
-      harus mengorbankan rasa.
-    </p>
-    <p
-      class="wrapperButton"
-    >
-      Untuk Generasi Baru
-    </p>
+<Layout title={title} description={description} schemaData={schemaData} openGraph={{ title, description, url: "https://drinkregen.com/tentang-regen", images: [{ url: "https://drinkregen.com/banner-product.webp", alt: "Pilihan minuman vitamin REGEN bebas gula" }] }}>
+  <article class="about-regen regen-page" lang="id">
+    <section class="about-hero regen-hero" aria-labelledby="about-title">
+      <div class="hero-grain" aria-hidden="true"></div>
+      <div class="hero-copy">
+        <p class="eyebrow regen-eyebrow"><span></span> TENTANG REGEN</p>
+        <h1 class="regen-title" id="about-title">Manisnya tetap ada.<br /><span>Gulanya nggak.</span></h1>
+        <p class="hero-intro regen-lead">Rasa yang kamu suka.<br />Kebaikan yang tubuhmu butuhkan.</p>
+        <a class="about-button dark regen-button" href="#cerita-regen">Kenalan lebih dekat <span aria-hidden="true">↘</span></a>
+      </div>
+      <div class="hero-art" aria-label="REGEN varian lemon lime, orange, dan lychee">
+        <div class="orbit orbit-one" aria-hidden="true"></div>
+        <div class="orbit orbit-two" aria-hidden="true"></div>
+        <span class="art-word" aria-hidden="true">FEEL<br />GOOD.</span>
+        <div class="bottle bottle-lime" data-about-parallax="0.10"><img src="/300ml/lemonlime.webp" alt="REGEN Lemon Lime" width="480" height="720" fetchpriority="high" /></div>
+        <div class="bottle bottle-lychee" data-about-parallax="-0.08"><img src="/300ml/apple.webp" alt="REGEN Lychee" width="480" height="720" /></div>
+        <div class="bottle bottle-orange" data-about-parallax="0.18"><img src="/300ml/orange.webp" alt="REGEN Orange" width="480" height="720" fetchpriority="high" /></div>
+        <div class="sugar-stamp"><strong>0</strong><span>GULA • KALORI</span></div>
+        <span class="art-note">Vitamin drink. Everyday refreshment.</span>
+      </div>
+      <div class="hero-bottom"><span>MANIS ALAMI DARI STEVIA</span><span>VITAMIN C + B</span><span>MANIS ALAMI</span></div>
+    </section>
+
+    <section class="intro-section section-pad regen-section" id="cerita-regen" aria-labelledby="intro-title">
+      <div class="section-label"><span>01 / KENALAN DULU</span><span aria-hidden="true">✳</span></div>
+      <div class="intro-content">
+        <h2 class="regen-heading" id="intro-title">Segarnya dapet.<br /><span>Baiknya juga.</span></h2>
+        <div class="intro-body"><p>REGEN adalah minuman bervitamin bebas gula dari <strong>PT Global Enak Nikmat</strong>. Rasanya manis dan segar alami dari <em>Glikosida Steviol</em> (ekstrak dari tanaman stevia).</p><p>REGEN diformulasikan untuk menjaga tubuh tetap fit lewat kombinasi vitamin C dan spektrum lengkap vitamin B, tanpa kompromi pada rasa.</p></div>
+      </div>
+    </section>
+
+    <section class="story-section section-pad regen-section" aria-labelledby="story-title">
+      <div class="story-visual">
+        <span class="eyebrow regen-eyebrow">ENJOY THE SWEET SIDE.</span>
+        <div class="story-circle" aria-hidden="true"></div>
+        <img data-about-parallax="0.09" src="/hand-hold-regen.webp" alt="Kesegaran REGEN dalam genggaman" width="650" height="800" loading="lazy" />
+        <div class="story-sticker">Tetap manis.<br />Tetap kamu. <span aria-hidden="true">↗</span></div>
+      </div>
+      <div class="story-copy">
+        <p class="eyebrow regen-eyebrow">02 / CERITA DI BALIK REGEN</p>
+        <h2 class="regen-heading" id="story-title">Kenapa<br />REGEN ada?</h2>
+        <p>Minuman manis sudah jadi bagian dari rutinitas harian kita: teman kerja, nongkrong, hingga pelengkap saat santai. Namun, kekhawatiran terhadap konsumsi gula berlebih juga makin nyata; mulai dari lonjakan energi sesaat yang bikin cepat lelah (<em>sugar crash</em>), hingga risiko jangka panjang seperti diabetes dan obesitas.</p>
+        <p>Di sisi lain, opsi minuman manis yang benar-benar nyaman dikonsumsi setiap hari masih terbatas. Banyak orang terjebak antara rasa manis yang berisiko gula tinggi, atau rasa tawar yang membosankan.</p>
+        <p class="story-highlight">REGEN hadir bukan untuk menyuruh kamu berhenti total menikmati minuman manis.</p>
+        <p>Kami ingin kamu tetap bisa merasakan segarnya minuman manis favoritmu, tanpa rasa bersalah, tanpa mendekatkan diri dengan risiko konsumsi gula.</p>
+      </div>
+    </section>
+
+    <div class="statement-strip" aria-hidden="true"><div data-about-parallax="0.06">MINUMAN VITAMIN <span>✳</span> BEBAS GULA <span>✳</span> MINUMAN VITAMIN <span>✳</span> BEBAS GULA</div></div>
+
+    <section class="nutrition-section section-pad regen-section" aria-labelledby="nutrition-title">
+      <div class="nutrition-heading"><p class="eyebrow regen-eyebrow">03 / KEBAIKAN DI SETIAP TEGUK</p><h2 class="regen-heading" id="nutrition-title">Lebih dari<br />sekadar <span>segar.</span></h2><p>Nutrisi harian yang bekerja. Kami tidak hanya menghilangkan gula, tapi juga memastikan setiap tegukannya memberi manfaat nyata.</p></div>
+      <div class="nutrition-grid">
+        <section class="regen-card nutrition-card energy"><div class="card-top"><span>METABOLISME ENERGI</span><span>01</span></div><div class="nutrient-symbol" aria-hidden="true">B<span>kompleks</span></div><h3>Energi untuk<br />jalanin hari.</h3><p>Banyak orang fokus pada daya tahan tubuh, tapi lupa bahwa tubuh butuh “bahan bakar” yang efisien. Vitamin B membantu proses metabolisme tubuh mengubah nutrisi menjadi energi aktif, sehingga kamu tetap bertenaga menjalani aktivitas padat seharian.</p></section>
+        <section class="regen-card nutrition-card immunity"><div class="card-top"><span>DAYA TAHAN TUBUH</span><span>02</span></div><div class="nutrient-symbol" aria-hidden="true">C<span>vitamin</span></div><h3>Dukungan baik.<br />Setiap hari.</h3><p>Dukungan vitamin C untuk menjaga imunitas tetap optimal setiap hari.</p><p class="vitamin-note">Khusus varian <strong>REGEN Orange</strong>, diformulasikan dengan kadar <strong>Tinggi Vitamin C</strong> ekstra untuk perlindungan harian yang lebih optimal.</p></section>
+        <section class="regen-card nutrition-card refresh"><div class="card-top"><span>MANIS ALAMI</span><span>03</span></div><div class="nutrient-symbol refresh-symbol" aria-hidden="true"><svg class="stevia-icon" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M13 48C4 22 26 11 53 9c2 27-9 48-32 43" /><path d="M9 58 43 22M21 46l-2-14m11 5 14-1m-7-6-1-11" /></svg><span>stevia</span></div><h3>Manis Alami dari<br />Ekstrak Daun Stevia.</h3><p>REGEN tidak menggunakan gula pasir, gula cair, maupun pemanis buatan sintetis. Rasa manis segarnya murni berasal dari <b>glikosida steviol</b>, ekstrak alami daun stevia nabati dengan nol kalori. Hasilnya? Manis yang pas, bersih di lidah, dan nyaman dikonsumsi setiap hari tanpa rasa bersalah.</p></section>
+      </div>
+    </section>
+
+    <section class="find-section section-pad regen-section" aria-labelledby="find-title">
+      <div class="find-heading"><div><p class="eyebrow regen-eyebrow">04 / DEKAT DENGAN KESEHARIANMU</p><h2 class="regen-heading" id="find-title">Segarnya REGEN,<br /><span>nggak jauh-jauh.</span></h2></div><p>Mencari kesegaran yang bebas rasa bersalah kini makin dekat dengan keseharianmu. REGEN sudah bisa kamu dapatkan di kulkas minimarket dan supermarket favorit terdekat.</p></div>
+      <div class="store-list" aria-label="Tersedia di jaringan retail">{stores.map(store => <div class="store-item">{store.logo ? <img src={store.logo} alt={store.name} width="150" height="50" loading="lazy" /> : <span>{store.name}</span>}</div>)}</div>
+      <div class="retail-footer"><span>Dan jaringan retail terkemuka lainnya.</span><a href="/temukan-regen">Temukan REGEN di dekatmu <span aria-hidden="true">↗</span></a></div>
+      <div class="shop-banner"><div><span class="eyebrow regen-eyebrow">STOK SEGARNYA DI RUMAH</span><h3>Tinggal klik. Segarnya sampai.</h3><p>Lebih suka stok di rumah tanpa repot keluar? Pesan varian favoritmu secara <em>online</em> langsung ke depan pintu melalui official store kami di Shopee.</p></div><a class="about-button dark regen-button" href="https://shopee.co.id/regendrink" target="_blank" rel="noopener noreferrer">Belanja di Shopee <span aria-hidden="true">↗</span><span class="sr-only"> (buka tab baru)</span></a></div>
+    </section>
   </article>
 </Layout>
+
+<script>
+  class AboutParallax extends HTMLElement {
+    cleanup?: () => void;
+    connectedCallback() {
+      const root = this.closest('.about-regen');
+      if (!root) return;
+      const elements = [...root.querySelectorAll<HTMLElement>('[data-about-parallax]')];
+      const preference = window.matchMedia('(prefers-reduced-motion: reduce)');
+      let frame = 0;
+      const update = () => {
+        frame = 0;
+        const mobileScale = window.innerWidth < 701 ? 0.45 : 1;
+        elements.forEach(element => {
+          if (preference.matches) { element.style.removeProperty('transform'); return; }
+          const section = element.closest('section, .statement-strip');
+          if (!section) return;
+          const rect = section.getBoundingClientRect();
+          if (rect.bottom < -100 || rect.top > window.innerHeight + 100) return;
+          const progress = window.innerHeight / 2 - (rect.top + rect.height / 2);
+          const distance = Math.max(-65, Math.min(65, progress * Number(element.dataset.aboutParallax) * mobileScale));
+          element.style.transform = `translate3d(0, ${distance}px, 0)`;
+        });
+      };
+      const schedule = () => { if (!frame) frame = requestAnimationFrame(update); };
+      window.addEventListener('scroll', schedule, { passive: true });
+      window.addEventListener('resize', schedule);
+      preference.addEventListener('change', schedule);
+      update();
+      this.cleanup = () => {
+        cancelAnimationFrame(frame);
+        window.removeEventListener('scroll', schedule);
+        window.removeEventListener('resize', schedule);
+        preference.removeEventListener('change', schedule);
+      };
+    }
+    disconnectedCallback() { this.cleanup?.(); }
+  }
+  if (!customElements.get('about-parallax')) customElements.define('about-parallax', AboutParallax);
+  const mount = () => {
+    const root = document.querySelector('.about-regen');
+    if (root && !root.querySelector('about-parallax')) root.appendChild(document.createElement('about-parallax'));
+  };
+  mount();
+  document.addEventListener('astro:page-load', mount);
+</script>

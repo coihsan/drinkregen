@@ -1,0 +1,404 @@
+:where(.reseller-page) .eyebrow{
+    font-weight:800;
+    letter-spacing:.14em;
+    line-height:1.5
+}
+:where(.reseller-page) .eyebrow>span{
+    font-size:23px;
+    vertical-align:middle;
+    margin-right:8px
+}
+ :where(.reseller-page) .reseller-hero{
+    position:relative;
+    display:grid;
+    grid-template-columns:1.1fr 1fr;
+    gap:3vw;
+    align-items:center;
+    min-height:810px;
+    background:var(--regen-citrus);
+    background-image:radial-gradient(var(--regen-ink-a13) .8px,transparent .8px);
+    background-size:8px 8px
+}
+:where(.reseller-page) .hero-copy{
+    position:relative;
+    z-index:2
+}
+:where(.reseller-page) .hero-copy h1{
+    margin:25px 0
+}
+:where(.reseller-page) .hero-copy h1 span{
+    color:var(--regen-muted)
+}
+:where(.reseller-page) .hero-copy h2{
+    font-size:clamp(22px,2.2vw,32px);
+    max-width:470px;
+    letter-spacing:-.03em;
+    line-height:1.2
+}
+:where(.reseller-page) .hero-description{
+    max-width:540px;
+    margin-top:22px!important
+}
+:where(.reseller-page) .hero-copy>.reseller-button{
+    margin-top:30px
+}
+:where(.reseller-page) .reseller-button>span[aria-hidden]{
+    font-size:24px;
+    line-height:1
+}
+:where(.reseller-page) .reseller-button:hover{
+    background:var(--regen-green-dark);
+    transform:translateY(-3px)
+}
+:where(.reseller-page) .reseller-button:focus-visible{
+    outline:3px solid var(--regen-red-dark);
+    outline-offset:5px
+}
+ :where(.reseller-page) .product-scene{
+    position:relative;
+    min-width:0;
+    height:530px
+}
+:where(.reseller-page) .scene-circle{
+    position:absolute;
+    inset:10px -10px 0;
+    border:1px solid var(--regen-ink-a30);
+    border-radius:50%;
+    background:radial-gradient(circle,var(--regen-citrus),transparent 70%)
+}
+:where(.reseller-page) .scene-word{
+    position:absolute;
+    top:60px;
+    left:0;
+    right:0;
+    text-align:center;
+    font-family:var(--font-headoh);
+    font-size:clamp(45px,6vw,90px);
+    letter-spacing:-.06em;
+    line-height:.95;
+    color:var(--regen-citrus)
+}
+:where(.reseller-page) .bottle{
+    position:absolute;
+    object-fit:contain;
+    filter:drop-shadow(10px 22px 15px var(--regen-ink-a25));
+    width:49%;
+    height:380px;
+    top:90px
+}
+:where(.reseller-page) .bottle-left{
+    left:-3%;
+    rotate:-18deg
+}
+:where(.reseller-page) .bottle-right{
+    right:-3%;
+    rotate:18deg
+}
+:where(.reseller-page) .bottle-front{
+    left:22%;
+    width:56%;
+    height:455px;
+    top:30px;
+    rotate:2deg
+}
+:where(.reseller-page) .partner-stamp{
+    position:absolute;
+    right:-5px;
+    bottom:32px;
+    background:var(--regen-coral-soft);
+    width:139px;
+    height:139px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+    gap:7px;
+    rotate:12deg;
+    border:1px solid var(--ink);
+    box-shadow:4px 5px 0 var(--ink)
+}
+:where(.reseller-page) .partner-stamp>span{
+    font-size:9px;
+    letter-spacing:.07em;
+    font-weight:bold
+}
+:where(.reseller-page) .partner-stamp strong{
+    font-family:var(--font-headoh);
+    font-size:25px
+}
+:where(.reseller-page) .scene-caption{
+    position:absolute;
+    bottom:0;
+    left:0;
+    font-size:10px;
+    letter-spacing:.03em
+}
+:where(.reseller-page) .hero-bottom{
+    position:absolute;
+    bottom:0;
+    left:var(--regen-page-inset);
+    right:var(--regen-page-inset);
+    border-top:1px solid var(--regen-ink-a30);
+    padding:23px 0;
+    display:flex;
+    justify-content:space-between;
+    gap:12px;
+    font-size:10px;
+    font-weight:bold;
+    letter-spacing:.14em
+}
+:where(.reseller-page) .section-heading{
+    display:grid;
+    grid-template-columns:1.1fr 1fr;
+    gap:22px 10vw;
+    align-items:end
+}
+:where(.reseller-page) .section-heading>.eyebrow{
+    grid-column:1/-1
+}
+:where(.reseller-page) .section-heading h2 span{
+    color:var(--regen-muted)
+}
+:where(.reseller-page) .section-heading>p:last-child{
+    font-size:17px;
+    line-height:1.8;
+    max-width:370px
+}
+:where(.reseller-page) .benefits{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    margin-top:45px;
+    gap:20px
+}
+:where(.reseller-page) .benefit{
+    position:relative;
+    border-top:1px solid var(--regen-ink-a40);
+    padding:25px 35px 15px 0
+}
+:where(.reseller-page) .benefit-number{
+    font-size:12px;
+    letter-spacing:.1em;
+    color:var(--regen-muted)
+}
+:where(.reseller-page) .benefit h3{
+    font-size:25px;
+    margin:24px 0 15px;
+    letter-spacing:-.03em
+}
+:where(.reseller-page) .benefit p{
+    font-size:15px;
+    line-height:1.8;
+    max-width:330px
+}
+:where(.reseller-page) .benefit-arrow{
+    position:absolute;
+    right:8px;
+    top:18px;
+    font-size:27px
+}
+ :where(.reseller-page) .registration-section{
+    background:var(--ink);
+    color:var(--paper);
+    display:grid;
+    grid-template-columns:1.1fr 1fr;
+    align-items:center;
+    gap:8vw;
+    scroll-margin-top:100px
+}
+:where(.reseller-page) .registration-copy>.eyebrow{
+    color:var(--lime)
+}
+:where(.reseller-page) .registration-copy h2{
+    margin:25px 0
+}
+:where(.reseller-page) .registration-copy h2 span{
+    color:var(--lime)
+}
+:where(.reseller-page) .registration-copy>p:last-child{
+    font-size:16px;
+    line-height:1.85;
+    max-width:550px
+}
+:where(.reseller-page) .registration-card{
+    background:var(--paper);
+    color:var(--ink);
+    border-radius:16px;
+    padding:38px
+}
+:where(.reseller-page) .card-symbol{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    width:65px;
+    height:65px;
+    border-radius:50%;
+    background:var(--lime);
+    font-size:42px;
+    margin-bottom:28px
+}
+:where(.reseller-page) .registration-card h3{
+    font-size:38px;
+    margin:18px 0
+}
+:where(.reseller-page) .registration-card>p:not(.eyebrow){
+    font-size:15px;
+    line-height:1.8
+}
+:where(.reseller-page) .registration-card .reseller-button{
+    width:100%;
+    margin-top:28px
+}
+:where(.reseller-page) .form-note{
+    display:block;
+    font-size:11px;
+    line-height:1.6;
+    margin-top:13px;
+    color:var(--regen-muted)
+}
+:where(.reseller-page) .next-step{
+    border-top:1px solid var(--regen-ink-a25);
+    padding-top:23px;
+    margin-top:25px;
+    display:flex;
+    align-items:center;
+    gap:15px
+}
+:where(.reseller-page) .next-step>span{
+    background:var(--lime);
+    border-radius:50%;
+    width:30px;
+    height:30px;
+    text-align:center;
+    line-height:30px
+}
+:where(.reseller-page) .next-step p{
+    font-size:12px;
+    line-height:1.8
+}
+ @media(min-width:1600px){
+    :where(.reseller-page) .reseller-hero,:where(.reseller-page) .partnership-section,:where(.reseller-page) .registration-section{
+        padding-left:max(6vw,calc((100vw - 1400px)/2));
+        padding-right:max(6vw,calc((100vw - 1400px)/2))
+    }
+}
+ @media(max-width:1000px){
+    :where(.reseller-page) .reseller-hero{
+        gap:10px
+    }
+    :where(.reseller-page) .product-scene{
+        height:450px
+    }
+    :where(.reseller-page) .bottle{
+        height:320px
+    }
+    :where(.reseller-page) .bottle-front{
+        height:390px;
+        top:25px
+    }
+    :where(.reseller-page) .partner-stamp{
+        width:110px;
+        height:110px
+    }
+    :where(.reseller-page) .partner-stamp strong{
+        font-size:22px
+    }
+    :where(.reseller-page) .partner-stamp>span{
+        font-size:7px
+    }
+    :where(.reseller-page) .registration-section{
+        gap:5vw
+    }
+    :where(.reseller-page) .registration-card{
+        padding:28px
+    }
+    :where(.reseller-page) .registration-card h3{
+        font-size:32px
+    }
+}
+ @media(max-width:700px){
+    :where(.reseller-page) .reseller-hero{
+        grid-template-columns:1fr;
+        gap:30px;
+        min-height:auto
+    }
+    :where(.reseller-page) .hero-copy h2{
+        font-size:25px;
+        max-width:350px
+    }
+    :where(.reseller-page) .product-scene{
+        height:410px;
+        max-width:450px;
+        width:100%;
+        margin:auto
+    }
+    :where(.reseller-page) .bottle{
+        height:300px;
+        top:70px
+    }
+    :where(.reseller-page) .bottle-front{
+        height:370px;
+        top:5px
+    }
+    :where(.reseller-page) .scene-word{
+        font-size:clamp(40px,10vw,65px)
+    }
+    :where(.reseller-page) .scene-circle{
+        inset:0
+    }
+    :where(.reseller-page) .partner-stamp{
+        bottom:25px;
+        right:5px
+    }
+    :where(.reseller-page) .hero-bottom{
+        font-size:8px;
+        letter-spacing:.08em
+    }
+    :where(.reseller-page) .scene-caption{
+        font-size:9px
+    }
+    :where(.reseller-page) .section-heading{
+        grid-template-columns:1fr;
+        gap:20px
+    }
+    :where(.reseller-page) .section-heading>p:last-child{
+        font-size:15px
+    }
+    :where(.reseller-page) .benefits{
+        grid-template-columns:1fr;
+        gap:18px;
+        margin-top:30px
+    }
+    :where(.reseller-page) .benefit{
+        padding-bottom:10px
+    }
+    :where(.reseller-page) .benefit h3{
+        margin-top:16px
+    }
+    :where(.reseller-page) .benefit p{
+        max-width:none
+    }
+    :where(.reseller-page) .registration-section{
+        grid-template-columns:1fr;
+        gap:35px
+    }
+    :where(.reseller-page) .registration-copy>p:last-child{
+        font-size:15px
+    }
+    :where(.reseller-page) .registration-card{
+        padding:27px
+    }
+    :where(.reseller-page) .registration-card h3{
+        font-size:33px
+    }
+    :where(.reseller-page) .registration-card .reseller-button{
+        padding:18px 20px;
+        gap:12px;
+        font-size:13px
+    }
+}
+ @media(prefers-reduced-motion:reduce){
+    :where(.reseller-page) .reseller-button:hover{
+        transform:none
+    }
+}

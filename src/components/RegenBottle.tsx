@@ -10,12 +10,10 @@ interface RegenBottleProps {
 }
 
 export const RegenBottle: React.FC<RegenBottleProps> = ({ flavor }) => {
-  // Create beautiful, spring-based interactive rotation logic on hover!
   const rotateX = useSpring(0, { stiffness: 150, damping: 15 });
   const rotateY = useSpring(0, { stiffness: 150, damping: 15 });
   const scale = useSpring(1, { stiffness: 200, damping: 20 });
 
-  // Handle subtle 3D tilt effect on mouse move!
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
     const width = rect.width;
@@ -23,7 +21,6 @@ export const RegenBottle: React.FC<RegenBottleProps> = ({ flavor }) => {
     const mouseX = e.clientX - rect.left - width / 2;
     const mouseY = e.clientY - rect.top - height / 2;
     
-    // Convert to maximum 12 degrees rotation
     rotateX.set(-mouseY / height * 18);
     rotateY.set(mouseX / width * 18);
     scale.set(1.05);
@@ -36,7 +33,6 @@ export const RegenBottle: React.FC<RegenBottleProps> = ({ flavor }) => {
   };
 
   const handleInteractBottle = () => {
-    // Play can open hiss on click!
     fizzySound.playCanOpen();
   };
 
@@ -55,8 +51,6 @@ export const RegenBottle: React.FC<RegenBottleProps> = ({ flavor }) => {
       }}
       id={`bottle-container-${flavor.productSize}-${flavor.id}`}
     >
-      {/* ========================================================= */}
-      {/* LAYER 1: Base Shadow (Berada paling belakang) */}
       <svg
         viewBox="0 0 200 520"
         className="absolute inset-0 w-full h-full pointer-events-none"
@@ -69,9 +63,6 @@ export const RegenBottle: React.FC<RegenBottleProps> = ({ flavor }) => {
         </defs>
         <ellipse cx="100" cy="510" rx="60" ry="10" fill="url(#bottomShadow)" opacity="0.65" />
       </svg>
-
-      {/* ========================================================= */}
-      {/* LAYER 2: Main product bottle image from product-size metadata */}
       <img
         src={flavor.bottleImage}
         alt={`${flavor.name} ${flavor.productSize} - ${flavor.sweetener}`}

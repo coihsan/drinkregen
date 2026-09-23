@@ -1,14 +1,710 @@
 ---
-import Layout from "../../layouts/Layout.astro";
-import { DEFAULT_META } from "../../../lib/const.web";
+import Layout from "@/src/layouts/Layout.astro";
+import RegenWhite from "@/src/assets/icons/logo-regen-white.svg"
+import {
+  PRODUCT300ML_VARIANTS,
+  PRODUCT450ML_VARIANTS,
+} from "@/lib/product-catalog";
+const groups = [
+  {
+    size: "300ml",
+    products: PRODUCT300ML_VARIANTS,
+    headline: "Kecil botolnya. Banyak pilihannya.",
+    description:
+      "Enam pilihan rasa dengan manis alami dari stevia. Temukan kesegaran yang paling kamu suka.",
+  },
+  {
+    size: "450ml",
+    products: PRODUCT450ML_VARIANTS,
+    headline: "Lebih banyak segarnya.",
+    description:
+      "Tiga pilihan rasa dalam botol lebih besar, dengan pemanis sukralosa untuk menemani aktivitasmu.",
+  },
+];
+const products = [...PRODUCT300ML_VARIANTS, ...PRODUCT450ML_VARIANTS];
+const title = "Semua Produk REGEN — Pilih Kesegaran Favoritmu";
+const description =
+  "Jelajahi seluruh varian REGEN 300ml dan 450ml. Temukan pilihan rasa, kandungan vitamin, dan informasi produk favoritmu.";
+const schemaData = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  name: title,
+  description,
+  url: "https://drinkregen.com/product",
+  mainEntity: {
+    "@type": "ItemList",
+    itemListElement: products.map((p, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      name: `${p.name} ${p.productSize}`,
+      url: new URL(p.detailUrl, Astro.site).href,
+    })),
+  },
+};
 ---
+
 <Layout
-  title={DEFAULT_META.title}
-  description={DEFAULT_META.description}
-  openGraph={DEFAULT_META.openGraph}
-  twitter={DEFAULT_META.twitter}
-  extend={{ link: [{ rel: "icon", href: "/Favicon.ico" }], meta: [] }}
-  image={DEFAULT_META.openGraph.images[0]?.url || "/og-image.jpg"}
-  >
-  <h1>Helllo</h1>
+  title={title}
+  description={description}
+  schemaData={schemaData}
+  openGraph={{
+    title,
+    description,
+    url: "https://drinkregen.com/product",
+    images: [
+      {
+        url: "https://drinkregen.com/banner-product.webp",
+        alt: "Pilihan produk REGEN",
+      },
+    ],
+  }}
+>
+  <article class="catalog" lang="id">
+    <section class="catalog-hero" aria-labelledby="catalog-title">
+      <div>
+        <p class="catalog-eyebrow">REGEN / SEMUA PRODUK</p><h1
+          id="catalog-title"
+        >
+          Beda rasa.<br /><span>Sama segarnya.</span>
+        </h1><p class="catalog-intro">
+          Dari rasa buah favorit sampai ukuran yang pas buat harimu. Jelajahi
+          semua pilihan minuman vitamin REGEN bebas gula.
+        </p><a class="catalog-button" href="#koleksi"
+          >Temukan favoritmu <span aria-hidden="true">↘</span></a>
+      </div>
+      <div class="catalog-art" aria-label="Pilihan botol REGEN 300ml dan 450ml">
+        <div class="catalog-orbit" aria-hidden="true"></div><span
+          class="catalog-art-word"
+          aria-hidden="true">PICK YOUR<br />FAVORITE.</span
+        >
+        <img
+          class="catalog-bottle bottle-two"
+          src="/300ml/lemonlime.webp"
+          alt="REGEN Lemon Lime 300ml"
+          width="300"
+          height="300"
+          fetchpriority="high"
+        />
+        <img
+          class="catalog-bottle bottle-one"
+          src="/300ml/orange.webp"
+          alt="REGEN Orange 300ml"
+          width="300"
+          height="450"
+          fetchpriority="high"
+        />
+        <img
+          class="catalog-bottle bottle-three"
+          src="/300ml/apple.webp"
+          alt="REGEN Apple 300ml"
+          width="300"
+          height="450"
+        /><span class="catalog-stamp">MINUMAN VITAMIN.<br />BEBAS GULA.</span>
+      </div>
+      <div class="catalog-hero-foot">
+        <span>6 PILIHAN RASA</span><span>2 UKURAN BOTOL</span><span
+          >SESEGAR PILIHANMU</span>
+      </div>
+    </section>
+    <div class="catalog-collection" id="koleksi">
+      <div class="catalog-toolbar">
+        <div>
+          <p class="catalog-eyebrow">PILIH UKURAN, TEMUKAN RASAMU</p><span
+            >{products.length} pilihan produk REGEN</span>
+        </div><nav aria-label="Pilih ukuran produk">
+          <a href="#regen-300ml"
+            >300ml <span>{PRODUCT300ML_VARIANTS.length} varian</span></a
+          ><a href="#regen-450ml"
+            >450ml <span>{PRODUCT450ML_VARIANTS.length} varian</span></a>
+        </nav>
+      </div>
+      {
+        groups.map((group) => (
+          <section
+            class="catalog-group"
+            id={`regen-${group.size}`}
+            aria-labelledby={`title-${group.size}`}
+          >
+            <header class="catalog-group-heading">
+              <>
+                <div>
+                  <>
+                    <span class="catalog-eyebrow">
+                      REGEN COLLECTION / {group.size}
+                    </span>
+                    <h2 id={`title-${group.size}`}>
+                      REGEN <span>{group.size}</span>
+                    </h2>
+                    <h3>{group.headline}</h3>
+                  </>
+                </div>
+                <p>{group.description}</p>
+              </>
+            </header>
+            <ul class="catalog-grid">
+              {group.products.map((product) => (
+                <li>
+                  <a
+                    class="catalog-card"
+                    href={product.detailUrl}
+                    aria-label={`Lihat detail REGEN ${product.displayName} ${product.productSize}`}
+                  >
+                    <div
+                      class="catalog-card-art relative"
+                      style={{ backgroundColor: product.bgColor }}
+                    >
+                      <div class="catalog-card-top">
+                        <span>{product.productSize}</span>
+                        <span>
+                          {product.nutrition.calories} ·{" "}
+                          {product.nutrition.sugar} gula
+                        </span>
+                      </div>
+                      <span class="catalog-watermark" aria-hidden="true">
+                        REGEN
+                      </span>
+                      <img
+                        src={product.bottleImage}
+                        alt={`REGEN ${product.displayName} ${product.productSize}`}
+                        width="300"
+                        height="420"
+                        loading="lazy"
+                      />
+                      <span class="catalog-card-arrow" aria-hidden="true">
+                        ↗
+                      </span>
+                    </div>
+                    <div class="catalog-card-copy">
+                      <p class="catalog-eyebrow">{product.usp}</p>
+                      <h3 class="">{product.displayName}</h3>
+                      <div class="catalog-card-bottom">
+                        <span>Vitamin {product.vitamin.join(" · ")}</span>
+                        <span class="catalog-detail">
+                          Lihat detail <span aria-hidden="true">↗</span>
+                        </span>
+                      </div>
+                    </div>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ))
+      }
+    </div>
+    <section class="catalog-find">
+      <div>
+        <p class="catalog-eyebrow">SUDAH KETEMU FAVORITMU?</p><h2>
+          Segarnya REGEN,<br />dekat denganmu.
+        </h2><p>
+          Temukan pilihan toko online dan gerai retail untuk varian favoritmu.
+        </p>
+      </div><a class="catalog-button" href="/temukan-regen"
+        >Temukan REGEN <span aria-hidden="true">↗</span></a>
+    </section>
+  </article>
 </Layout>
+<style>
+  .catalog {
+    background: var(--regen-paper);
+    color: var(--regen-ink);
+    overflow: clip;
+  }
+  .catalog h1,
+  .catalog h2,
+  .catalog h3 {
+    font-family: var(--font-headoh), Arial, sans-serif;
+    font-weight: 400;
+    line-height: 1.02;
+    margin: 0;
+  }
+  .catalog p {
+    margin: 0;
+  }
+  .catalog-eyebrow {
+    font-size: 10px;
+    font-weight: 750;
+    letter-spacing: 0.13em;
+    line-height: 1.6;
+  }
+  .catalog-hero {
+    position: relative;
+    background: var(--regen-citrus);
+    padding: 155px 6vw 95px;
+    min-height: 690px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5vw;
+    align-items: center;
+  }
+  .catalog-hero h1 {
+    font-size: clamp(70px, 8vw, 115px);
+    margin: 22px 0;
+  }
+  .catalog-hero h1 span {
+    color: var(--regen-green-dark);
+  }
+  .catalog-intro {
+    font-size: 16px;
+    line-height: 1.85;
+    max-width: 450px;
+  }
+  .catalog-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 32px;
+    justify-content: space-between;
+    padding: 18px 24px;
+    background: var(--regen-ink);
+    color: white;
+    font-weight: 700;
+    font-size: 13px;
+    border-radius: 40px;
+    text-decoration: none;
+  }
+  .catalog-button > span {
+    font-size: 23px;
+    line-height: 1;
+  }
+  .catalog-hero .catalog-button {
+    margin-top: 27px;
+  }
+  .catalog-button:hover {
+    background: var(--regen-green-dark);
+  }
+  .catalog a:focus-visible {
+    outline: 3px solid var(--regen-forest);
+    outline-offset: 5px;
+  }
+  .catalog-art {
+    height: 430px;
+    position: relative;
+    min-width: 0;
+  }
+  .catalog-orbit {
+    position: absolute;
+    inset: 20px 0;
+    border: 1px solid var(--regen-ink-a20);
+    border-radius: 50%;
+    rotate: -15deg;
+  }
+  .catalog-art-word {
+    position: absolute;
+    inset: 45px 0 auto;
+    font-family: var(--font-headoh);
+    font-size: 100px;
+    text-align: center;
+    line-height: 0.9;
+    color: var(--regen-ink);
+    opacity: 0.08;
+  }
+  .catalog-bottle {
+    position: absolute;
+    width: 43%;
+    height: 330px;
+    object-fit: contain;
+    filter: drop-shadow(12px 20px 10px var(--regen-ink-a25));
+  }
+  .bottle-one {
+    top: 60px;
+    left: -3%;
+    rotate: -18deg;
+  }
+  .bottle-two {
+    top: 5px;
+    left: 28%;
+    height: 390px;
+    z-index: 1;
+    rotate: 3deg;
+  }
+  .bottle-three {
+    top: 65px;
+    right: -4%;
+    rotate: 18deg;
+  }
+  .catalog-stamp {
+    position: absolute;
+    right: 0;
+    bottom: 5px;
+    z-index: 2;
+    background: var(--regen-ink);
+    color: var(--regen-citrus);
+    width: 105px;
+    height: 105px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 800;
+    line-height: 1.5;
+    rotate: 12deg;
+  }
+  .catalog-hero-foot {
+    position: absolute;
+    bottom: 0;
+    left: 6vw;
+    right: 6vw;
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    border-top: 1px solid var(--regen-ink-a20);
+    padding: 22px 0;
+    font-size: 9px;
+    font-weight: 750;
+    letter-spacing: 0.12em;
+  }
+  .catalog-collection {
+    padding: 0 6vw 80px;
+    scroll-margin-top: 115px;
+  }
+  .catalog-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 25px;
+    padding: 35px 0;
+    border-bottom: 1px solid var(--regen-border);
+  }
+  .catalog-toolbar > div > span {
+    font-size: 12px;
+    color: var(--regen-muted);
+    display: block;
+    margin-top: 7px;
+  }
+  .catalog-toolbar nav {
+    display: flex;
+    gap: 10px;
+  }
+  .catalog-toolbar nav a {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    border: 1px solid var(--regen-border);
+    border-radius: 40px;
+    padding: 14px 20px;
+    font-size: 15px;
+    font-weight: 750;
+    color: var(--regen-ink);
+    text-decoration: none;
+    background: white;
+  }
+  .catalog-toolbar nav a:hover {
+    background: var(--regen-citrus);
+  }
+  .catalog-toolbar nav span {
+    font-size: 10px;
+    font-weight: 400;
+  }
+  .catalog-group {
+    padding-top: 65px;
+    scroll-margin-top: 90px;
+  }
+  .catalog-group + .catalog-group {
+    margin-top: 30px;
+    border-top: 1px solid var(--regen-border);
+  }
+  .catalog-group-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    gap: 35px;
+    margin-bottom: 30px;
+  }
+  .catalog-group-heading h2 {
+    font-size: 65px;
+    margin: 15px 0 9px;
+  }
+  .catalog-group-heading h2 span {
+    color: var(--regen-muted);
+  }
+  .catalog-group-heading h3 {
+    font-family: Arial, sans-serif;
+    font-weight: 650;
+    font-size: 16px;
+    line-height: 1.5;
+  }
+  .catalog-group-heading > p {
+    max-width: 370px;
+    font-size: 14px;
+    line-height: 1.85;
+    color: var(--regen-muted);
+  }
+  .catalog-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 30px 24px;
+    padding: 0;
+    margin: 0 0 60px;
+    list-style: none;
+  }
+  .catalog-card {
+    display: block;
+    text-decoration: none;
+    color: var(--regen-ink);
+    height: 100%;
+    border: 1px solid var(--regen-border);
+    border-radius: 18px;
+    overflow: hidden;
+    background: white;
+  }
+  .catalog-card-art {
+    position: relative;
+    overflow: hidden;
+    height: 340px;
+    isolation: isolate;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .catalog-card-top {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    right: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    font-size: 10px;
+    font-weight: 650;
+    z-index: 2;
+  }
+  .catalog-card-top > span:first-child {
+    padding: 6px 10px;
+    border: 1px solid var(--regen-ink-a20);
+    border-radius: 20px;
+    background: var(--regen-paper);
+  }
+  .catalog-watermark {
+    position: absolute;
+    top: 115px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-family: var(--font-headoh);
+    font-size: 100px;
+    opacity: 0.07;
+    z-index: -1;
+  }
+  .catalog-card-art img {
+    width: 70%;
+    height: 265px;
+    object-fit: contain;
+    margin-top: 25px;
+    filter: drop-shadow(10px 16px 9px var(--regen-ink-a20));
+    transition: transform 0.3s;
+  }
+  .catalog-card:hover img {
+    transform: rotate(-7deg) translateY(-5px);
+  }
+  .catalog-card-arrow {
+    position: absolute;
+    bottom: 18px;
+    right: 18px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--regen-paper);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 23px;
+  }
+  .catalog-card-copy {
+    padding: 23px;
+  }
+  .catalog-card-copy .catalog-eyebrow {
+    font-size: 8px;
+  }
+  .catalog-card-copy h3 {
+    font-size: 43px;
+    margin: 10px 0 20px;
+    color: var(--regen-ink);
+  }
+  .catalog-card-bottom {
+    display: flex;
+    align-items: start;
+    justify-content: space-between;
+    gap: 15px;
+    border-top: 1px solid var(--regen-border);
+    padding-top: 15px;
+    font-size: 10px;
+    line-height: 1.7;
+  }
+  .catalog-card-bottom > span:first-child {
+    max-width: 150px;
+    color: var(--regen-muted);
+  }
+  .catalog-detail {
+    font-weight: 700;
+    white-space: nowrap;
+  }
+  .catalog-detail > span {
+    margin-left: 7px;
+  }
+  .catalog-find {
+    background: var(--regen-surface);
+    padding: 55px 6vw;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 30px;
+  }
+  .catalog-find h2 {
+    font-size: 56px;
+    margin: 16px 0;
+  }
+  .catalog-find p:last-child {
+    font-size: 14px;
+    line-height: 1.8;
+  }
+  .catalog-find .catalog-button {
+    flex-shrink: 0;
+  }
+  @media (min-width: 1600px) {
+    .catalog-hero,
+    .catalog-collection,
+    .catalog-find {
+      padding-left: max(6vw, calc((100vw - 1400px) / 2));
+      padding-right: max(6vw, calc((100vw - 1400px) / 2));
+    }
+  }
+  @media (max-width: 1000px) {
+    .catalog-grid {
+      gap: 20px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .catalog-hero h1 {
+      font-size: 80px;
+    }
+    .catalog-art {
+      height: 380px;
+    }
+    .catalog-bottle {
+      height: 290px;
+    }
+    .bottle-two {
+      height: 350px;
+    }
+    .catalog-stamp {
+      width: 90px;
+      height: 90px;
+      font-size: 10px;
+    }
+    .catalog-group-heading > p {
+      max-width: 300px;
+    }
+  }
+  @media (max-width: 600px) {
+    .catalog-hero {
+      grid-template-columns: 1fr;
+      padding: 125px 6vw 75px;
+      gap: 30px;
+      min-height: auto;
+    }
+    .catalog-hero h1 {
+      font-size: 75px;
+    }
+    .catalog-intro {
+      font-size: 15px;
+    }
+    .catalog-art {
+      height: 355px;
+      max-width: 400px;
+      width: 100%;
+      margin: auto;
+    }
+    .catalog-bottle {
+      height: 270px;
+      top: 40px;
+    }
+    .bottle-two {
+      height: 330px;
+      top: 0;
+    }
+    .catalog-art-word {
+      font-size: 90px;
+    }
+    .catalog-hero-foot {
+      font-size: 7px;
+      letter-spacing: 0.05em;
+      gap: 8px;
+    }
+    .catalog-toolbar {
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 27px 0;
+      gap: 20px;
+    }
+    .catalog-toolbar nav {
+      width: 100%;
+    }
+    .catalog-toolbar nav a {
+      flex: 1;
+      justify-content: space-between;
+      padding: 12px 17px;
+      gap: 8px;
+    }
+    .catalog-group {
+      padding-top: 40px;
+    }
+    .catalog-group-heading {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 15px;
+      margin-bottom: 25px;
+    }
+    .catalog-group-heading h2 {
+      font-size: 57px;
+    }
+    .catalog-group-heading h3 {
+      font-size: 14px;
+    }
+    .catalog-group-heading > p {
+      max-width: none;
+      font-size: 13px;
+    }
+    .catalog-grid {
+      gap: 15px;
+      grid-template-columns: 1fr;
+      margin-bottom: 40px;
+    }
+    .catalog-card-art {
+      height: 320px;
+    }
+    .catalog-card-art img {
+      height: 260px;
+    }
+    .catalog-card-copy h3 {
+      font-size: 42px;
+    }
+    .catalog-card-bottom {
+      font-size: 11px;
+    }
+    .catalog-collection {
+      padding-bottom: 15px;
+    }
+    .catalog-group + .catalog-group {
+      margin-top: 0;
+    }
+    .catalog-find {
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 40px 6vw;
+      gap: 22px;
+    }
+    .catalog-find h2 {
+      font-size: 47px;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .catalog-card-art img {
+      transition: none;
+    }
+    .catalog-card:hover img {
+      transform: none;
+    }
+  }
+</style>

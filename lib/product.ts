@@ -46,7 +46,7 @@ export const ProductDisplaySection = PRODUCT300ML_VARIANTS.map((variant) => ({
   usp: variant.usp,
   image: variant.labelImage,
   bg: variant.vitaminColor,
-  regenColor: variant.id === "watermelon" ? "text-white" : "text-[#00A651]",
-  nameColor: variant.textColorDark,
-  uspColor: variant.id === "watermelon" ? "text-white" : variant.textColorDark,
+  regenColor: "text-brand-ink",
+  nameColor: "text-brand-ink",
+  uspColor: "text-brand-ink",
 }));

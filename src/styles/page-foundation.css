@@ -1,0 +1,76 @@
+/* Shared foundation for REGEN content pages. Brand colors live in brand.css.
+   Apply regen-page to the root; compose the helpers below with local layout classes. */
+:root {
+  --regen-content-width: 1280px;
+  --regen-page-gutter: clamp(24px, 6vw, 96px);
+  --regen-page-inset: max(var(--regen-page-gutter), calc((100% - var(--regen-content-width)) / 2));
+  --regen-section-space: 90px;
+  --regen-hero-top: 160px;
+  --regen-hero-bottom: 95px;
+  --regen-title-size: clamp(48px, 6.3vw, 94px);
+  --regen-heading-size: clamp(38px, 4.3vw, 64px);
+  --regen-body-size: 16px;
+  --regen-body-leading: 1.8;
+  --regen-card-radius: 22px;
+  --regen-button-radius: 999px;
+}
+.regen-page {
+  --ink: var(--regen-ink);
+  --lime: var(--regen-citrus);
+  --paper: var(--regen-paper);
+  color: var(--regen-ink);
+  background: var(--regen-paper);
+  font-family: var(--font-sans), Arial, sans-serif;
+  overflow: clip;
+}
+.regen-page :where(h1,h2,h3) {
+  font-family: var(--font-headoh), Arial, sans-serif;
+  font-weight: 400;
+  line-height: 1.02;
+  margin: 0;
+}
+.regen-page :where(p) { margin: 0; }
+.regen-page :where(a,button) { touch-action: manipulation; }
+.regen-page :where(a,button,input,select):focus-visible {
+  outline: 3px solid var(--regen-forest);
+  outline-offset: 5px;
+}
+.regen-page .regen-hero { padding: var(--regen-hero-top) var(--regen-page-inset) var(--regen-hero-bottom); }
+.regen-page .regen-section { padding: var(--regen-section-space) var(--regen-page-inset); }
+.regen-page .regen-title { font-size: var(--regen-title-size); }
+.regen-page .regen-heading { font-size: var(--regen-heading-size); }
+.regen-page .regen-lead { font-size: var(--regen-body-size); line-height: var(--regen-body-leading); }
+.regen-page .regen-eyebrow { font-size: 10px; font-weight: 800; letter-spacing: .13em; line-height: 1.6; }
+.regen-page .regen-card { border-radius: var(--regen-card-radius); }
+.regen-page .regen-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px;
+  min-height: 54px;
+  padding: 18px 25px;
+  border-radius: var(--regen-button-radius);
+  background: var(--regen-ink);
+  color: var(--regen-paper);
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background .2s, transform .2s;
+}
+.regen-page .regen-button:hover { background: var(--regen-green-dark); transform: translateY(-3px); }
+@media(max-width:700px) {
+  :root {
+    --regen-page-gutter: 24px;
+    --regen-section-space: 55px;
+    --regen-hero-top: 125px;
+    --regen-hero-bottom: 75px;
+    --regen-title-size: clamp(43px, 10.5vw, 68px);
+    --regen-heading-size: clamp(36px, 9.2vw, 52px);
+    --regen-body-size: 15px;
+  }
+}
+@media(prefers-reduced-motion:reduce) {
+  .regen-page .regen-button { transition: none; }
+  .regen-page .regen-button:hover { transform: none; }
+}

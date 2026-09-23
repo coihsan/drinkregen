@@ -27,8 +27,6 @@ interface InformasiNilaiGiziProps {
 
 const InformasiNilaiGizi = ({
   content,
-  bgColor,
-  textColor,
   vitamins = [],
 }: InformasiNilaiGiziProps) => {
   return (

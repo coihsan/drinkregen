@@ -50,11 +50,11 @@ export const passwordRequirements = [
 export const getColor = (score: number) => {
   if (score === 0) return "bg-border";
   if (score <= 1) return "bg-destructive";
-  if (score <= 2) return "bg-orange-500 ";
-  if (score <= 3) return "bg-amber-500";
-  if (score === 4) return "bg-yellow-400";
+  if (score <= 2) return "bg-brand-gold-500 ";
+  if (score <= 3) return "bg-brand-gold-500";
+  if (score === 4) return "bg-brand-gold-400";
 
-  return "bg-green-500";
+  return "bg-brand-green-500";
 };
 
 export const getText = (score: number) => {

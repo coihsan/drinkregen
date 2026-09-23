@@ -1,0 +1,60 @@
+---
+import Layout from "@/src/layouts/Layout.astro";
+import { posts, readingTime } from "@/src/data/blog";
+import "@/src/styles/blog.css";
+const title = "Blog REGEN — Cerita Segar Buat Harimu";
+const description = "Temukan inspirasi keseharian, cerita rasa, dan ide sederhana untuk menikmati harimu bersama REGEN.";
+const featured = posts[0];
+const categories = ["Semua", ...new Set(posts.map(post => post.category))];
+---
+<Layout title={title} description={description} openGraph={{ title, description, url: "https://drinkregen.com/blog" }}>
+  <main class="blog-page regen-page border border-b-2" lang="id">
+    <header class="blog-hero regen-hero">
+      <div><p class="regen-eyebrow">THE REGEN JOURNAL / BLOG</p><h1 class="regen-title">Cerita segar,<br />buat <span>harimu.</span></h1></div>
+      <div class="blog-hero-note"><span class="blog-spark" aria-hidden="true">✳</span><p>Inspirasi kecil. Cerita seru.<br />Teman baca di sela harimu.</p><a href="#artikel">Jelajahi cerita <span aria-hidden="true">↘</span></a></div>
+    </header>
+    <section class="blog-feature-wrap" aria-label="Artikel pilihan">
+      <a class="blog-feature" href={`/blog/${featured.slug}`}>
+        <div class="blog-art blog-art-lime"><span class="blog-art-word" aria-hidden="true">TAKE A<br />BREAK.</span><img src={featured.image} alt={featured.imageAlt} width="480" height="720" fetchpriority="high" /><span class="blog-sticker">SEDIKIT JEDA.<br />BANYAK CERITA.</span></div>
+        <div class="blog-feature-copy"><p class="regen-eyebrow">PILIHAN UNTUKMU <span aria-hidden="true">↗</span></p><div><div class="blog-meta"><span>{featured.category}</span><span>{readingTime(featured)} menit baca</span></div><h2>{featured.title}</h2><p class="blog-excerpt">{featured.excerpt}</p></div><span class="blog-read">Baca cerita <span aria-hidden="true">↗</span></span></div>
+      </a>
+    </section>
+    <section class="regen-section blog-library" id="artikel" aria-labelledby="articles-title">
+      <div class="blog-section-heading"><div><p class="regen-eyebrow">ADA CERITA APA HARI INI?</p><h2 class="regen-heading" id="articles-title">Pilih bacaanmu.</h2></div><p>Ruang kecil untuk sudut pandang baru.</p></div>
+      <blog-filter>
+        <div class="blog-tools" hidden data-tools><div class="blog-categories" role="group" aria-label="Filter kategori">{categories.map((category, index) => <button type="button" data-category={category} aria-pressed={index === 0 ? "true" : "false"}>{category}</button>)}</div><label class="blog-search"><span class="sr-only">Cari artikel</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="10" cy="10" r="6.5"/><path d="m15 15 5 5"/></svg><input type="search" placeholder="Cari cerita…" aria-controls="blog-results" /></label></div>
+        <p class="blog-result-count" role="status" aria-live="polite" data-count>{posts.length} cerita untuk kamu</p>
+        <div class="blog-grid" id="blog-results">{posts.map(post => <article data-post data-category={post.category} data-search={`${post.title} ${post.excerpt} ${post.category}`.toLocaleLowerCase("id")}><a class="blog-card" href={`/blog/${post.slug}`}><div class={`blog-art blog-art-${post.tone}`}><span class="blog-card-word" aria-hidden="true">{post.label}</span><img src={post.image} alt={post.imageAlt} width="480" height="720" loading="lazy"/><span class="blog-card-arrow" aria-hidden="true">↗</span></div><div class="blog-meta"><span>{post.category}</span><span>{readingTime(post)} menit baca</span></div><h3>{post.title}</h3><p class="blog-excerpt">{post.excerpt}</p><span class="blog-read">Baca cerita <span aria-hidden="true">↗</span></span></a></article>)}</div>
+        <div class="blog-empty" data-empty hidden><h3>Belum ketemu ceritanya.</h3><p>Coba kata kunci lain atau lihat semua kategori.</p><button type="button" class="regen-button" data-reset>Tampilkan semua cerita <span aria-hidden="true">↗</span></button></div>
+      </blog-filter>
+    </section>
+    <aside class="blog-cta"><div><p class="regen-eyebrow">SELESAI BACA, LANJUT SEGARNYA.</p><h2 class="regen-heading">Temukan rasa ceritamu.</h2></div><a href="/product" class="regen-button">Kenalan dengan REGEN <span aria-hidden="true">↗</span></a></aside>
+  </main>
+</Layout>
+<script>
+  class BlogFilter extends HTMLElement {
+    connectedCallback() {
+      const input = this.querySelector<HTMLInputElement>('input')!;
+      const buttons = [...this.querySelectorAll<HTMLButtonElement>('[data-category]:not([data-post])')];
+      const articles = [...this.querySelectorAll<HTMLElement>('[data-post]')];
+      let category = 'Semua';
+      const update = () => {
+        const query = input.value.trim().toLocaleLowerCase('id');
+        let count = 0;
+        articles.forEach(article => {
+          article.hidden = !(category === 'Semua' || article.dataset.category === category) || !article.dataset.search!.includes(query);
+          if (!article.hidden) count++;
+        });
+        buttons.forEach(button => button.setAttribute('aria-pressed', String(button.dataset.category === category)));
+        this.querySelector('[data-count]')!.textContent = `${count} cerita untuk kamu`;
+        this.querySelector<HTMLElement>('[data-empty]')!.hidden = count !== 0;
+      };
+      buttons.forEach(button => button.onclick = () => { category = button.dataset.category!; update(); });
+      input.oninput = update;
+      this.querySelector<HTMLButtonElement>('[data-reset]')!.onclick = () => { category = 'Semua'; input.value = ''; update(); input.focus(); };
+      this.querySelector<HTMLElement>('[data-tools]')!.hidden = false;
+      update();
+    }
+  }
+  if (!customElements.get('blog-filter')) customElements.define('blog-filter', BlogFilter);
+</script>

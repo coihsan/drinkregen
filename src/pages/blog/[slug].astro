@@ -1,0 +1,18 @@
+---
+import Layout from "@/src/layouts/Layout.astro";
+import { posts, readingTime } from "@/src/data/blog";
+import "@/src/styles/blog.css";
+export function getStaticPaths() { return posts.map(post => ({ params: { slug: post.slug }, props: { post } })); }
+const { post } = Astro.props;
+const title = `${post.title} | Blog REGEN`;
+---
+<Layout title={title} description={post.excerpt} openGraph={{ title, description: post.excerpt, type: "article", url: `https://drinkregen.com/blog/${post.slug}` }}>
+  <main class="blog-page regen-page" lang="id">
+    <article>
+      <header class="blog-article-header regen-hero"><a class="blog-back" href="/blog">← Semua cerita</a><div class="blog-meta"><span>{post.category}</span><span>{readingTime(post)} menit baca</span></div><h1 class="regen-title">{post.title}</h1><p class="regen-lead">{post.excerpt}</p></header>
+      <div class={`blog-article-art blog-art blog-art-${post.tone}`}><span class="blog-art-word" aria-hidden="true">{post.label}</span><img src={post.image} alt={post.imageAlt} width="480" height="720" fetchpriority="high" /></div>
+      <div class="blog-article-body">{post.sections.map(section => <section><h2>{section.heading}</h2><p>{section.text}</p></section>)}<a class="regen-button" href="/blog">Kembali ke semua cerita <span aria-hidden="true">↗</span></a></div>
+    </article>
+    <aside class="blog-cta"><div><p class="regen-eyebrow">MASIH ADA CERITA LAIN.</p><h2 class="regen-heading">Lanjut baca, yuk.</h2></div><div class="blog-related">{posts.filter(other => other.slug !== post.slug).map(other => <a href={`/blog/${other.slug}`}>{other.title}<span aria-hidden="true">↗</span></a>)}</div></aside>
+  </main>
+</Layout>

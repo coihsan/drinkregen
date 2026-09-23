@@ -58,7 +58,7 @@ const ParallaxText = ({ children, baseVelocity = 100 }: { children: React.ReactN
       >
         {[...Array(8)].map((_, i) => (
           <span key={i} className="inline-flex items-center uppercase">
-            {children} <span className="text-lime-400 mx-2">•</span>
+            {children} <span className="text-brand-lime-500 mx-2">•</span>
           </span>
         ))}
       </motion.div>
@@ -69,13 +69,13 @@ const ParallaxText = ({ children, baseVelocity = 100 }: { children: React.ReactN
 const ScrollText = () => {
   const mobile = useIsMobile()
   return (
-    <div className={`${mobile ? "h-auto" : "min-h-screen"} flex flex-col py-40 font-sans relative overflow-hidden`}>
+    <div className={`${mobile ? "h-auto" : "min-h-screen"} flex flex-col py-40 font-bold relative overflow-hidden`}>
 
       <div className="flex flex-col gap-4 transform -rotate-2 scale-110">
         <ParallaxText baseVelocity={-3}>Asli Nol Kalori</ParallaxText>
         <ParallaxText baseVelocity={3}>Bebas Gula</ParallaxText>
         <ParallaxText baseVelocity={-3}>Glikosida Steviol</ParallaxText>
-        <ParallaxText baseVelocity={3}><span className="flex items-center gap-3">GRADE <span className="min-w-22 min-h-22 h-full w-full flex items-center justify-center bg-lime-400 aspect-square rounded-full"><span className="text-white">B</span></span></span></ParallaxText>
+        <ParallaxText baseVelocity={3}><span className="flex items-center gap-3">GRADE <span className="min-w-22 min-h-22 h-full w-full flex items-center justify-center bg-brand-lime-400 aspect-square rounded-full"><span className="text-white">B</span></span></span></ParallaxText>
       </div>
 
     </div>

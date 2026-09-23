@@ -51,12 +51,12 @@ export const ShowcaseSection: React.FC<ShowcaseSectionProps> = ({
 
   // Unique block colors mapping for Artistic Flair theme
   const ARTISTIC_BG_COLORS: Record<string, string> = {
-    orange: "#FF7D21",
-    lychee: "#E54B64",
-    peach: "#FD8A5F",
-    watermelon: "#0eba3f",
-    lemonlime: "#76BC0E",
-    apple: "#d1455a",
+    orange: "#F5BF18",
+    lychee: "#F2606B",
+    peach: "#F2606B",
+    watermelon: "#58B648",
+    lemonlime: "#9CCB3D",
+    apple: "#EF3C59",
   };
 
   const currentBgColor = ARTISTIC_BG_COLORS[flavor.id] || "#0A0A0A";
@@ -204,7 +204,7 @@ export const ShowcaseSection: React.FC<ShowcaseSectionProps> = ({
               {String(productFlavors.length).padStart(2, "0")}
             </p>
 
-            <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-outfit font-black uppercase tracking-tight leading-[0.9] text-white">
+            <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-outfit font-black uppercase leading-[0.9] text-white">
               <LogoRegen width={130} height={40} />
               {flavor.name.replace("Regen ", "")}
             </h2>
@@ -213,7 +213,7 @@ export const ShowcaseSection: React.FC<ShowcaseSectionProps> = ({
               <p className="text-2xl md:text-3xl font-outfit font-black italic tracking-wide text-white uppercase drop-shadow-md">
                 {flavor.usp}
               </p>
-              <p className="mt-4 max-w-sm text-xs sm:text-sm leading-relaxed text-white/85 font-sans drop-shadow-sm">
+              <p className="mt-4 max-w-sm text-xs sm:text-sm leading-relaxed text-white font-sans drop-shadow-sm">
                 {flavor.tagline}
               </p>
             </div>
@@ -280,7 +280,7 @@ export const ShowcaseSection: React.FC<ShowcaseSectionProps> = ({
               borderColor: "#FFFFFF",
             }}
             whileTap={{ scale: 0.95 }}
-            className="absolute bottom-45 md:bottom-0 left-1/2 -translate-x-1/2 md:left-0 md:translate-x-0 px-5 py-2.5 rounded-full border border-white/30 bg-black/40 hover:bg-black text-white font-mono text-[9px] sm:text-[11px] tracking-widest font-black uppercase transition-all duration-200 shadow-xl cursor-pointer flex items-center w-max gap-2 backdrop-blur-sm z-30"
+            className="absolute bottom-45 md:bottom-0 left-1/2 -translate-x-1/2 md:left-0 md:translate-x-0 px-5 py-2.5 rounded-full border border-brand-ink/30 bg-black/40 hover:bg-black text-white font-mono text-[9px] sm:text-[11px] tracking-widest font-black uppercase transition-all duration-200 shadow-xl cursor-pointer flex items-center w-max gap-2 backdrop-blur-sm z-30"
             id={`btn-open-specs-${flavor.id}`}
           >
             <MoveRight className="w-3.5 h-3.5" /> LIHAT DETAIL
@@ -294,7 +294,7 @@ export const ShowcaseSection: React.FC<ShowcaseSectionProps> = ({
               }}
               className="absolute bottom-4 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 z-20 pointer-events-none md:hidden"
             >
-              <ChevronDown className="w-5 h-5 text-white/55 animate-bounce" />
+              <ChevronDown className="w-5 h-5 text-white animate-bounce" />
             </motion.div>
           )}
         </div>
@@ -305,22 +305,22 @@ export const ShowcaseSection: React.FC<ShowcaseSectionProps> = ({
       <motion.div
         style={{ y: nextBarY, backgroundColor: nextBgColor }}
         onClick={() => handleScrollToSection(nextFlavor?.id || "")}
-        className="absolute bottom-0 left-0 w-full h-20 md:h-24 flex items-center justify-between px-6 sm:px-12 md:px-16 lg:px-24 z-40 shadow-[0_-15px_40px_rgba(0,0,0,0.15)] cursor-pointer select-none group border-t border-white/10"
+        className="absolute bottom-0 left-0 w-full h-20 md:h-24 flex items-center justify-between px-6 sm:px-12 md:px-16 lg:px-24 z-40 shadow-[0_-15px_40px_rgba(0,0,0,0.15)] cursor-pointer select-none group border-t border-brand-ink/10"
         title={`Lompat ke Variant Selanjutnya: ${nextFlavor?.name}`}
       >
         <div className="flex items-center space-x-6 sm:space-x-8">
-          <span className="text-[10px] md:text-sm font-mono font-bold tracking-widest text-white/50 group-hover:text-white transition-colors duration-200">
+          <span className="text-[10px] md:text-sm font-mono font-bold tracking-widest text-white group-hover:text-white transition-colors duration-200">
             NEXT UP
           </span>
           <h4 className="text-base sm:text-xl md:text-2xl font-outfit font-black uppercase text-white group-hover:translate-x-1 transition-transform duration-300">
             {nextFlavor?.name}
           </h4>
-          <span className="hidden sm:inline-block text-[11px] md:text-xs tracking-widest text-white/70 italic uppercase font-mono font-semibold">
+          <span className="hidden sm:inline-block text-[11px] md:text-xs tracking-widest text-white italic uppercase font-mono font-semibold">
             {nextFlavor?.usp}
           </span>
         </div>
 
-        <div className="w-8 h-8 rounded-full border border-white/20 group-hover:border-white flex items-center justify-center text-white/60 group-hover:text-white transition-all duration-300 group-hover:scale-110">
+        <div className="w-8 h-8 rounded-full border border-brand-ink/20 group-hover:border-brand-ink flex items-center justify-center text-white group-hover:text-white transition-all duration-300 group-hover:scale-110">
           <ChevronDown className="w-4 h-4 transform -rotate-90 group-hover:-rotate-180 transition-transform duration-300" />
         </div>
       </motion.div>

@@ -12,7 +12,7 @@ export const socialLink = [
     icon: BrandIG,
     label: "Instagram",
     title: "@drinkregenid",
-    bgColor: "bg-pink-500",
+    bgColor: "bg-brand-coral-500",
   },
   {
     url: "https://www.tiktok.com/@drinkregenid",
@@ -26,7 +26,7 @@ export const socialLink = [
     icon: BrandYoutube,
     label: "Youtube",
     title: "@drinkregenid",
-    bgColor: "bg-red-500",
+    bgColor: "bg-brand-red-500",
   },
 ];
 
@@ -131,7 +131,7 @@ export const SiteLink = [
   { title: "Tentang kami", url: "#" },
   { title: "Karir", url: "/karir" },
   { title: "Kontak kami", url: "#" },
-  { title: "Jadi reseller", url: "#" },
+  { title: "Jadi reseller", url: "/jadi-reseller-regen" },
   { title: "Channel", url: "/#" },
 ];
 
@@ -143,7 +143,7 @@ export const QuickLink = [
   { title: "Tentang kami", url: "#" },
   { title: "Karir", url: "#" },
   { title: "Kontak kami", url: "#" },
-  { title: "Jadi reseller", url: "#" },
+  { title: "Jadi reseller", url: "/jadi-reseller-regen" },
   { title: "Channel", url: "#" },
 ];
 
@@ -169,7 +169,9 @@ export const MenuNav = [
       },
     ],
   },
+  { title: "Temukan Regen", url: "/temukan-regen" },
   { title: "Tentang Regen", url: "/tentang-regen" },
+  { title: "Blog", url: "/blog" },
 ];
 
 export const BASE_URL = "https://localhost:3000";

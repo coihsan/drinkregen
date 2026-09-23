@@ -1,9 +1,7 @@
-import { CheckCheck } from "lucide-react";
-import { Separator } from "@/components/ui/separator";
+import { useId } from "react";
+import { ArrowDown, Check, Sparkles } from "lucide-react";
 import type { NilaiGiziItem, VitaminGiziItem } from "@/lib/InformasiGizi";
-import LogoRegen from "../LogoRegen";
-import InformasiNilaiGizi from "@/lib/InformasiGizi";
-// import LogoRegenWhite from "../assets/icons/logo-regen-white.svg";
+import "@/src/styles/product-detail.css";
 
 interface ProductItem300mlProps {
   sourceImage: string;
@@ -22,195 +20,54 @@ interface ProductItem300mlProps {
 
 const DEFAULT_NUTRITION_TAGS = ["0 Kalori", "0% Gula", "Glikosida Steviol"];
 
-interface VitaminListItemProps {
-  content: string[];
-  vitaminColor: string;
+export default function ProductDetail300ml({
+  sourceImage, productName, productUSP, titleColor, description, productComp,
+  vitaminContent, vitaminColor, nutritionFacts = [], vitaminFacts = [],
+  nutritionTags = DEFAULT_NUTRITION_TAGS, compositionNote = "Tanpa pemanis buatan",
+}: ProductItem300mlProps) {
+  const id = useId();
+  const titleId = `product-title-${id}`;
+  const factsId = `product-facts-${id}`;
+  const hasNutrition = nutritionFacts.length > 0 || vitaminFacts.length > 0;
+
+  return (
+    <article className="product-detail" aria-labelledby={titleId} lang="id">
+      <section className="pd-intro" aria-labelledby={titleId}>
+        <div className="pd-visual">
+          <div className={`pd-color-wash ${vitaminColor}`} aria-hidden="true" />
+          <div className="pd-visual-top"><span>REGEN / VITAMIN DRINK</span><Sparkles size={21} aria-hidden="true" /></div>
+          <span className="pd-backdrop-word" aria-hidden="true">REGEN</span>
+          <div className="pd-orbit" aria-hidden="true" />
+          <img className="pd-bottle" src={sourceImage} alt={`REGEN ${productName}`} width={450} height={650} loading="lazy" />
+          <div className="pd-flavor-label"><span>PILIHAN RASAMU</span><strong>{productName}</strong></div>
+        </div>
+
+        <div className="pd-copy">
+          <p className="pd-eyebrow">KENALI KESEGARANNYA</p>
+          <h2 id={titleId}>REGEN <span className={titleColor}>{productName}</span></h2>
+          <p className="pd-usp">{productUSP}</p>
+          {description && <p className="pd-description">{description}</p>}
+          {nutritionTags.length > 0 && <ul className="pd-tags" aria-label="Keunggulan produk">{nutritionTags.map((tag, index) => <li key={`${tag}-${index}`}><Check size={15} aria-hidden="true" />{tag}</li>)}</ul>}
+          {vitaminContent.length > 0 && <div className="pd-vitamins"><div className="pd-vitamin-heading"><h3>Sumber vitamin</h3><span>DALAM SETIAP BOTOL</span></div><ul aria-label="Vitamin dalam produk">{vitaminContent.map((vitamin, index) => <li key={`${vitamin}-${index}`}><span className={`pd-vitamin-dot ${vitaminColor}`} aria-hidden="true" /><span className="sr-only">Vitamin </span>{vitamin}</li>)}</ul></div>}
+          <a className="pd-facts-link" href={`#${factsId}`}>Kenali kandungannya <ArrowDown size={17} aria-hidden="true" /></a>
+        </div>
+      </section>
+
+      <section className="pd-facts" id={factsId} aria-labelledby={`${factsId}-title`}>
+        <div className="pd-facts-heading"><div><p className="pd-eyebrow">LEBIH DEKAT DENGAN ISINYA</p><h2 id={`${factsId}-title`}>Kenali setiap teguknya.</h2></div><span className="pd-facts-flavor">REGEN {productName}</span></div>
+        <div className={`pd-facts-grid ${!hasNutrition ? "pd-facts-grid-single" : ""}`}>
+          {hasNutrition && <div className="pd-nutrition"><div className="pd-panel-heading"><span>01</span><h3>Informasi nilai gizi</h3></div>
+            {nutritionFacts.length > 0 && <div className="pd-table-wrap"><table><caption className="sr-only">Informasi nilai gizi REGEN {productName}</caption><thead><tr><th scope="col">Zat gizi</th><th scope="col">Jumlah</th><th scope="col"><abbr title="Angka Kecukupan Gizi">%AKG</abbr></th></tr></thead><tbody>{nutritionFacts.map((fact, index) => <tr key={`${fact.label}-${index}`}><th scope="row">{fact.label}</th><td>{fact.amount}</td><td>{fact.dailyValue ?? "—"}</td></tr>)}</tbody></table></div>}
+            {vitaminFacts.length > 0 && <div className="pd-table-wrap pd-vitamin-table"><table><caption>Kandungan vitamin</caption><thead><tr><th scope="col">Vitamin</th><th scope="col"><abbr title="Angka Kecukupan Gizi">%AKG</abbr></th></tr></thead><tbody>{vitaminFacts.map((fact, index) => <tr key={`${fact.vitamin}-${index}`}><th scope="row">Vitamin {fact.vitamin}</th><td>{fact.dailyValue}</td></tr>)}</tbody></table></div>}
+            <p className="pd-table-note">AKG = Angka Kecukupan Gizi.</p>
+          </div>}
+          <div className="pd-composition"><div className="pd-panel-heading"><span>{hasNutrition ? "02" : "01"}</span><h3>Komposisi</h3></div>
+            {productComp && <p className="pd-composition-text">{productComp}</p>}
+            {compositionNote && <div className="pd-composition-note"><Check size={19} aria-hidden="true" /><p>{compositionNote}</p></div>}
+            <div className="pd-certifications"><span className="pd-eyebrow">INFORMASI PRODUK</span><div><img src="/element/halal.svg" alt="Halal Indonesia" width={100} height={60} loading="lazy" /><img src="/element/BPOM.svg" alt="BPOM" width={140} height={60} loading="lazy" /></div></div>
+          </div>
+        </div>
+      </section>
+    </article>
+  );
 }
-
-const ProductDetail300ml = ({
-  sourceImage,
-  productName,
-  productUSP,
-  productComp,
-  description,
-  titleColor,
-  vitaminContent,
-  vitaminColor,
-  nutritionFacts,
-  vitaminFacts,
-  nutritionTags = DEFAULT_NUTRITION_TAGS,
-  compositionNote = "Tanpa pemanis buatan",
-}: ProductItem300mlProps) => {
-  return (
-    <main className="w-full mx-auto">
-      <section className="flex-1 flex items-start justify-between w-full px-1 py-8">
-        <ProductIntro
-          description={description}
-          productName={productName}
-          productUSP={productUSP}
-          titleColor={titleColor}
-          vitaminColor={vitaminColor}
-          vitaminContent={vitaminContent}
-          nutritionTags={nutritionTags}
-        />
-        <div className="flex-1 flex justify-center max-w-[500px]">
-          <ProductImage productName={productName} sourceImage={sourceImage} />
-        </div>
-      </section>
-      <section className="flex items-center px-1 py-8">
-        <ProductFacts
-          nutritionFacts={nutritionFacts}
-          productComp={productComp}
-          vitaminFacts={vitaminFacts}
-          compositionNote={compositionNote}
-        />
-      </section>
-    </main>
-  );
-};
-export default ProductDetail300ml;
-
-const ProductIntro = ({
-  description,
-  productName,
-  productUSP,
-  titleColor,
-  vitaminColor,
-  vitaminContent,
-  nutritionTags,
-}: Pick<
-  ProductItem300mlProps,
-  | "description"
-  | "productName"
-  | "productUSP"
-  | "titleColor"
-  | "vitaminColor"
-  | "vitaminContent"
-  | "nutritionTags"
->) => {
-  return (
-    <div>
-      <h2 className="text-4xl md:text-4xl lg:text-6xl font-bold uppercase leading-none inline-block items-center mt-6">
-        <LogoRegen
-          className={`${titleColor} inline-block align-middle h-[0.85em] w-auto fill-green-500 inline-middle`}
-          width={120}
-          height={30}
-        />{" "}
-        <span
-          className={`${titleColor} font-bold italic inline-block align-middle`}
-        >
-          {productName}
-        </span>
-      </h2>
-      <h3 className="font-bold block uppercase text-4xl md:text-4xl lg:text-6xl text-gray-600">
-        {productUSP}
-      </h3>
-      <div className="pt-4">
-        <p className="text-gray-500 leading-6 pb-3 max-w-[500px] w-full">{description}</p>
-        <NutritionTagListItem content={nutritionTags ?? DEFAULT_NUTRITION_TAGS} />
-        <div className="mt-4">
-          <h5 className="font-semibold italic">Sumber Vitamin:</h5>
-          <VitaminListItem
-            vitaminColor={vitaminColor}
-            content={vitaminContent}
-          />
-        </div>
-      </div>
-    </div>
-  );
-};
-
-const ProductFacts = ({
-  productComp,
-  nutritionFacts,
-  vitaminFacts,
-  compositionNote,
-}: Pick<
-  ProductItem300mlProps,
-  "productComp" | "nutritionFacts" | "vitaminFacts" | "compositionNote"
->) => {
-  return (
-    <div className="p-4 bg-gray-100 rounded-md mt-0 md:mt-10 w-full">
-      {nutritionFacts && nutritionFacts.length > 0 ? (
-        <div className="mb-0">
-          <InformasiNilaiGizi
-            content={nutritionFacts}
-            vitamins={vitaminFacts}
-          />
-        </div>
-      ) : null}
-      <Separator className="my-5" />
-      <h5 className="font-semibold uppercase">Komposisi:</h5>
-      <p className="text-gray-500 pt-2">{productComp}</p>
-      {compositionNote ? (
-        <p className="font-semibold text-gray-500 pt-2">{compositionNote}</p>
-      ) : null}
-      <Separator className="my-5" />
-      <div className="flex items-center justify-center gap-2 mt-6">
-        <div className="px-6 py-4 max-h-[60px] h-full flex items-center justify-center rounded-lg border-2 border-muted-foreground">
-          <img
-            src="/element/halal.svg"
-            width={100}
-            height={20}
-            alt="logo halal"
-          />
-        </div>
-        <div className="px-6 py-4 max-h-[60px] h-full flex items-center justify-center rounded-lg border-2 border-muted-foreground">
-          <img
-            src="/element/BPOM.svg"
-            width={140}
-            height={20}
-            alt="logo BPOM"
-          />
-        </div>
-      </div>
-    </div>
-  );
-};
-
-const ProductImage = ({
-  productName,
-  sourceImage,
-}: Pick<ProductItem300mlProps, "productName" | "sourceImage">) => {
-  return (
-    <div className="max-w-[500px] w-full flex items-center justify-center">
-      <img
-        className="rounded-2xl pointer-event-none"
-        src={sourceImage}
-        width={150}
-        height={100}
-        alt={`Regen ${productName} product`}
-      />
-    </div>
-  );
-};
-
-const NutritionTagListItem = ({ content }: { content: string[] }) => {
-  return (
-    <ul className="flex flex-wrap gap-2 items-center">
-      {content.map((item, key) => (
-        <li
-          key={key}
-          className="flex items-center justify-center flex-wrap font-semibold gap-2 px-4 py-2 rounded-full bg-white shadow-md w-auto"
-        >
-          <CheckCheck className="text-green-500" /> {item}
-        </li>
-      ))}
-    </ul>
-  );
-};
-
-const VitaminListItem = ({ content, vitaminColor }: VitaminListItemProps) => {
-  return (
-    <ul className="flex flex-wrap gap-2 items-center text-gray-600 mt-2">
-      {content.map((item, key) => (
-        <li
-          className={`flex items-center justify-center rounded-full text-white font-bold text-2xl uppercase size-16 ${vitaminColor}`}
-          key={key}
-        >
-          {item}
-        </li>
-      ))}
-    </ul>
-  );
-};

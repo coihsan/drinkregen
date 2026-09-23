@@ -1,39 +1,38 @@
 ---
-import QuickLink from "./QuickLink";
-import SocialLink from "./SocialLink.astro";
 import LogoRegenWhite from "../assets/icons/logo-regen-white.svg";
-import PatternFooter from "../../public/element/pattern.svg";
-import LogoPTGlobalEnakNikmat from "../../public/element/logo-pt-global-enak-nikmat.svg";
+import { socialLink } from "@/lib/const.web";
+import "../styles/footer.css";
+const explore = [
+  { title: "Beranda", url: "/" },
+  { title: "Tentang REGEN", url: "/tentang-regen" },
+  { title: "Blog", url: "/blog" },
+  { title: "Hadiah Umroh", url: "/regen-berhadiah-umroh" },
+  { title: "Temukan REGEN", url: "/temukan-regen" },
+];
+const products = [
+  { title: "Semua produk", url: "/product" },
+  { title: "REGEN 300ml", url: "/product/regen-300ml" },
+  { title: "REGEN 450ml", url: "/product/regen-450ml" },
+];
 ---
 
-<footer class="w-full bg-[#27C00C] relative overflow-hidden">
-  <LogoRegenWhite
-    class="object-fit relative top-0 inset-0 block z-1 w-full md:object-cover object-center opacity-20 pointer-events-none"
-  />
-  <PatternFooter
-  class="absolute inset-0 z-0 w-full h-full object-cover opacity-10 pointer-events-none"
-  preserveAspectRatio="xMidYMid slice"
-/>
-  <div
-    class="flex flex-col md:flex-row items-center justify-between w-full px-6 py-12 mx-auto relative z-50"
-  >
-    <div class="w-full md:max-w-sm items-center justify-center">
-      <LogoPTGlobalEnakNikmat class="inset-0 z-10 pb-5 mx-auto md:mx-0" />
-      <p class="text-center text-white md:text-start">
-        Jl. K.S. Tubun No.81B, RT.9/RW.5, Slipi, Kec. Palmerah, Kota Jakarta
-        Barat, Daerah Khusus Ibukota Jakarta 11410
-      </p>
+<footer class="regen-footer">
+  <div class="rf-wrap">
+    <div class="rf-intro">
+      <div><p class="rf-eyebrow">SEGARNYA LANJUT TERUS.</p><h2>Minuman Vitamin<br /><span>#BebasGula.</span></h2></div>
+      <a class="rf-partner" href="/jadi-reseller-regen"><span><small>TUMBUH BERSAMA REGEN</small><strong>Jadi mitra kami.</strong></span><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 19 19 5M5 5h14v14" /></svg></a>
     </div>
-    <div class="flex-col w-full md:max-w-sm pt-12 md:pt-0">
-      <SocialLink class="w-full pb-4 mx-auto" />
-      <QuickLink
-        className="sm:text-center flex-wrap items-center justify-center flex gap-2 text-white"
-      />
+    <div class="rf-grid">
+      <div class="rf-company">
+        <a class="rf-logo" href="/" aria-label="REGEN — Beranda"><LogoRegenWhite aria-hidden="true" /></a>
+        <p class="rf-company-name">PT Global Enak Nikmat</p>
+        <address>Jl. K.S. Tubun No.81B, RT.9/RW.5, Slipi, Kec. Palmerah, Kota Jakarta Barat, Daerah Khusus Ibukota Jakarta 11410</address>
+      </div>
+      <nav aria-label="Jelajahi REGEN"><h3>JELAJAHI</h3><ul>{explore.map(link => <li><a href={link.url}>{link.title}</a></li>)}</ul></nav>
+      <nav aria-label="Produk REGEN"><h3>PILIH KESEGARANMU</h3><ul>{products.map(link => <li><a href={link.url}>{link.title}</a></li>)}<li><a href="https://shopee.co.id/regendrink" target="_blank" rel="noopener noreferrer" aria-label="Belanja di Shopee (buka tab baru)">Belanja di Shopee <span aria-hidden="true">↗</span></a></li></ul></nav>
+      <div class="rf-social"><h3>TETAP TERHUBUNG</h3><p>Cerita segar setiap hari.<br />Ikuti <a class="hover:underline text-orange-400" href="https://www.instagram.com/drinkregenid/" target="_blank" rel="noopener noreferrer">@drinkregenid</a>.</p><div class="rf-social-links">{socialLink.map(({url, icon: Icon, label}) => <a href={url} target="_blank" rel="noopener noreferrer" aria-label={`${label} REGEN (buka tab baru)`}><Icon aria-hidden="true" /></a>)}</div></div>
     </div>
+    <div class="rf-bottom"><p>© {new Date().getFullYear()} REGEN. All rights reserved.</p><span>MINUMAN BERVITAMIN · BEBAS GULA</span></div>
   </div>
-  <div
-    class="flex items-center justify-center w-full text-white bg-lime-400 py-4 flex-wrap gap-2 relative z-50"
-  >
-    <p>2026 © Copyright Regen. All rights Reserved</p>
-  </div>
+  <div class="rf-color-strip" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
 </footer>

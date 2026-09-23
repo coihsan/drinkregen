@@ -1,4 +1,4 @@
-import * as motion from "motion/react-client";
+import { motion } from "motion/react";
 import type { Variants } from "motion/react";
 import { PRODUCT300mlFLAVORS } from "@/lib/types/300ml.types";
 import BannerHeader from "./BannerHeader";
@@ -53,8 +53,8 @@ const Regen300mlPage = () => {
       />
       <div className="h-full">
         <BGDot
-          className="bg-green-50 selection:bg-rose-500 selection:text-white"
-          dotColor="#a8fbd1"
+          className="bg-brand-green-50 selection:bg-brand-red-500 selection:text-white"
+          dotColor="var(--regen-green-soft)"
         >
           <div className="min-h-screen md:min-h-[700px] flex-col flex flex-row items-center justify-center relative">
             <motion.div
@@ -83,7 +83,7 @@ const Regen300mlPage = () => {
                 ))}
                 <motion.span
                   variants={textVariants}
-                  className="font-bold text-green-500"
+                  className="font-bold text-brand-green-700"
                 >
                   Regen 300ml cocok untuk menemani aktivitas Anda kapan saja dan
                   di mana saja.
@@ -92,7 +92,7 @@ const Regen300mlPage = () => {
             </motion.div>
           </div>
         </BGDot>
-        <div className="bg-green-500 selection:bg-rose-500 selection:text-white">
+        <div className="bg-brand-green-500 selection:bg-brand-red-500 selection:text-white">
           <RevealEffect>
             <div className="h-full md:min-h-screen flex items-center justify-center container">
               <BannerVideo

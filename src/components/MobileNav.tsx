@@ -1,294 +1,53 @@
-"use client";
-
 import { MenuNav } from "@/lib/const.web";
-import { Button } from "@/components/ui/button";
-import { ChevronDown, X } from "lucide-react";
-import { AnimatePresence, motion } from "framer-motion";
-import type { Transition, Variants } from "framer-motion";
-import { useEffect, useState } from "react";
-import Logo from "./LogoRegen.tsx";
-import NavItem from "./NavItem";
-import InstagramIcon from "../assets/icons/brand-instagram.svg";
-import TiktokIcon from "../assets/icons/brand-tiktok.svg";
-import YoutubeIcon from "../assets/icons/brand-youtube.svg";
+import { ArrowUpRight, ChevronDown, X } from "lucide-react";
+import { useEffect, useId, useRef, useState } from "react";
+import { isNavigationActive } from "@/lib/navigation";
 
 interface MobileNavProps {
+  id?: string;
   isOpen: boolean;
   onClose: () => void;
+  pathname?: string;
 }
 
-const smoothEase = [0.22, 1, 0.36, 1] as const;
-const exitEase = [0.4, 0, 1, 1] as const;
-
-const panelTransition: Transition = {
-  type: "spring",
-  stiffness: 380,
-  damping: 36,
-  mass: 0.9,
-};
-
-const navListVariants: Variants = {
-  open: {
-    transition: {
-      delayChildren: 0.14,
-      staggerChildren: 0.055,
-    },
-  },
-  closed: {
-    transition: {
-      staggerChildren: 0.035,
-      staggerDirection: -1,
-    },
-  },
-};
-
-const navItemVariants: Variants = {
-  open: {
-    opacity: 1,
-    x: 0,
-    filter: "blur(0px)",
-    transition: { duration: 0.34, ease: smoothEase },
-  },
-  closed: {
-    opacity: 0,
-    x: 24,
-    filter: "blur(6px)",
-    transition: { duration: 0.18, ease: exitEase },
-  },
-};
-
-const submenuVariants: Variants = {
-  open: {
-    height: "auto",
-    opacity: 1,
-    transition: {
-      height: { duration: 0.32, ease: smoothEase },
-      opacity: { duration: 0.22, delay: 0.05 },
-    },
-  },
-  closed: {
-    height: 0,
-    opacity: 0,
-    transition: {
-      height: { duration: 0.22, ease: exitEase },
-      opacity: { duration: 0.14 },
-    },
-  },
-};
-
-const MobileNav = ({ isOpen, onClose }: MobileNavProps) => {
-  const [openMenu, setOpenMenu] = useState<string | null>("Product");
+export default function MobileNav({ id, isOpen, onClose, pathname = "" }: MobileNavProps) {
+  const dialogRef = useRef<HTMLDialogElement>(null);
+  const [expanded, setExpanded] = useState(false);
+  const titleId = useId();
+  const productsId = useId();
 
   useEffect(() => {
-    if (!isOpen) return;
-
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") onClose();
-    };
-
+    const dialog = dialogRef.current;
+    if (!dialog || !isOpen) return;
+    const previousOverflow = document.body.style.overflow;
+    const previousFocus = document.activeElement as HTMLElement | null;
+    setExpanded(isNavigationActive(pathname, "/product"));
+    dialog.showModal();
     document.body.style.overflow = "hidden";
-    window.addEventListener("keydown", handleKeyDown);
-
     return () => {
-      document.body.style.overflow = "";
-      window.removeEventListener("keydown", handleKeyDown);
+      dialog.close();
+      document.body.style.overflow = previousOverflow;
+      if (previousFocus?.isConnected) previousFocus.focus({ preventScroll: true });
     };
-  }, [isOpen, onClose]);
+  }, [isOpen, pathname]);
 
-  return (
-    <AnimatePresence>
-      {isOpen ? (
-        <motion.div
-          animate={{ opacity: 1 }}
-          className="fixed inset-0 z-[120] bg-black/25 backdrop-blur-sm md:hidden"
-          exit={{ opacity: 0 }}
-          initial={{ opacity: 0 }}
-          transition={{ duration: 0.22, ease: smoothEase }}
-        >
-          <motion.aside
-            animate={{ opacity: 1, x: 0 }}
-            aria-label="Mobile navigation"
-            aria-modal="true"
-            className="absolute right-0 top-0 flex h-dvh w-full flex-col overflow-hidden bg-white p-6 shadow-2xl"
-            exit={{ opacity: 0, x: "100%" }}
-            initial={{ opacity: 0.95, x: "100%" }}
-            role="dialog"
-            transition={panelTransition}
-          >
-            <motion.div
-              animate={{ opacity: 1, y: 0 }}
-              className="flex items-center justify-between"
-              initial={{ opacity: 0, y: -10 }}
-              transition={{ delay: 0.12, duration: 0.24 }}
-            >
-              <Logo isLink width={100} height={10} />
-              <Button
-                aria-label="Close mobile navigation"
-                onClick={onClose}
-                size="icon"
-                type="button"
-                variant="ghost"
-              >
-                <X className="size-6" />
-              </Button>
-            </motion.div>
-
-            <motion.nav
-              animate="open"
-              aria-label="Mobile main navigation"
-              className="mt-10 flex flex-col gap-3 overflow-y-auto pb-6"
-              exit="closed"
-              initial="closed"
-              variants={navListVariants}
-            >
-              {MenuNav.map((item) => {
-                if (!item.submenu?.length) {
-                  return (
-                    <motion.div key={item.title} variants={navItemVariants}>
-                      <NavItem
-                        title={item.title}
-                        url={item.url}
-                        onClick={onClose}
-                        className="text-3xl hover:text-pink-500 font-bold transition-colors duration-500"
-                      />
-                    </motion.div>
-                  );
-                }
-
-                const isSubmenuOpen = openMenu === item.title;
-
-                return (
-                  <motion.div key={item.title} variants={navItemVariants}>
-                    <button
-                      aria-expanded={isSubmenuOpen}
-                      className="flex w-full items-center justify-between py-2 text-left text-3xl font-bold transition-colors duration-500 hover:text-pink-500"
-                      onClick={() =>
-                        setOpenMenu(isSubmenuOpen ? null : item.title)
-                      }
-                      type="button"
-                    >
-                      {item.title}
-                      <motion.span
-                        animate={{ rotate: isSubmenuOpen ? 180 : 0 }}
-                        className="flex size-6 shrink-0 items-center justify-center"
-                        transition={{ duration: 0.24, ease: smoothEase }}
-                      >
-                        <ChevronDown className="size-6" />
-                      </motion.span>
-                    </button>
-                    <AnimatePresence initial={false}>
-                      {isSubmenuOpen ? (
-                        <motion.div
-                          animate="open"
-                          className="overflow-hidden"
-                          exit="closed"
-                          initial="closed"
-                          variants={submenuVariants}
-                        >
-                          <div className="grid gap-2 px-3 pb-3">
-                            <a
-                              className="rounded-md bg-[#FFD70C] px-4 py-3 text-lg font-bold text-neutral-950"
-                              href={item.url}
-                              onClick={onClose}
-                            >
-                              Semua Produk
-                            </a>
-                            {item.submenu.map((submenu) => (
-                              <a
-                                className="flex items-center gap-3 rounded-md bg-neutral-50 p-2 transition-colors hover:bg-neutral-100"
-                                href={submenu.url}
-                                key={submenu.title}
-                                onClick={onClose}
-                              >
-                                <span className="relative flex size-16 shrink-0 overflow-hidden rounded-md">
-                                  <img
-                                    alt={`Regen ${submenu.title}`}
-                                    className={`object-contain h-full w-full block transition duration-300 group-hover/product:scale-105 ${submenu.description === "Habis" ? "grayscale opacity-50" : ""}`}
-                                    sizes="64px"
-                                    src={submenu.imageUrl}
-                                  />
-                                </span>
-                                <span className="min-w-0">
-                                  <span
-                                    className={`${submenu.description === "Habis" ? "text-red-600" : "text-neutral-600"} block font-bold`}
-                                  >
-                                    {submenu.title}
-                                  </span>
-                                  <span
-                                    className={`${submenu.description === "Habis" ? "text-red-600" : "text-neutral-600"} block`}
-                                  >
-                                    {submenu.description}
-                                  </span>
-                                </span>
-                              </a>
-                            ))}
-                          </div>
-                        </motion.div>
-                      ) : null}
-                    </AnimatePresence>
-                  </motion.div>
-                );
-              })}
-            </motion.nav>
-            <motion.footer
-              animate={{ opacity: 1, y: 0 }}
-              className="mt-auto pt-6"
-              exit={{ opacity: 0, y: 12 }}
-              initial={{ opacity: 0, y: 16 }}
-              transition={{ delay: 0.24, duration: 0.28, ease: smoothEase }}
-            >
-              <p className="pb-2">Ikuti kami di media sosial:</p>
-              <div className="grid grid-cols-4 gap-2 w-full">
-                <motion.a
-                  whileHover={{ scale: 1.08, y: -6 }}
-                  whileTap={{ scale: 0.96 }}
-                  className="flex items-center justify-center rounded-lg bg-amber-300 p-3 transition-colors duration-300 hover:bg-amber-300/90"
-                  href="https://www.instagram.com/drinkregenid/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <img
-                    src={InstagramIcon.src}
-                    alt="Instagram"
-                    className="size-9"
-                  />
-                </motion.a>
-                <motion.a
-                  whileHover={{ scale: 1.08, y: -6 }}
-                  whileTap={{ scale: 0.96 }}
-                  className="flex items-center justify-center rounded-lg bg-amber-300 p-3 transition-colors duration-300 hover:bg-amber-300/90"
-                  href="https://www.tiktok.com/@drinkregenid"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <img src={TiktokIcon.src} alt="TikTok" className="size-9" />
-                </motion.a>
-                <motion.a
-                  whileHover={{ scale: 1.08, y: -6 }}
-                  whileTap={{ scale: 0.96 }}
-                  className="flex items-center justify-center rounded-lg bg-amber-300 p-3 transition-colors duration-300 hover:bg-amber-300/90"
-                  href="https://www.youtube.com/@drinkregenid"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <img src={YoutubeIcon.src} alt="YouTube" className="size-9" />
-                </motion.a>
-              </div>
-              <p className="pt-2 text-sm">
-                PT Global Enak Nikmat |{" "}
-                <span className="font-semibold">
-                  2026 © Copyright{" "}
-                  <a className="text-amber-500 hover:underline" href="/">
-                    Regen
-                  </a>
-                </span>
-              </p>
-            </motion.footer>
-          </motion.aside>
-        </motion.div>
-      ) : null}
-    </AnimatePresence>
-  );
-};
-
-export default MobileNav;
+  return <dialog className="rn-mobile-dialog" id={id} ref={dialogRef} aria-labelledby={titleId} onCancel={event => { event.preventDefault(); onClose(); }} onClose={() => { if (isOpen) onClose(); }} onClick={event => { if (event.target === event.currentTarget) onClose(); }} data-lenis-prevent>
+    <div className="rn-mobile-panel">
+      <div className="rn-mobile-top"><a className="rn-logo" href="/" aria-label="REGEN — Beranda" onClick={onClose}><img src="/regen.webp" alt="REGEN" width={115} height={42} /></a><button className="rn-close" type="button" onClick={onClose} aria-label="Tutup menu navigasi" autoFocus><X size={23} aria-hidden="true" /></button></div>
+      <div className="rn-mobile-scroll">
+        <p className="rn-mobile-eyebrow" id={titleId}>JELAJAHI KESEGARAN REGEN</p>
+        <nav aria-label="Navigasi utama mobile" className="rn-mobile-links">
+          {MenuNav.map((item, index) => <div className="rn-mobile-row" key={item.title}>
+            {item.submenu?.length ? <><button className={`rn-mobile-link ${isNavigationActive(pathname, "/product") ? "is-active" : ""}`} type="button" aria-expanded={expanded} aria-controls={productsId} onClick={() => setExpanded(value => !value)}><span className="rn-index">0{index + 1}</span><span>{item.title}</span><ChevronDown size={24} className={expanded ? "rn-rotated" : ""} aria-hidden="true" /></button>
+              <div className="rn-mobile-products" id={productsId} hidden={!expanded}>
+                <div className="rn-mobile-product-grid">{item.submenu.map(product => <a className="rn-mobile-product" href={product.url} key={product.url} onClick={onClose} aria-current={isNavigationActive(pathname, product.url) ? "page" : undefined}><img src={product.imageUrl} alt={`REGEN ${product.title}`} width={90} height={100} className={product.description === "Habis" ? "rn-sold-out" : ""} /><span><strong>{product.title}</strong><ArrowUpRight size={16} aria-hidden="true" /></span><small>{product.description}</small></a>)}</div>
+                <a className="rn-mobile-all" href="/product" onClick={onClose}>Lihat semua produk <ArrowUpRight size={17} aria-hidden="true" /></a>
+              </div></> : <a className={`rn-mobile-link ${isNavigationActive(pathname, item.url) ? "is-active" : ""}`} href={item.url} aria-current={isNavigationActive(pathname, item.url) ? "page" : undefined} onClick={onClose}><span className="rn-index">0{index + 1}</span><span>{item.title}</span><ArrowUpRight size={22} aria-hidden="true" /></a>}
+          </div>)}
+        </nav>
+        <a className="rn-mobile-partner" href="/jadi-reseller-regen" onClick={onClose}><span><small>TUMBUH BERSAMA REGEN</small><strong>Jadi mitra kami.</strong></span><ArrowUpRight size={28} aria-hidden="true" /></a>
+        <footer className="rn-mobile-footer"><span>IKUTI KESEGARANNYA</span><div>{[{ name: "Instagram", url: "https://www.instagram.com/drinkregenid/" }, { name: "TikTok", url: "https://www.tiktok.com/@drinkregenid" }, { name: "YouTube", url: "https://www.youtube.com/@drinkregenid" }].map(social => <a href={social.url} key={social.name} target="_blank" rel="noopener noreferrer" aria-label={`${social.name} REGEN (tab baru)`}>{social.name}<ArrowUpRight size={13} aria-hidden="true" /></a>)}</div><p>PT Global Enak Nikmat</p></footer>
+      </div>
+    </div>
+  </dialog>;
+}

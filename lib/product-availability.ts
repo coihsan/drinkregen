@@ -1,3 +1,5 @@
+import { getProductVariant } from "./product-catalog";
+
 export type OnlineStore = {
   name: string;
   urlStore: string;
@@ -15,6 +17,7 @@ export type OfflineStore = {
 export type ProductAvailability = {
   urlImage: string;
   productName: string;
+  usp: string;
   ariaLabel: string;
   bgProduct: string;
   isAvailable: boolean;
@@ -157,17 +160,27 @@ const createProductAvailability = ({
   bgProduct: string;
   online: OnlineStoreInput[];
   offline: OfflineStoreName[];
-}): ProductAvailability => ({
-  urlImage: urlImage ?? `/${productSize}/${key}.webp`,
-  productName: `${productName} ${productSize}`,
-  ariaLabel: `Regen ${productName} ${productSize}`,
-  bgProduct,
-  isAvailable: true,
-  stores: {
-    online: createOnlineStores(`${productName} ${productSize}`, online),
-    offline: createOfflineStores(`${productName} ${productSize}`, offline),
-  },
-});
+}): ProductAvailability => {
+  const variant = getProductVariant(productSize, key);
+
+  if (!variant) {
+    throw new Error(`Product variant not found: ${productSize}/${key}`);
+  }
+
+  return {
+    urlImage: urlImage ?? `/${productSize}/${key}.webp`,
+    productName: `${productName} ${productSize}`,
+    usp: variant.usp,
+    ariaLabel: `Regen ${productName} ${productSize}`,
+    bgProduct,
+    // All 450ml SKUs are out of stock until a restock date is confirmed.
+    isAvailable: productSize !== "450ml",
+    stores: {
+      online: createOnlineStores(`${productName} ${productSize}`, online),
+      offline: createOfflineStores(`${productName} ${productSize}`, offline),
+    },
+  };
+};
 
 const DetailProductAvailable300mlByVariant: Record<
   ProductAvailabilityKey,
@@ -177,7 +190,7 @@ const DetailProductAvailable300mlByVariant: Record<
     key: "orange",
     productSize: "300ml",
     productName: "Orange",
-    bgProduct: "bg-orange-400",
+    bgProduct: "bg-brand-gold-400",
     online: [
       {
         name: "Klik Indomaret",
@@ -188,13 +201,13 @@ const DetailProductAvailable300mlByVariant: Record<
         urlStore: "https://shopee.co.id/product/1604974893/43980615755",
       },
     ],
-    offline: ["Indomaret"],
+    offline: ["Indomaret", "AlfaMart", "K3Mart"],
   }),
   peach: createProductAvailability({
     key: "peach",
     productSize: "300ml",
     productName: "Peach",
-    bgProduct: "bg-orange-200",
+    bgProduct: "bg-brand-gold-200",
     online: [
       {
         name: "Alfagift",
@@ -211,7 +224,7 @@ const DetailProductAvailable300mlByVariant: Record<
     key: "lychee",
     productSize: "300ml",
     productName: "Lychee",
-    bgProduct: "bg-rose-500",
+    bgProduct: "bg-brand-red-500",
     online: [
       {
         name: "Alfagift",
@@ -228,7 +241,7 @@ const DetailProductAvailable300mlByVariant: Record<
     key: "watermelon",
     productSize: "300ml",
     productName: "Watermelon",
-    bgProduct: "bg-green-400",
+    bgProduct: "bg-brand-green-400",
     online: [
       {
         name: "Alfagift",
@@ -239,13 +252,13 @@ const DetailProductAvailable300mlByVariant: Record<
         urlStore: "https://shopee.co.id/product/1604974893/58159432420",
       },
     ],
-    offline: ["AlfaMart", "FamilyMart"],
+    offline: ["AlfaMart", "FamilyMart", "K3Mart"],
   }),
   apple: createProductAvailability({
     key: "apple",
     productSize: "300ml",
     productName: "Apple",
-    bgProduct: "bg-pink-400",
+    bgProduct: "bg-brand-coral-400",
     online: [
       {
         name: "Alfagift",
@@ -256,13 +269,13 @@ const DetailProductAvailable300mlByVariant: Record<
         urlStore: "https://shopee.co.id/product/1604974893/44130615738",
       },
     ],
-    offline: ["AlfaMart", "FamilyMart"],
+    offline: ["AlfaMart", "FamilyMart", "K3Mart"],
   }),
   lemonlime: createProductAvailability({
     key: "lemonlime",
     productSize: "300ml",
     productName: "Lemon Lime",
-    bgProduct: "bg-lime-400",
+    bgProduct: "bg-brand-lime-400",
     online: [
       {
         name: "Alfagift",
@@ -277,7 +290,7 @@ const DetailProductAvailable300mlByVariant: Record<
         urlStore: "https://shopee.co.id/product/1604974893/24298138604",
       },
     ],
-    offline: ["AlfaMart", "Indomaret", "FamilyMart", "Lawson"],
+    offline: ["AlfaMart", "Indomaret", "FamilyMart", "Lawson", "K3Mart"],
   }),
 };
 
@@ -290,7 +303,7 @@ const DetailProductAvailable450mlByVariant: Record<
     productSize: "450ml",
     productName: "Watermelon",
     urlImage: "/450ml/watermelon-450ml.webp",
-    bgProduct: "bg-green-500",
+    bgProduct: "bg-brand-green-500",
     online: [
       {
         name: "Shopee",
@@ -304,7 +317,7 @@ const DetailProductAvailable450mlByVariant: Record<
     productSize: "450ml",
     productName: "Apple",
     urlImage: "/450ml/apple-450ml.webp",
-    bgProduct: "bg-pink-500",
+    bgProduct: "bg-brand-coral-500",
     online: [
       {
         name: "Shopee",
@@ -318,7 +331,7 @@ const DetailProductAvailable450mlByVariant: Record<
     productSize: "450ml",
     productName: "Lemon Lime",
     urlImage: "/450ml/lemonlime-450ml.webp",
-    bgProduct: "bg-lime-500",
+    bgProduct: "bg-brand-lime-500",
     online: [
       {
         name: "Shopee",

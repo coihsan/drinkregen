@@ -13,10 +13,9 @@ export type BannerImage = BaseBannerInfo & {
 export type BannerVideo = BaseBannerInfo & {
   type: "video";
   videoUrl: string;
-  mobileVideoUrl?: string; // Opsional jika punya video vertikal untuk HP
+  mobileVideoUrl?: string; 
 };
 
-// Gabungkan menjadi satu Union Type
 export type BannerHeaderItem = BannerImage | BannerVideo;
 
 interface BannerHeaderProps {

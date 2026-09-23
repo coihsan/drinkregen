@@ -1,0 +1,46 @@
+---
+import RegenWhite from "../assets/icons/logo-regen-white.svg";
+const benefits = ["Harga khusus mitra", "Dukungan promosi", "Pendampingan Area Manager"];
+---
+
+<section class="reseller-banner" aria-label="Menjadi mitra REGEN">
+  <div class="reseller-banner-inner">
+    <div class="reseller-banner-visual">
+      <div class="reseller-banner-logo" aria-hidden="true"><RegenWhite /></div>
+      <span class="reseller-banner-label">PELUANG SEGAR UNTUK BISNISMU</span>
+      <div class="reseller-banner-circle" aria-hidden="true"></div>
+      <img class="reseller-banner-carton" src="/banner-product/karton-regen.webp" alt="Karton REGEN Orange untuk kebutuhan distribusi" width="500" height="650" loading="lazy" decoding="async" />
+      <img class="reseller-banner-bottle" src="/300ml/orange.webp" alt="" aria-hidden="true" width="300" height="450" loading="lazy" decoding="async" />
+      <span class="reseller-banner-sticker">Bawa segarnya.<br />Kembangkan usahanya.</span>
+    </div>
+    <div class="reseller-banner-copy">
+      <p class="reseller-banner-eyebrow"><span aria-hidden="true"></span> JADI RESELLER REGEN</p>
+      <h2>Tumbuh bersama.<br /><span>Segarkan kotamu.</span></h2>
+      <p class="reseller-banner-description">Bawa kesegaran REGEN lebih dekat ke konsumen di wilayahmu. Jadilah mitra reseller atau distribusi dan temukan peluang baru untuk mengembangkan bisnismu.</p>
+      <ul>{benefits.map(benefit => <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m5 12 4 4L19 6" /></svg>{benefit}</li>)}</ul>
+      <a id="reseller-button" class="reseller-banner-cta" href="/jadi-reseller-regen" aria-label="Daftar menjadi mitra reseller REGEN"><span>Jadi Mitra REGEN</span><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M5 19 19 5M5 5h14v14" /></svg></a>
+      <p class="reseller-banner-note">Isi formulir singkat. Tim kami akan menghubungimu.</p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .reseller-banner{padding:64px 24px;background:var(--regen-paper);color:var(--regen-ink)}
+  .reseller-banner-inner{display:grid;grid-template-columns:1fr 1.15fr;max-width:1280px;margin:auto;border:1px solid var(--regen-border);border-radius:28px;overflow:hidden;background:var(--regen-surface)}
+  .reseller-banner-visual{position:relative;isolation:isolate;overflow:hidden;background:var(--regen-citrus);min-height:560px}
+  .reseller-banner-logo{position:absolute;top:100px;left:7%;width:86%;opacity:.55;transform:rotate(-12deg);z-index:-1}.reseller-banner-logo :global(svg){width:100%;height:auto;display:block}
+  .reseller-banner-label{position:absolute;top:28px;left:28px;right:28px;font-size:9px;font-weight:800;letter-spacing:.12em}
+  .reseller-banner-circle{position:absolute;width:370px;aspect-ratio:1;border:1px solid color-mix(in srgb,var(--regen-ink) 18%,transparent);border-radius:50%;left:50%;top:48%;transform:translate(-50%,-50%);box-shadow:0 0 0 42px color-mix(in srgb,var(--regen-yellow) 35%,transparent);z-index:-1}
+  .reseller-banner-carton{position:absolute;width:64%;height:390px;object-fit:contain;left:11%;bottom:48px;transform:rotate(-7deg);filter:drop-shadow(8px 18px 12px var(--regen-ink-a20))}
+  .reseller-banner-bottle{position:absolute;width:35%;height:300px;object-fit:contain;right:3%;bottom:46px;transform:rotate(12deg);filter:drop-shadow(7px 14px 9px var(--regen-ink-a20))}
+  .reseller-banner-sticker{position:absolute;bottom:25px;left:28px;transform:rotate(-4deg);padding:13px 20px;background:var(--regen-ink);color:var(--regen-cream);border-radius:10px;font-family:var(--font-headoh);font-size:25px;line-height:1.1}
+  .reseller-banner-copy{padding:56px 48px;align-self:center}.reseller-banner-eyebrow{display:flex;align-items:center;gap:9px;font-size:9px;font-weight:800;letter-spacing:.13em;margin:0 0 24px}.reseller-banner-eyebrow>span{width:7px;height:7px;background:var(--regen-forest);border-radius:50%;flex-shrink:0}
+  h2{font-family:var(--font-headoh);font-size:clamp(48px,5vw,72px);font-weight:400;line-height:1.02;margin:0 0 24px}h2 span{color:var(--regen-green-dark)}
+  .reseller-banner-description{font-size:14px;line-height:1.85;color:var(--regen-muted);max-width:450px;margin:0}
+  ul{display:grid;gap:12px;list-style:none;padding:0;margin:25px 0 30px}li{display:flex;align-items:center;gap:10px;font-size:12px;font-weight:650}li svg{color:var(--regen-green-dark);flex-shrink:0}
+  .reseller-banner-cta{display:inline-flex;align-items:center;justify-content:space-between;gap:32px;padding:18px 25px;min-height:54px;background:var(--regen-ink);color:var(--regen-paper);border-radius:999px;font-size:13px;font-weight:750;text-decoration:none;transition:background .2s,transform .2s}.reseller-banner-cta:hover{background:var(--regen-green-dark);transform:translateY(-3px)}.reseller-banner-cta:focus-visible{outline:3px solid var(--regen-forest);outline-offset:5px}
+  .reseller-banner-note{font-size:10px;line-height:1.7;color:var(--regen-muted);margin:15px 0 0}
+  @media(max-width:1000px){.reseller-banner-copy{padding:40px 30px}.reseller-banner-carton{width:74%;left:3%}.reseller-banner-bottle{width:39%;right:0}.reseller-banner-visual{min-height:550px}}
+  @media(max-width:700px){.reseller-banner{padding:40px 16px}.reseller-banner-inner{grid-template-columns:1fr;border-radius:24px}.reseller-banner-copy{grid-row:1;padding:32px 25px}h2{font-size:clamp(44px,10vw,64px)}.reseller-banner-description{font-size:13px}.reseller-banner-visual{min-height:360px}.reseller-banner-label{top:22px;left:24px;font-size:8px}.reseller-banner-logo{top:64px}.reseller-banner-carton{height:270px;width:62%;left:12%;bottom:30px}.reseller-banner-bottle{height:220px;width:33%;right:7%;bottom:24px}.reseller-banner-sticker{font-size:21px;left:22px;bottom:18px;padding:10px 16px}.reseller-banner-circle{width:260px}.reseller-banner-cta{width:100%}.reseller-banner-note{text-align:center}}
+  @media(prefers-reduced-motion:reduce){.reseller-banner-cta{transition:none}.reseller-banner-cta:hover{transform:none}}
+</style>
