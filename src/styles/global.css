@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
+@import "./shadcn-theme.css";
 @import "./brand.css";
 @import "./page-foundation.css";
 
@@ -18,7 +19,7 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-sans);
+  --font-sans: "Inter", sans-serif;
   --font-mono: var(--font-geist-mono);
   --font-heading: var(--font-sans);
   --color-sidebar-ring: var(--sidebar-ring);
@@ -59,7 +60,9 @@
   --radius-4xl: calc(var(--radius) * 2.6);
 }
 
-:root { --radius: 0.625rem; }
+@layer base {
+  body { background-color: var(--regen-paper); color: var(--regen-ink); }
+}
 
 @theme {
   --font-bebas: "Bebas Neue", sans-serif;
@@ -138,7 +141,6 @@ body {
   display: flex;
   flex-direction: column;
 }
-
 
 .lenis.lenis-smooth {
   scroll-behavior: auto !important;

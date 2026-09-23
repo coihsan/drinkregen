@@ -1,4 +1,6 @@
 ---
+import ProductBreadcrumb from "@/src/components/product/ProductBreadcrumb";
+import RelatedProducts from "@/src/components/product/RelatedProducts";
 import Layout from "../../../../layouts/Layout.astro";
 import BannerHeader from "../../../../components/BannerHeader.tsx";
 import ProductDetail300ml from "@/src/components/product/ProductDetail300ml";
@@ -50,6 +52,7 @@ const productSchema = generateRegenProductSchema({
   />
   <div>
     <div class="container">
+          <ProductBreadcrumb product={data} />
       <ProductDetail300ml
       client:load
         vitaminColor={data.vitaminColor}
@@ -65,6 +68,7 @@ const productSchema = generateRegenProductSchema({
         nutritionTags={["0 Kalori", "0% Gula", "Sukralosa"]}
         compositionNote="Menggunakan pemanis buatan sukralosa"
       />
+          <RelatedProducts product={data} />
     </div>
   </div>
 </Layout>

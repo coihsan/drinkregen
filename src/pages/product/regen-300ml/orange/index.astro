@@ -1,4 +1,6 @@
 ---
+import ProductBreadcrumb from "@/src/components/product/ProductBreadcrumb";
+import RelatedProducts from "@/src/components/product/RelatedProducts";
 import Layout from "@/src/layouts/Layout.astro";
 import { getProductVariant } from "@/lib/product-catalog";
 import { DetailProductAvailableByVariant } from "@/lib/product-availability";
@@ -47,6 +49,7 @@ twitter={{
         ]}
       />
       <div class="container">
+          <ProductBreadcrumb product={data} />
         <ProductDetail300ml
         client:load
           vitaminColor={data.vitaminColor}
@@ -60,6 +63,7 @@ twitter={{
           titleColor={data.titleColor}
           sourceImage={data.bottleImage}
         />
+          <RelatedProducts product={data} />
       </div>
       <BannerBuyProductRegenByItem client:load content={DetailProductAvailable} />
 </Layout>

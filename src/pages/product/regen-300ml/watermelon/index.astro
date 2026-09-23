@@ -1,5 +1,7 @@
 ---
 import BannerHeader from "@/src/components/BannerHeader";
+import ProductBreadcrumb from "@/src/components/product/ProductBreadcrumb";
+import RelatedProducts from "@/src/components/product/RelatedProducts";
 import Layout from "../../../../layouts/Layout.astro";
 import ProductDetail300ml from "@/src/components/product/ProductDetail300ml";
 import BannerBuyProductRegenByItem from "@/src/components/product/BannerBuyProductRegenByItem";
@@ -52,6 +54,7 @@ const productSchema = generateRegenProductSchema({
       />
       <div>
         <div class="container">
+          <ProductBreadcrumb product={data} />
           <ProductDetail300ml
           client:load
             vitaminColor={data.vitaminColor}
@@ -65,6 +68,7 @@ const productSchema = generateRegenProductSchema({
             titleColor={data.titleColor}
             sourceImage={data.bottleImage}
           />
+          <RelatedProducts product={data} />
         </div>
         <BannerBuyProductRegenByItem client:load content={DetailProductAvailable} />
       </div>

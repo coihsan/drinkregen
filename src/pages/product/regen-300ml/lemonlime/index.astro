@@ -1,5 +1,7 @@
 ---
 import { getProductVariant } from "@/lib/product-catalog";
+import ProductBreadcrumb from "@/src/components/product/ProductBreadcrumb";
+import RelatedProducts from "@/src/components/product/RelatedProducts";
 import Layout from "../../../../layouts/Layout.astro";
 import { DetailProductAvailableByVariant } from "@/lib/product-availability";
 import BannerBuyProductRegenByItem from "@/src/components/product/BannerBuyProductRegenByItem";
@@ -11,7 +13,8 @@ const productId = "lemonlime";
 const productSize = "300ml";
 
 const data = getProductVariant(productSize, productId)!;
-const DetailProductAvailable = DetailProductAvailableByVariant[productSize][productId];
+const DetailProductAvailable =
+  DetailProductAvailableByVariant[productSize][productId];
 
 const productSchema = generateRegenProductSchema({
   size: productSize,
@@ -27,8 +30,7 @@ const productSchema = generateRegenProductSchema({
   schemaData={productSchema}
   openGraph={{
     title: "Regen Lemon Lime - Mood Booster",
-    description:
-      "Bebas Gula, Manis Alami, Stevia dan Tanpa bahan pengawet.",
+    description: "Bebas Gula, Manis Alami, Stevia dan Tanpa bahan pengawet.",
     images: [
       {
         url: "/og-image-regen.jpg",
@@ -39,31 +41,34 @@ const productSchema = generateRegenProductSchema({
     ],
   }}
 >
-  <BannerHeader client:load
-        content={[
-          {
-            type: "image",
-            desktopImageUrl: "/banner-product/lemonlime-desktop.webp",
-            tabletImageUrl: "/banner-product/lemonlime-desktop.webp",
-            mobileImageUrl: "/banner-product/lemonlime-mobile.webp",
-            alt: "Banner product regen",
-          },
-        ]}
-      />
-      <div class="container">
-        <ProductDetail300ml
-        client:load
-          vitaminColor={data.vitaminColor}
-          vitaminContent={data.vitamin}
-          productName={data.displayName}
-          productUSP={data.usp}
-          productComp={data.komposisi}
-          description={data.description}
-          nutritionFacts={data.nutritionFacts}
-          vitaminFacts={data.vitaminFacts}
-          titleColor={data.titleColor}
-          sourceImage={data.bottleImage}
-        />
-      </div>
-      <BannerBuyProductRegenByItem client:load content={DetailProductAvailable} />
+  <BannerHeader
+    client:load
+    content={[
+      {
+        type: "image",
+        desktopImageUrl: "/banner-product/lemonlime-desktop.webp",
+        tabletImageUrl: "/banner-product/lemonlime-desktop.webp",
+        mobileImageUrl: "/banner-product/lemonlime-mobile.webp",
+        alt: "Banner product regen",
+      },
+    ]}
+  />
+  <div class="container">
+    <ProductBreadcrumb client:load product={data} />
+    <ProductDetail300ml
+      client:load
+      vitaminColor={data.vitaminColor}
+      vitaminContent={data.vitamin}
+      productName={data.displayName}
+      productUSP={data.usp}
+      productComp={data.komposisi}
+      description={data.description}
+      nutritionFacts={data.nutritionFacts}
+      vitaminFacts={data.vitaminFacts}
+      titleColor={data.titleColor}
+      sourceImage={data.bottleImage}
+    />
+    <RelatedProducts product={data} />
+  </div>
+  <BannerBuyProductRegenByItem client:load content={DetailProductAvailable} />
 </Layout>
