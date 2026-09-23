@@ -8,7 +8,7 @@ import sitemap from "@astrojs/sitemap";
 
 // https://astro.build/config
 export default defineConfig({
-  site: "https://drinkregen.com/",
+  site: "https://coihsan.github.io/drinkregen/",
 
   output: "static",
 
