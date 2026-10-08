@@ -2,14 +2,16 @@
 import Layout from "../layouts/Layout.astro";
 import HeroSection from "../components/HeroSection.tsx";
 import { HeroContent, DEFAULT_META } from "../../lib/const.web";
-import ScrollText from "../components/ScrollText.tsx";
 import {  WaveText} from "../components/WaveText.tsx";
 import RevealEffect from "../components/RevealEffect.tsx";
 import BannerVideo from "../components/BannerVideo.tsx";
 import BannerBuyRegenContent from "../components/BannerBuyRegenContent.astro";
+import ScrollTextV2 from "../components/ScrollTextV2.tsx";
+import HomeProducts from "../components/HomeProducts.tsx";
+import NonaRegenPromo from "../components/nonaregen/NonaRegenPromo.tsx";
 
 const videoData = {
-  title: "Dr Tirta Buka Regen, Buka Rejeki Berhadiah Umroh dan Uang Tunai",
+  title: "Dr. Tirta Buka Regen, Buka Rejeki Berhadiah Umroh dan Uang Tunai",
   description: "Beli Minuman Regen di toko kesayangan Anda, dan menangkan kesempatan hadiah Umroh berdua",
   source: "https://drinkregen.com/videos/promo-utama.mp4",
   poster: "https://drinkregen.com/images/video-thumb-16x9.jpg",
@@ -38,9 +40,9 @@ const videoSchema = {
   <div class="w-full h-[calc(100vh-80px)]">
     <HeroSection client:load slides={HeroContent} />
   </div>
-  <ScrollText client:load />
-  <div class="container">
-    <div class="pb-12 flex flex-col mx-auto">
+  <ScrollTextV2 client:load />
+  <!-- <div class="container">
+    <div class="py-12 flex flex-col mx-auto ">
       <WaveText client:load
         once={false}
         text="BARU!"
@@ -55,6 +57,8 @@ const videoSchema = {
     <RevealEffect client:load>
       <BannerVideo client:load isRounded source="/videos/regen-orange.mp4" />
     </RevealEffect>
-  </div>
+  </div> -->
+  <HomeProducts client:load />
   <BannerBuyRegenContent />
+  <NonaRegenPromo />
 </Layout>

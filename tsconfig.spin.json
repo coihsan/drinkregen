@@ -1,0 +1,6 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": { "types": ["node", "vite/client"] },
+  "include": ["src/components/spin/**/*.tsx", "src/services/spin*.ts"],
+  "exclude": ["dist", "node_modules"]
+}

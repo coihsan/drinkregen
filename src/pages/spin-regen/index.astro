@@ -1,0 +1,8 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import SpinGame from '../../components/spin/SpinGame';
+---
+<Layout title="REGEN Spin & Win" description="Putar keseruan dan dapatkan hadiah segar REGEN." showWelcomePromo={false}>
+  <SpinGame client:load />
+  <noscript><p>Aktifkan JavaScript untuk bermain REGEN Spin & Win.</p></noscript>
+</Layout>

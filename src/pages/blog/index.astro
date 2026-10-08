@@ -10,7 +10,7 @@ const categories = ["Semua", ...new Set(posts.map(post => post.category))];
 <Layout title={title} description={description} openGraph={{ title, description, url: "https://drinkregen.com/blog" }}>
   <main class="blog-page regen-page border border-b-2" lang="id">
     <header class="blog-hero regen-hero">
-      <div><p class="regen-eyebrow">THE REGEN JOURNAL / BLOG</p><h1 class="regen-title">Cerita segar,<br />buat <span>harimu.</span></h1></div>
+      <div><p class="regen-eyebrow">THE REGEN JOURNAL</p><h1 class="regen-title">Cerita segar<br />buat <span>harimu</span></h1></div>
       <div class="blog-hero-note"><span class="blog-spark" aria-hidden="true">✳</span><p>Inspirasi kecil. Cerita seru.<br />Teman baca di sela harimu.</p><a href="#artikel">Jelajahi cerita <span aria-hidden="true">↘</span></a></div>
     </header>
     <section class="blog-feature-wrap" aria-label="Artikel pilihan">
@@ -28,7 +28,7 @@ const categories = ["Semua", ...new Set(posts.map(post => post.category))];
         <div class="blog-empty" data-empty hidden><h3>Belum ketemu ceritanya.</h3><p>Coba kata kunci lain atau lihat semua kategori.</p><button type="button" class="regen-button" data-reset>Tampilkan semua cerita <span aria-hidden="true">↗</span></button></div>
       </blog-filter>
     </section>
-    <aside class="blog-cta"><div><p class="regen-eyebrow">SELESAI BACA, LANJUT SEGARNYA.</p><h2 class="regen-heading">Temukan rasa ceritamu.</h2></div><a href="/product" class="regen-button">Kenalan dengan REGEN <span aria-hidden="true">↗</span></a></aside>
+    <aside class="blog-cta"><div><p class="regen-eyebrow">SELESAI BACA, LANJUT SEGARNYA</p><h2 class="regen-heading">Temukan rasa ceritamu</h2></div><a href="/product" class="regen-button">Kenalan dengan REGEN <span aria-hidden="true">↗</span></a></aside>
   </main>
 </Layout>
 <script>

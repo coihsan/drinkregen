@@ -1,0 +1,54 @@
+---
+import { ArrowUpRight, Check, MessageCircle, Plus } from "lucide-react";
+import "@/src/styles/nona-regen-v2.css";
+import NonaTestimonialCarousel from "./NonaTestimonialCarousel";
+
+const whatsapp = "https://wa.me/628170104310?text=" + encodeURIComponent("Halo tim REGEN, saya mau jadi Nona Regen. Boleh minta informasi pendaftarannya?");
+const form = "https://forms.gle/Uj8hBioBRQPgvvMNA";
+const highlights = ["Waktu fleksibel", "Stok & materi jualan disiapkan", "Dapat komisi, insentif harian, dan extra bonus", "Tidak ada syarat usia, ijazah, dan pengalaman kerja"];
+const benefits = [
+  { title: "Komisi perpenjualan", text: "Insentif & Extra Bonus Insentif dibayarkan harian, dan ekstra bonus jika mencapai angka penjualan tertentu" },
+  { title: "Insentif mingguan & bulanan.", text: "Ada bonus tambahan tiap kali target tercapai." },
+  { title: "Atur jam kerja kamu sendiri.", text: "Bisa sambil kerja, kuliah, atau ngurus rumah." },
+  // { title: "[Seragam / cooler box / materi promo] gratis.", text: "Tugasmu fokus ke berjualan." },
+];
+const faqs = ["Apakah harus beli stok dulu?", "Apakah ada target minimal penjualan?", "Komisi dibayar kapan?"];
+---
+
+<main class="nv2 regen-page" lang="id">
+  <section class="nv2-hero" aria-labelledby="nv2-title">
+    <div class="nv2-hero-copy">
+      <p class="nv2-eyebrow"><span aria-hidden="true">✳</span> PELUANG SEGAR, UNTUK KAMU</p>
+      <h1 id="nv2-title">GABUNG JADI<br /><em>NONA REGEN,</em></h1>
+      <p class="nv2-promise">DAPATKAN POTENSI PENGHASILAN <strong>Rp[XX] JUTA<span>/BULAN</span></strong></p>
+      <ul class="nv2-highlights">{highlights.map(text => <li><Check size={18} aria-hidden="true" /><span>{text}</span></li>)}</ul>
+      <a class="nv2-cta" href={form} target="_blank" rel="noopener noreferrer"><MessageCircle size={21} aria-hidden="true" /> SAYA MAU JADI NONA REGEN <ArrowUpRight size={20} aria-hidden="true" /><span class="sr-only"> (WhatsApp, tab baru)</span></a>
+      <!-- <a class="nv2-cta" href={whatsapp} target="_blank" rel="noopener noreferrer"><MessageCircle size={21} aria-hidden="true" /> SAYA MAU JADI NONA REGEN <ArrowUpRight size={20} aria-hidden="true" /><span class="sr-only"> (WhatsApp, tab baru)</span></a> -->
+    </div>
+    <div class="nv2-hero-visual">
+      <span class="nv2-visual-word" aria-hidden="true">NONA<br />REGEN</span>
+      <div class="nv2-orbit" aria-hidden="true"></div>
+      <img src="/nona-regen/nonaregen-mother-with-coolerbag-pink.webp" alt="Nona Regen berhijab membawa cooler bag pink dan menunjukkan ponsel" width="1096" height="2190" fetchpriority="high" />
+      <div class="nv2-sticker" aria-hidden="true">WAKTU<br /><strong>FLEKSIBEL.</strong><span>PELUANG MAKSIMAL ↗</span></div>
+    </div>
+    <div class="nv2-hero-footer"><span>LANGKAH KECIL, PELUANG BESAR.</span><a href="#nv2-manfaat">KENALI NONA REGEN ↓</a></div>
+  </section>
+
+  <section class="nv2-benefits nv2-section" id="nv2-manfaat" aria-labelledby="nv2-role">
+    <div class="nv2-role-intro"><p class="nv2-eyebrow">01 / KENALI PELUANGNYA</p><h2 id="nv2-role">JADI NONA REGEN<br /><em>HARUS NGAPAIN AJA?</em></h2><p class="nv2-lead">Bawa kesegaran REGEN ke lingkungan terdekatmu: tetangga, teman kantor, sekolah, arisan, dan komunitas lainnya.</p></div>
+    <div class="nv2-benefit-grid">
+      <div class="nv2-benefit-visual"><span aria-hidden="true">SEGARNYA<br />JADI PELUANG.</span><img src="/nona-regen/nonaregen-muda-tshirt-regen-pink.webp" alt="Nona Regen muda mengenakan kaus REGEN pink" loading="lazy" /><p>DARI LINGKUNGAN TERDEKATMU,<br /><strong>UNTUK PELUANG BARUMU.</strong></p></div>
+      <div class="nv2-benefit-copy"><h3>YANG KAMU DAPAT:</h3><ul>{benefits.map(({title, text}) => <li><span class="nv2-check"><Check size={19} aria-hidden="true" /></span><div><h4>{title}</h4><p>{text}</p></div></li>)}</ul><a class="nv2-cta" href={form} target="_blank" rel="noopener noreferrer"><MessageCircle size={21} aria-hidden="true" /> Saya mau jadi NONA REGEN <ArrowUpRight size={20} aria-hidden="true" /><span class="sr-only"> (WhatsApp, tab baru)</span></a></div>
+    </div>
+  </section>
+
+  <section class="nv2-how nv2-section" aria-labelledby="nv2-how-title">
+    <div class="nv2-how-copy"><p class="nv2-eyebrow">02 / MULAI LANGKAHMU</p><h2 id="nv2-how-title">CARA <em>KERJANYA</em></h2><ol class="nv2-steps"><li><span>01</span><div><h3>Daftar.</h3><p>Isi <a href={form} target="_blank" rel="noopener noreferrer">formulir berikut<span class="sr-only"> (tab baru)</span></a>, lalu tim kami menghubungimu dalam 7 hari.</p></div></li><li><span>02</span><div><h3>Ambil stok.</h3><p>Kamu dapat stok awal + [Nona Regen kit, perhaps].</p></div></li><li><span>03</span><div><h3>Jualan & cuan.</h3><p>Tawarkan ke rumah, kantor, pasar, sekolah, atau komunitasmu sendiri. Komisi cair [tiap minggu/bulan].</p></div></li></ol></div>
+    <div class="nv2-how-visual"><span aria-hidden="true">SIAP<br />JUALAN!</span><img src="/nona-regen/nonaregen-with-coolerbag.webp" alt="Nona Regen siap berjualan dengan cooler bag REGEN" loading="lazy" /></div>
+    <div class="nv2-who"><div class="nv2-who-visual"><img src="/nona-regen/nonaregen-with-cycle-and-coolerbag.webp" alt="Nona Regen bersama sepeda dan cooler bag untuk menjangkau pelanggan" loading="lazy" /></div><div class="nv2-who-copy"><p class="nv2-eyebrow">PELUANG UNTUK SEMUA</p><h2>SIAPA YANG BISA<br />JADI <em>NONA REGEN?</em></h2><p>Siapa aja di [kota/area]. Ibu rumah tangga, karyawan, mahasiswa, semua boleh mendaftar.</p><div class="nv2-tags"><span>Ibu rumah tangga</span><span>Karyawan</span><span>Mahasiswa</span></div></div></div>
+  </section>
+
+  <section class="nv2-testimonials nv2-section" aria-labelledby="nv2-testimonial-title"><p class="nv2-eyebrow">03 / CERITA NONA REGEN</p><h2 id="nv2-testimonial-title">APA KATA <em>MEREKA?</em></h2><NonaTestimonialCarousel client:load /></section>
+
+  <section class="nv2-faq nv2-section" aria-labelledby="nv2-faq-title"><div><p class="nv2-eyebrow">04 / YANG SERING DITANYAKAN</p><h2 id="nv2-faq-title">MASIH ADA<br /><em>PERTANYAAN?</em></h2><p>Kenali lebih dekat peluangmu<br />bersama Nona Regen.</p></div><div class="nv2-faq-list">{faqs.map((question, index) => <details name="nona-regen-v2-faq"><summary>{question}<Plus size={22} aria-hidden="true" /></summary><p>{`[jawaban untuk pertanyaan ${index + 1}]`}</p></details>)}</div></section>
+</main>

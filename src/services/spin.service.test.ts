@@ -1,0 +1,32 @@
+import { test } from 'node:test';
+import assert from 'node:assert/strict';
+import { createApiSpinService, SpinApiError } from './spin.service';
+const status = { registered: true, user: { id: 'u1', name: 'Tester' }, remainingSpins: 5, totalValidSpins: 1, points: 110, dailyResetAt: '2026-10-08T00:00:00+07:00', csrfToken: 'csrf-test' };
+test('API sends credentialed CSRF-protected commands, never client balance/cost/outcome', async context => {
+  const calls: { url: string; options?: RequestInit }[] = [];
+  const replies = [status, { ...status, id: 'spin-1', rewardType: 'POINTS_5', points: 115 }, { ...status, points: 15, redemption: { id: 'claim-1', rewardId: 'CARTON', status: 'confirmed' } }];
+  context.mock.method(globalThis, 'fetch', async (url: string, options?: RequestInit) => { calls.push({ url, options }); return Response.json(replies.shift()); });
+  const service = createApiSpinService(); await service.getStatus();
+  assert.equal((await service.spin('spin-key')).points, 115);
+  assert.equal((await service.redeem('CARTON', 'claim-key')).points, 15);
+  assert.equal(calls[0].url, 'https://api.drinkregen.com/api/v1/spin/status');
+  assert.equal(calls[1].options?.credentials, 'include');
+  assert.equal(calls[1].options?.body, '{}');
+  assert.equal(calls[2].options?.body, JSON.stringify({ rewardId: 'CARTON' }));
+  assert.equal((calls[2].options?.headers as Record<string, string>)['X-CSRF-Token'], 'csrf-test');
+  assert.equal((calls[2].options?.headers as Record<string, string>)['Idempotency-Key'], 'claim-key');
+});
+test('API fails closed on missing session, bad response, unsupported prizes and server error', async context => {
+  const service = createApiSpinService();
+  await assert.rejects(service.spin('no-session'));
+  const fetchMock = context.mock.method(globalThis, 'fetch', async () => Response.json(status));
+  await service.getStatus();
+  fetchMock.mock.mockImplementation(async () => Response.json({ ...status, id: 'bad', rewardType: 'GRAND_PRIZE' }));
+  await assert.rejects(service.spin('bad'));
+  fetchMock.mock.mockImplementation(async () => Response.json({ ...status, points: -1 }));
+  await assert.rejects(service.getStatus());
+  fetchMock.mock.mockImplementation(async () => new Response('', { status: 503 }));
+  await assert.rejects(service.spin('retry'), cause => cause instanceof SpinApiError && !cause.definitive);
+  fetchMock.mock.mockImplementation(async () => new Response('', { status: 409 }));
+  await assert.rejects(service.redeem('CARTON', 'pending'), cause => cause instanceof SpinApiError && !cause.definitive);
+});

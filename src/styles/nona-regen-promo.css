@@ -1,0 +1,43 @@
+.nona-promo-banner { padding: 64px var(--regen-page-inset); background: var(--regen-paper); }
+.nona-promo { display: grid; grid-template-columns: .9fr 1.1fr; background: var(--regen-surface); color: var(--regen-ink); border-radius: 26px; overflow: hidden; }
+.nona-promo--banner { max-width: 1280px; margin: auto; border: 1px solid var(--regen-border); }
+.nona-promo__visual { position: relative; isolation: isolate; display: flex; align-items: flex-end; justify-content: center; min-width: 0; background: var(--regen-citrus); padding: 28px 20px 0; overflow: hidden; }
+.nona-promo__word { position: absolute; left: 20px; top: 40px; font-family: var(--font-headoh), sans-serif; font-size: clamp(70px, 8vw, 120px); line-height: .9; opacity: .13; z-index: -1; }
+.nona-promo__visual img { display: block; max-width: 100%; width: auto; height: 470px; object-fit: contain; object-position: bottom; }
+.nona-promo__copy { min-width: 0; padding: clamp(28px, 4vw, 56px); align-self: center; }
+.nona-promo__eyebrow { margin: 0 0 18px; font-size: 10px; font-weight: 800; letter-spacing: .13em; line-height: 1.6; }
+.nona-promo h2 { font-family: var(--font-headoh), sans-serif; font-weight: 400; font-size: clamp(38px, 4.5vw, 64px); line-height: 1.02; margin: 0 0 20px; }
+.nona-promo h2 span { color: var(--regen-green-dark); }
+.nona-promo__copy > p:not(.nona-promo__eyebrow) { font-size: 15px; line-height: 1.8; margin: 0; }
+.nona-promo__benefits { list-style: none; padding: 0; margin: 24px 0; display: flex; flex-wrap: wrap; gap: 12px 18px; }
+.nona-promo__benefits li { display: flex; align-items: center; gap: 7px; font-size: 12px; font-weight: 650; }
+.nona-promo__benefits svg { flex-shrink: 0; }
+.nona-promo__cta { display: inline-flex; align-items: center; justify-content: space-between; gap: 22px; min-height: 48px; padding: 14px 22px; border-radius: 999px; background: var(--regen-ink); color: white; text-decoration: none; font-size: 14px; font-weight: 700; }
+.nona-promo__cta:hover { background: var(--regen-green-dark); }
+/* .nona-promo a:focus-visible, .nona-promo button:focus-visible, .nona-promo__close:focus-visible { outline: 3px solid var(--regen-forest); outline-offset: 4px; } */
+.nona-promo-overlay { position: fixed; inset: 0; z-index: 200; background: #10251ccc; backdrop-filter: blur(5px); animation: nona-promo-overlay-in 420ms ease-out both; }
+.nona-promo-dialog { position: fixed; z-index: 201; left: 50%; top: 50%; transform: translate(-50%, -50%); width: min(860px, calc(100% - 32px)); max-height: calc(100dvh - 32px); overflow-y: auto; overscroll-behavior: contain; border-radius: 26px; background: var(--regen-surface); outline: none; box-shadow: 0 24px 80px #0004; animation: nona-promo-dialog-in 560ms cubic-bezier(.2,.75,.25,1) both; }
+.nona-promo--popup .nona-promo__visual img { height: 420px; }
+.nona-promo--popup .nona-promo__copy { padding: 48px 30px 30px; }
+.nona-promo--popup h2 { font-size: clamp(36px, 4vw, 52px); }
+.nona-promo--popup .nona-promo__benefits { flex-direction: column; }
+.nona-promo__close { position: absolute; top: 12px; right: 12px; display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--regen-border); background: var(--regen-paper); color: var(--regen-ink); cursor: pointer; }
+.nona-promo__later { display: block; min-height: 44px; margin-top: 8px; background: transparent; color: var(--regen-muted); font-size: 12px; text-decoration: underline; text-underline-offset: 4px; cursor: pointer; }
+@keyframes nona-promo-overlay-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes nona-promo-dialog-in { from { opacity: 0; transform: translate(-50%, calc(-50% + 16px)) scale(.985); } to { opacity: 1; transform: translate(-50%, -50%) scale(1); } }
+@media (prefers-reduced-motion: reduce) {
+  .nona-promo-overlay, .nona-promo-dialog { animation-duration: 1ms; }
+}
+@media (max-width: 700px) {
+  .nona-promo { grid-template-columns: 1fr; }
+  .nona-promo__visual img { height: 330px; }
+  .nona-promo__copy { padding: 28px 24px; }
+  .nona-promo--popup .nona-promo__visual { padding-top: 16px; }
+  .nona-promo--popup .nona-promo__visual img { height: min(190px, 25dvh); }
+  .nona-promo--popup .nona-promo__copy { padding: 22px 24px; }
+  .nona-promo--popup .nona-promo__eyebrow { margin-bottom: 10px; }
+  .nona-promo--popup h2 { margin-bottom: 12px; }
+  .nona-promo--popup .nona-promo__copy > p:not(.nona-promo__eyebrow) { font-size: 13px; }
+  .nona-promo--popup .nona-promo__benefits { margin-block: 16px; gap: 8px; }
+  .nona-promo--popup .nona-promo__cta { width: 100%; }
+}

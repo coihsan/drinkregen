@@ -1,0 +1,26 @@
+---
+// src/components/GTM.astro
+interface Props {
+  gtmId: string;
+}
+
+const { gtmId } = Astro.props;
+---
+
+<!-- 1. Initialize dataLayer on the window object -->
+<script is:inline define:vars={{ gtmId }}>
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+</script>
+
+<!-- 2. Load the GTM container script via Partytown -->
+<script type="text/partytown" define:vars={{ gtmId }}>
+  (function (w, d, s, l, i) {
+    var f = d.getElementsByTagName(s)[0],
+      j = d.createElement(s),
+      dl = l != 'dataLayer' ? '&l=' + l : '';
+    j.async = true;
+    j.src = 'https://googletagmanager.com' + i + dl;
+    f.parentNode.insertBefore(j, f);
+  })(window, document, 'script', 'dataLayer', gtmId);
+</script>

@@ -40,9 +40,9 @@ export const HeroContent: HeroSlide[] = [
   //   alt: "Regen hero video",d
   // },
   {
-    desktopImageUrl: "/banner-nutrilevel.webp",
-    tabletImageUrl: "/banner-nutrilevel.webp",
-    mobileImageUrl: "/banner-nutrilevel-mobile.webp",
+    desktopImageUrl: "/banner-hero/regen-bebas-gula.webp",
+    tabletImageUrl: "/banner-hero/regen-bebas-gula.webp",
+    mobileImageUrl: "/banner-hero/regen-bebas-gula.webp",
     alt: "Regen hero banner 2",
   },
   {
@@ -149,7 +149,9 @@ export const QuickLink = [
 
 export const MenuNav = [
   { title: "Home", url: "/" },
-  { title: "Hadiah Umroh", url: "/regen-berhadiah-umroh" },
+  { title: "Collabs", url: "/collabs" },
+  { title: "Kata Mereka", url: "/kata-mereka" },
+  // { title: "Hadiah Umroh", url: "/regen-berhadiah-umroh" },
   // { title: "#BebasGula", url: "/bebas-gula" },
   {
     title: "Product",

@@ -1,163 +1,65 @@
-import type {
-  OnlineStore,
-  OfflineStore,
-  ProductAvailability,
-} from "@/lib/product-availability";
-import { useIsMobile } from "@/hooks/use-mobile";
-import LogoRegenWhite from "../../assets/icons/logo-regen-white.svg";
+import { useId } from "react";
+import { ArrowUpRight, MapPin, ShoppingBag } from "lucide-react";
+import type { OnlineStore, OfflineStore, ProductAvailability } from "@/lib/product-availability";
+import "@/src/styles/product-buy-banner.css";
 
 interface DataProductByItem {
   content: ProductAvailability;
 }
 
-const getGoogleMapsSearchUrl = (query: string) =>
-  `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
-
-const StoreLogoLink = ({
-  href,
-  imageURL,
-  ariaLabel,
-  name,
-}: {
-  href: string;
-  imageURL: string;
-  ariaLabel: string;
-  name: string;
-}) => {
-  return (
-    <a
-      className="inline-flex min-h-12 items-center rounded-md transition-opacity hover:opacity-75 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-black"
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
-      aria-label={ariaLabel}
-    >
-      <div className="max-h-[60px] h-full flex items-center justify-center">
-        <img
-          className="w-auto object-contain"
-          src={imageURL}
-          width={180}
-          height={56}
-          alt={name}
-        />
-      </div>
-    </a>
-  );
-};
-
-const StoreGroup = ({
-  stores,
-  type,
-  productName,
-}: {
-  stores: OnlineStore[] | OfflineStore[];
+function StoreGroup({ stores, type, productName }: {
+  stores: (OnlineStore | OfflineStore)[];
   type: "online" | "offline";
   productName: string;
-}) => {
-  if (stores.length === 0) {
-    return null;
-  }
+}) {
+  if (!stores.length) return null;
+  const online = type === "online";
+  const Icon = online ? ShoppingBag : MapPin;
 
-  return (
-    <div className="space-y-4">
-      <p className="text-base text-center md:text-start font-medium text-neutral-600 md:text-xl">
-        {type === "online" ? "Belanja" : "Temukan"}{" "}
-        <span className="font-bold">Regen {productName}</span>{" "}
-        {type === "online"
-          ? "langsung di toko online favorit Anda"
-          : "di minimarket terdekat"}
-      </p>
-
-      <div className="flex flex-wrap items-center justify-center md:justify-start gap-x-7 gap-y-5">
-        {stores.map((store) => {
-          const href =
-            type === "online"
-              ? (store as OnlineStore).urlStore
-              : getGoogleMapsSearchUrl((store as OfflineStore).query);
-
-          return (
-            <StoreLogoLink
-              key={store.name}
-              href={href}
-              imageURL={store.imageURL}
-              ariaLabel={
-                store.ariaLabel ??
-                `Cari ${store.name} terdekat untuk membeli Regen ${productName}`
-              }
-              name={store.name}
-            />
-          );
-        })}
-      </div>
+  return <div className="buy-banner__group">
+    <div className="buy-banner__group-heading">
+      <span className="buy-banner__icon"><Icon size={20} aria-hidden="true" /></span>
+      <div><h3>{online ? "Belanja online" : "Mampir ke toko"}</h3><p>{online ? "Pilih toko online favoritmu." : "Cari lokasi toko terdekat di Google Maps."}</p></div>
     </div>
-  );
-};
+    <ul className="buy-banner__stores">
+      {stores.map(store => {
+        const href = "urlStore" in store ? store.urlStore : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(store.query)}`;
+        const label = store.ariaLabel ?? `${online ? "Beli" : "Cari toko untuk membeli"} REGEN ${productName} di ${store.name}`;
+        return <li key={store.name}><a id={store.id} data-tracking-id={store.id} data-product={productName} data-channel={type} href={href} target="_blank" rel="noopener noreferrer" aria-label={`${label} (buka tab baru)`}>
+          <img src={store.imageURL} width={160} height={48} alt={store.name} loading="lazy" />
+          <span>{online ? "Belanja sekarang" : "Cari lokasi"}<ArrowUpRight size={16} aria-hidden="true" /></span>
+        </a></li>;
+      })}
+    </ul>
+  </div>;
+}
 
-const BannerBuyProductRegenByItem = ({ content }: DataProductByItem) => {
+export default function BannerBuyProductRegenByItem({ content }: DataProductByItem) {
+  const titleId = useId();
   const onlineStores = content.stores.online ?? [];
   const offlineStores = content.stores.offline ?? [];
-  const hasAvailableStore = onlineStores.length > 0 || offlineStores.length > 0;
-  const isMobile = useIsMobile();
+  if (!content.isAvailable || (!onlineStores.length && !offlineStores.length)) return null;
 
-  if (!content.isAvailable || !hasAvailableStore) {
-    return null;
-  }
-
-  return (
-    <section
-      className={`${content.bgProduct} py-8 md:py-12 relative overflow-hidden`}
-    >
-      <div className="container relative z-10">
-        <div className="w-full mb-6">
-          <h2 className="text-5xl text-center md:text-start md:text-6xl font-bold text-white leading-none">
-            Dapatkan{" "}
-            <img
-              src={LogoRegenWhite.src}
-              width={100}
-              height={30}
-              alt="logo regen"
-              className="inline-block align-middle h-[0.8em] w-auto mx-1"
-            />{" "}
-            <br />
-            di toko favoritmu
-          </h2>
+  return <section className="buy-banner" aria-labelledby={titleId}>
+    <div className="buy-banner__layout">
+      <div className={`buy-banner__product ${content.bgProduct}`}>
+        <p className="buy-banner__eyebrow">PILIHAN SEGAR BUAT HARIMU</p>
+        <div className="buy-banner__art">
+          <span className="buy-banner__word" aria-hidden="true">REGEN</span>
+          <div className="buy-banner__orbit" aria-hidden="true" />
+          <img className="buy-banner__bottle" src={content.urlImage} alt={content.ariaLabel} width={300} height={400} loading="lazy" />
         </div>
-        <div className="flex flex-col md:flex-row gap-0 md:gap-4 lg:gap-4 items-center relative justify-between relative">
-          <div className="rounded-xl bg-white px-6 py-8 md:px-16 md:py-14">
-            <div className="space-y-8 md:space-y-10">
-              <StoreGroup
-                stores={onlineStores}
-                type="online"
-                productName={content.productName}
-              />
-              <StoreGroup
-                stores={offlineStores}
-                type="offline"
-                productName={content.productName}
-              />
-            </div>
-          </div>
-          <div className="">
-            {isMobile ? null : (
-              <img
-                className="rotate-15 absolute -bottom-30 scale-130 right-20"
-                src={content.urlImage}
-                width={200}
-                height={300}
-                alt={content.ariaLabel}
-                aria-label={content.ariaLabel}
-              />
-            )}
-          </div>
-        </div>
+        <div className="buy-banner__flavor"><span>REGEN {content.productName}</span><strong>{content.usp}</strong></div>
       </div>
-      <img
-        className="object-end w-full h-full block object-cover scale-150 md:scale-100 z-0 opacity-20 absolute right-0 pointer-events-none"
-        src={"/element/logo-R.svg"}
-        alt="logo R"
-      />
-    </section>
-  );
-};
-
-export default BannerBuyProductRegenByItem;
+      <div className="buy-banner__content">
+        <header className="buy-banner__heading">
+          <p className="buy-banner__eyebrow">TINGGAL PILIH TOKONYA</p>
+          <h2 id={titleId}>Segarnya dekat.<br />Dapatkannya mudah.</h2>
+          <p>Dapatkan REGEN {content.productName} di toko favoritmu.</p>
+        </header>
+        <StoreGroup stores={onlineStores} type="online" productName={content.productName} />
+        <StoreGroup stores={offlineStores} type="offline" productName={content.productName} />
+      </div>
+    </div>
+  </section>;
+}

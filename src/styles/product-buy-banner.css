@@ -1,0 +1,43 @@
+.buy-banner { padding: clamp(32px, 5vw, 72px) var(--regen-page-inset); background: var(--regen-surface); color: var(--regen-ink); }
+.buy-banner__layout { display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr); border: 1px solid var(--regen-border); border-radius: 28px; overflow: hidden; background: var(--regen-paper); }
+.buy-banner__product { display: flex; flex-direction: column; justify-content: space-between; min-width: 0; padding: 32px; position: relative; overflow: hidden; }
+.buy-banner__eyebrow { margin: 0; font-size: 10px; line-height: 1.6; font-weight: 800; letter-spacing: .14em; }
+.buy-banner__art { position: relative; isolation: isolate; display: grid; place-items: center; min-height: 350px; flex: 1; }
+.buy-banner__word { position: absolute; inset: 0; display: grid; place-items: center; font-family: var(--font-headoh), sans-serif; font-size: clamp(85px, 10vw, 160px); opacity: .1; z-index: -1; }
+.buy-banner__orbit { position: absolute; width: 90%; height: 65%; border: 1px solid color-mix(in srgb, var(--regen-ink) 20%, transparent); border-radius: 50%; rotate: -25deg; z-index: -1; }
+.buy-banner__bottle { width: 85%; height: 360px; object-fit: contain; transform: rotate(-12deg); filter: drop-shadow(16px 20px 12px #183b2b24); }
+.buy-banner__flavor { position: relative; display: flex; flex-direction: column; gap: 10px; padding-top: 22px; border-top: 1px solid color-mix(in srgb, var(--regen-ink) 25%, transparent); }
+.buy-banner__flavor > span { font-size: 13px; font-weight: 650; }
+.buy-banner__flavor strong { font-family: var(--font-headoh), sans-serif; font-weight: 400; font-size: clamp(28px, 3vw, 40px); line-height: 1.05; }
+.buy-banner__content { min-width: 0; padding: clamp(28px, 4vw, 52px); }
+.buy-banner__heading { margin-bottom: 30px; }
+.buy-banner__heading h2 { font-family: var(--font-headoh), sans-serif; font-size: clamp(38px, 4.2vw, 60px); line-height: 1.02; font-weight: 400; margin: 14px 0 16px; }
+.buy-banner__heading > p:last-child { margin: 0; font-size: 14px; line-height: 1.8; color: var(--regen-muted); }
+.buy-banner__group + .buy-banner__group { border-top: 1px solid var(--regen-border); margin-top: 26px; padding-top: 26px; }
+.buy-banner__group-heading { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+.buy-banner__icon { display: grid; place-items: center; width: 42px; height: 42px; flex-shrink: 0; background: var(--regen-surface); border-radius: 50%; }
+.buy-banner__group-heading h3 { margin: 0 0 4px; font-size: 16px; font-weight: 750; line-height: 1.4; }
+.buy-banner__group-heading p { margin: 0; font-size: 12px; line-height: 1.6; color: var(--regen-muted); }
+.buy-banner__stores { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; padding: 0; margin: 0; list-style: none; }
+.buy-banner__stores a { display: flex; flex-direction: column; justify-content: space-between; gap: 18px; height: 100%; padding: 18px 16px 12px; color: var(--regen-ink); text-decoration: none; border: 1px solid var(--regen-border); border-radius: 14px; background: white; transition: border-color .2s, box-shadow .2s; }
+.buy-banner__stores a:hover { border-color: var(--regen-forest); box-shadow: 0 4px 12px #183b2b0d; }
+.buy-banner__stores a:focus-visible { outline: 3px solid var(--regen-forest); outline-offset: 3px; }
+.buy-banner__stores img { width: 100%; height: 40px; object-fit: contain; }
+.buy-banner__stores a > span { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding-top: 12px; border-top: 1px solid var(--regen-surface); font-size: 10px; font-weight: 700; }
+.buy-banner__stores svg { flex-shrink: 0; }
+@media (max-width: 900px) {
+  .buy-banner__layout { grid-template-columns: 1fr; }
+  .buy-banner__product { padding: 24px; }
+  .buy-banner__art { min-height: 260px; }
+  .buy-banner__bottle { height: 260px; }
+  .buy-banner__word { font-size: clamp(100px, 24vw, 180px); }
+  .buy-banner__orbit { max-width: 400px; }
+  .buy-banner__content { padding: 28px 24px; }
+}
+@media (max-width: 380px) {
+  .buy-banner__content { padding: 24px 16px; }
+  .buy-banner__stores { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .buy-banner__stores a { transition: none; }
+}

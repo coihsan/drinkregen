@@ -9,9 +9,12 @@ import { DEFAULT_META } from "@/lib/const.web";
 import InstagramPostSlider from "../components/InstagramPostSlider.tsx";
 import { Font } from "astro:assets";
 import { fade } from "astro:transitions";
-import GoogleAnalytics from "../components/GoogleAnalytics.astro";
+import GoogleAnalytics from "../components/google/GoogleAnalytics.astro";
+import { NonaRegenWelcomePopup } from "../components/nonaregen/NonaRegenPromo.tsx";
+import GTM from "../components/google/GTM.astro";
 
 interface Metadata {
+  showWelcomePromo?: boolean;
   title?: string;
   description?: string;
   productImage?: string;
@@ -21,7 +24,7 @@ interface Metadata {
     link?: { rel: string; href: string }[];
     meta?: { name: string; content: string }[];
   };
-  schemaData?: any
+  schemaData?: any;
 }
 
 const { title, description, openGraph, twitter, extend, schemaData } =
@@ -114,50 +117,66 @@ const finalExtend = extend || {
 ---
 
 <!doctype html>
-<html lang="en" transition:name="root" transition:animate={fade({ duration: "0.4s" })}>
+<html
+  lang="en"
+  transition:name="root"
+  transition:animate={fade({ duration: "0.4s" })}
+>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- <GoogleAnalytics measurementId={'G-YLZY6Y5923'} /> -->
+    <!-- <GTM gtmId="GTM-P5NQDGM2" /> -->
+    <!-- <script src="https://analytics.ahrefs.com/analytics.js" data-key="baSfRT4IBO3ATVPo5gPOxA" async></script> -->
     <ClientRouter />
     <SEO
       title={finalTitle}
       description={finalDescription}
       openGraph={finalOpenGraph}
-
       twitter={finalTwitter}
       extend={finalExtend}
     />
     <Font cssVariable="--font-headoh" />
     <Font cssVariable="--font-thunderhouse" />
     <Font cssVariable="--font-russo" />
-    {schemaData && (
-      <script is:inline type="application/ld+json" set:html={JSON.stringify(schemaData)}></script>
-    )}
+    {
+      schemaData && (
+        <script
+          is:inline
+          type="application/ld+json"
+          set:html={JSON.stringify(schemaData)}
+        />
+      )
+    }
     <link rel="sitemap" href="/sitemap-index.xml" />
   </head>
   <body>
+    <!-- Google Tag Manager (noscript) -->
+    <!-- <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-P5NQDGM2"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript> -->
+    <!-- End Google Tag Manager (noscript) -->
     <Navigation client:load />
     <SmoothScroll client:load>
       <slot />
       <script>
-      import Lenis from 'lenis';
+        import Lenis from "lenis";
 
-      const lenis = new Lenis({
-        duration: 1.2,
-        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-        smoothWheel: true,
-      });
+        const lenis = new Lenis({
+          duration: 1.2,
+          easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+          smoothWheel: true,
+        });
 
-      function raf(time: number) {
-        lenis.raf(time);
+        function raf(time: number) {
+          lenis.raf(time);
+          requestAnimationFrame(raf);
+        }
+
         requestAnimationFrame(raf);
-      }
-
-      requestAnimationFrame(raf);
-    </script>
+      </script>
       <InstagramPostSlider client:load />
     </SmoothScroll>
     <Footer />
+    {Astro.props.showWelcomePromo !== false && <NonaRegenWelcomePopup client:load />}
   </body>
 </html>

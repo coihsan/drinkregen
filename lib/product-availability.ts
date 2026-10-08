@@ -1,6 +1,7 @@
 import { getProductVariant } from "./product-catalog";
 
 export type OnlineStore = {
+  id: string;
   name: string;
   urlStore: string;
   imageURL: string;
@@ -8,6 +9,7 @@ export type OnlineStore = {
 };
 
 export type OfflineStore = {
+  id: string;
   name: string;
   query: string;
   imageURL: string;
@@ -49,6 +51,21 @@ type OfflineStoreName =
   | "CircleK"
   | "Superindo";
 
+export const STORE_BUTTON_IDS = {
+  "Klik Indomaret": "button-klik-indomaret",
+  Alfagift: "button-alfagift",
+  Shopee: "button-shopee",
+  Indomaret: "button-indomaret",
+  FamilyMart: "button-familymart",
+  Indogrosir: "button-indogrosir",
+  AlfaMart: "button-alfamart",
+  K3Mart: "button-k3mart",
+  Lawson: "button-lawson",
+  PrimaFood: "button-primafood",
+  CircleK: "button-circlek",
+  Superindo: "button-superindo",
+} as const satisfies Record<OnlineStoreName | OfflineStoreName, string>;
+
 type OnlineStoreInput = {
   name: OnlineStoreName;
   urlStore: string;
@@ -58,6 +75,7 @@ const createOnlineStores = (productName: string, stores: OnlineStoreInput[]) =>
   stores.map((storeName) => {
     if (storeName.name === "Klik Indomaret") {
       return {
+        id: STORE_BUTTON_IDS[storeName.name],
         name: storeName.name,
         urlStore: storeName.urlStore,
         imageURL: "/store/klik_indomaret.svg",
@@ -67,6 +85,7 @@ const createOnlineStores = (productName: string, stores: OnlineStoreInput[]) =>
 
     if (storeName.name === "Alfagift") {
       return {
+        id: STORE_BUTTON_IDS[storeName.name],
         name: storeName.name,
         urlStore: storeName.urlStore,
         imageURL: "/store/alfagift.svg",
@@ -75,7 +94,8 @@ const createOnlineStores = (productName: string, stores: OnlineStoreInput[]) =>
     }
 
     return {
-      name: storeName.name,
+      id: STORE_BUTTON_IDS[storeName.name],
+        name: storeName.name,
       urlStore: storeName.urlStore,
       imageURL: "/store/shopee.svg",
       ariaLabel: `Beli Regen ${productName} di Shopee`,
@@ -89,6 +109,7 @@ const createOfflineStores = (
   stores.map((storeName) => {
     if (storeName === "Indomaret") {
       return {
+        id: STORE_BUTTON_IDS[storeName],
         name: storeName,
         query: "Indomaret terdekat",
         imageURL: "/store/indomaret.svg",
@@ -97,6 +118,7 @@ const createOfflineStores = (
     }
     if (storeName === "AlfaMart") {
       return {
+        id: STORE_BUTTON_IDS[storeName],
         name: storeName,
         query: "Alfamart terdekat",
         imageURL: "/store/alfamart.svg",
@@ -105,6 +127,7 @@ const createOfflineStores = (
     }
     if (storeName === "FamilyMart") {
       return {
+        id: STORE_BUTTON_IDS[storeName],
         name: storeName,
         query: "FamilyMart terdekat",
         imageURL: "/store/familymart.svg",
@@ -113,6 +136,7 @@ const createOfflineStores = (
     }
     if (storeName === "Indogrosir") {
       return {
+        id: STORE_BUTTON_IDS[storeName],
         name: storeName,
         query: "Indogrosir terdekat",
         imageURL: "/store/indogrosir.svg",
@@ -121,6 +145,7 @@ const createOfflineStores = (
     }
     if (storeName === "K3Mart") {
       return {
+        id: STORE_BUTTON_IDS[storeName],
         name: storeName,
         query: "K3Mart terdekat",
         imageURL: "/store/k3mart.svg",
@@ -129,6 +154,7 @@ const createOfflineStores = (
     }
     if (storeName === "Lawson") {
       return {
+        id: STORE_BUTTON_IDS[storeName],
         name: storeName,
         query: "Lawson terdekat",
         imageURL: "/store/lawson.svg",
@@ -137,7 +163,8 @@ const createOfflineStores = (
     }
 
     return {
-      name: storeName,
+      id: STORE_BUTTON_IDS[storeName],
+        name: storeName,
       query: "FamilyMart terdekat",
       imageURL: "/store/familymart.svg",
       ariaLabel: `Cari FamilyMart terdekat untuk membeli Regen ${productName}`,

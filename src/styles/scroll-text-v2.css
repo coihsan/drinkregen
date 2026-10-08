@@ -1,0 +1,54 @@
+.scroll-text-v2 {
+  --stv2-ink: var(--regen-ink, #183b2b);
+  --stv2-paper: var(--regen-paper, #f8fbf1);
+  --stv2-lime: var(--regen-electric, #cbe102);
+  overflow: hidden;
+  padding-block: clamp(48px, 7vw, 100px) 28px;
+  background: var(--stv2-ink);
+  color: var(--stv2-paper);
+}
+.scroll-text-v2__header, .scroll-text-v2__footer {
+  width: min(100%, 1392px);
+  margin-inline: auto;
+  padding-inline: clamp(24px, 6vw, 80px);
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+}
+.scroll-text-v2__eyebrow { display: flex; align-items: center; gap: 9px; margin: 0 0 20px; color: var(--stv2-lime); font-size: 10px; font-weight: 750; letter-spacing: .15em; }
+.scroll-text-v2__header h2 { margin: 0; font-family: var(--font-headoh), sans-serif; font-size: clamp(44px, 6vw, 84px); font-weight: 400; line-height: 1.05; }
+.scroll-text-v2__header h2 span { color: var(--stv2-lime); }
+.scroll-text-v2__aside { display: flex; align-items: flex-end; gap: 24px; }
+.scroll-text-v2__aside p { margin: 0; font-size: 13px; line-height: 1.8; }
+.scroll-text-v2__aside svg { color: var(--stv2-lime); flex-shrink: 0; }
+.scroll-text-v2__bands { margin-block: clamp(36px, 6vw, 72px); transform: rotate(-3deg) scale(1.06); }
+.scroll-text-v2__lane { padding-block: 16px; border-block: 1px solid rgb(248 251 241 / 25%); }
+.scroll-text-v2__lane--reverse { margin-top: 12px; background: var(--stv2-lime); border-color: transparent; color: var(--stv2-ink); }
+.scroll-text-v2__track { display: flex; width: max-content; animation: stv2-marquee var(--stv2-duration) linear infinite; }
+.scroll-text-v2__group { display: flex; flex-shrink: 0; align-items: center; }
+.scroll-text-v2__phrase { display: inline-flex; flex-shrink: 0; align-items: center; gap: clamp(24px, 4vw, 64px); padding-right: clamp(24px, 4vw, 64px); font-family: var(--font-headoh), sans-serif; font-size: clamp(48px, 8vw, 116px); line-height: 1.15; white-space: nowrap; }
+.scroll-text-v2__lane:not(.scroll-text-v2__lane--reverse) .scroll-text-v2__phrase { color: transparent; -webkit-text-stroke: 1px var(--stv2-paper); }
+.scroll-text-v2__spark { width: .45em; height: .45em; color: var(--stv2-lime); flex-shrink: 0; }
+.scroll-text-v2__lane--reverse .scroll-text-v2__spark { color: var(--stv2-ink); }
+.scroll-text-v2__lane--reverse .scroll-text-v2__track { animation-direction: reverse; }
+.scroll-text-v2[data-paused="true"] .scroll-text-v2__track { animation-play-state: paused; }
+.scroll-text-v2__footer { align-items: center; }
+.scroll-text-v2__signature { display: flex; align-items: center; gap: 10px; font-size: 9px; font-weight: 750; letter-spacing: .12em; }
+.scroll-text-v2__signature > span { width: 7px; height: 7px; border-radius: 50%; background: var(--stv2-lime); flex-shrink: 0; }
+.scroll-text-v2__pause { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 10px 16px; border: 1px solid rgb(248 251 241 / 35%); border-radius: 999px; background: transparent; color: var(--stv2-paper); font-size: 12px; cursor: pointer; }
+.scroll-text-v2__pause:hover { background: var(--stv2-paper); color: var(--stv2-ink); }
+.scroll-text-v2__pause:focus-visible { outline: 3px solid var(--stv2-lime); outline-offset: 4px; }
+@keyframes stv2-marquee { to { transform: translateX(-50%); } }
+@media (max-width: 640px) {
+  .scroll-text-v2__header { align-items: flex-start; flex-direction: column; }
+  .scroll-text-v2__aside { width: 100%; justify-content: space-between; }
+  .scroll-text-v2__aside p br { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .scroll-text-v2__track { animation: none; width: 100%; }
+  .scroll-text-v2__bands { transform: none; }
+  .scroll-text-v2__group { width: 100%; flex-wrap: wrap; justify-content: center; gap: 16px; padding: 16px; }
+  .scroll-text-v2__group + .scroll-text-v2__group, .scroll-text-v2__lane--reverse, .scroll-text-v2__pause { display: none; }
+  .scroll-text-v2__phrase { font-size: clamp(26px, 6vw, 56px); white-space: normal; padding: 0; gap: 16px; }
+}

@@ -9,7 +9,8 @@ import { DEFAULT_META } from "@/lib/const.web";
 import InstagramPostSlider from "../components/InstagramPostSlider.tsx";
 import { Font } from "astro:assets";
 import { fade } from "astro:transitions";
-import GoogleAnalytics from "../components/GoogleAnalytics.astro";
+import GoogleAnalytics from "../components/google/GoogleAnalytics.astro";
+import { GTM } from "../components/google/GTM.astro";
 
 interface Metadata {
   title?: string;
@@ -120,6 +121,7 @@ const finalExtend = extend || {
     <meta name="robots" content="noindex, nofollow">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- <GoogleAnalytics measurementId={'G-YLZY6Y5923'} /> -->
+     <!-- <GTM gtmId="GTM-P5NQDGM2" /> -->
     <ClientRouter />
     <SEO
       title={finalTitle}

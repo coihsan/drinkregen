@@ -1,4 +1,4 @@
-.related-products { margin-top: clamp(48px, 7vw, 96px); padding-block: 36px 16px; border-top: 1px solid var(--regen-border); color: var(--regen-ink); }
+.related-products { margin-bottom: clamp(48px, 7vw, 46px); padding-block: 36px 36px; border-bottom: 1px solid var(--regen-border); color: var(--regen-ink); }
 .related-products__heading { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; margin-bottom: 28px; }
 .related-products__eyebrow { margin: 0 0 12px; font-size: 10px; font-weight: 800; letter-spacing: .14em; }
 .related-products__heading h2 { margin: 0; font-family: var(--font-headoh), sans-serif; font-size: clamp(36px, 4vw, 56px); font-weight: 400; line-height: 1.05; }

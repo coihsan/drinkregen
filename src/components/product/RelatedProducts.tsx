@@ -10,7 +10,7 @@ export default function RelatedProducts({ product }: { product: ProductVariant }
   if (!related.length) return null;
 
   return (
-    <section className="related-products" aria-labelledby="related-products-title">
+    <section className="related-products container" aria-labelledby="related-products-title">
       <header className="related-products__heading">
         <div>
           <p className="related-products__eyebrow">PRODUK TERKAIT</p>

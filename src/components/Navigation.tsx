@@ -63,7 +63,7 @@ export default function Navigation() {
           </div>
         </div> : <a className={`rn-link ${isNavigationActive(pathname, item.url) ? "is-active" : ""}`} href={item.url} aria-current={isNavigationActive(pathname, item.url) ? "page" : undefined} onClick={closeMenus} key={item.url}>{item.title}</a>)}
       </nav>
-      <a className="rn-partner" href="/jadi-reseller-regen" aria-current={isNavigationActive(pathname, "/jadi-reseller-regen") ? "page" : undefined}>Jadi Mitra <ArrowUpRight size={16} aria-hidden="true" /></a>
+      <a id="button-nona-regen" className="rn-partner" href="/nona-regen" aria-current={isNavigationActive(pathname, "/nona-regen") ? "page" : undefined}>Jadi Nona Regen <ArrowUpRight size={16} aria-hidden="true" /></a>
       <button className="rn-menu-toggle" type="button" aria-label="Buka menu navigasi" aria-expanded={mobileOpen} aria-controls={`${id}-mobile`} onClick={() => { setProductsOpen(false); setMobileOpen(true); }}><span>Menu</span><Menu size={21} aria-hidden="true" /></button>
     </header>
     <MobileNav id={`${id}-mobile`} isOpen={mobileOpen} onClose={closeMobile} pathname={pathname} />

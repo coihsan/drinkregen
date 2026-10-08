@@ -1,0 +1,133 @@
+---
+import { ArrowDown, House, UsersRound, Wallet } from "lucide-react";
+import "@/src/styles/reseller-regen.css";
+
+const nonaForm = "https://forms.gle/Uj8hBioBRQPgvvMNA";
+
+const benefits = [
+  {
+    number: "01",
+    title: "Jual Langsung",
+    description: "Door-to-door ke rumah, kantor, sekolah, pasar, dan komunitas olahraga di area masing-masing",
+    Icon: House,
+  },
+  {
+    number: "02",
+    title: "Pelanggan tetap",
+    description: "Membangun langganan harian dan mingguan agar penjualan berulang dan stabil",
+    Icon: UsersRound,
+  },
+  {
+    number: "03",
+    title: "Penghasilan fleksibel",
+    description: "Komisi botol ditambah insentif harian, mingguan hingga bulanan. Makin banyak jual, makin besar hasilnya",
+    Icon: Wallet,
+  },
+];
+---
+
+<article class="nona-page reseller-page regen-page" lang="id">
+    <section class="reseller-hero regen-hero" aria-labelledby="nona-hero-title">
+      <div class="hero-copy">
+        <p class="eyebrow regen-eyebrow"><span aria-hidden="true">✳</span> PELUANG BERSAMA REGEN</p>
+        <h1 class="regen-title" id="nona-hero-title">Jadi Nona Regen.<br /><span>Segarkan harimu.</span></h1>
+        <h2>Bawa vitamin lebih dekat ke pelanggan.</h2>
+        <p class="hero-description regen-lead">Jadilah duta penjualan REGEN di areamu. Jangkau rumah, kantor, dan komunitas, bangun pelanggan tetap, serta dapatkan penghasilan fleksibel.</p>
+        <a id="button-nona-regen" class="reseller-button regen-button" href="#daftar-nona-regen">Jadi Nona Regen <span aria-hidden="true">↘</span></a>
+      </div>
+      <div class="product-scene">
+        <div class="scene-circle" aria-hidden="true"></div>
+        <span class="scene-word text-white" aria-hidden="true">GROW<br />TOGETHER.</span>
+        <img class="bottle bottle-left" src="/300ml/lemonlime.webp" alt="REGEN Lemon Lime" width="480" height="720" />
+        <img class="bottle bottle-right" src="/300ml/lychee.webp" alt="REGEN Lychee" width="480" height="720" />
+        <img class="bottle bottle-front" src="/300ml/orange.webp" alt="REGEN Orange" width="480" height="720" fetchpriority="high" />
+        <div class="partner-stamp"><span>JADI NONA</span><strong>REGEN</strong><span>TUMBUH BERSAMA ↗</span></div>
+        <span class="scene-caption">Kesegaran REGEN. Peluang untuk kotamu.</span>
+      </div>
+      <div class="hero-bottom"><span>MINUMAN VITAMIN</span><span>BEBAS GULA</span><span>TUMBUH BERSAMA</span></div>
+    </section>
+  <section class="nona-introduction" aria-labelledby="nona-title">
+    <div class="nona-copy">
+      <p class="nona-eyebrow"><span aria-hidden="true">✳</span> DUTA PENJUALAN REGEN</p>
+      <h2 id="nona-title">Nona<br /><span>Regen</span></h2>
+      <p class="nona-intro">Duta penjualan REGEN yang membawa vitamin langsung ke rumah, kantor, dan komunitas pelanggan</p>
+      <a id="button-nona-regen" class="nona-link" href="#apa-itu-nona-regen">Kenali Nona Regen <ArrowDown size={18} aria-hidden="true" /></a>
+    </div>
+    <div class="nona-visual">
+      <div class="nona-circle" aria-hidden="true"></div>
+      <span class="nona-visual-word" aria-hidden="true">NONA<br />REGEN.</span>
+      <img src="/nona-regen/nona-regen.webp" alt="Nona Regen membawa botol REGEN dan kotak pendingin beroda" width="664" height="952" loading="lazy" />
+      <span class="nona-stamp" aria-hidden="true">DEKAT DENGANMU.<br />SEGAR SETIAP HARI.</span>
+    </div>
+    <div class="nona-hero-footer" aria-hidden="true"><span>RUMAH</span><span>KANTOR</span><span>KOMUNITAS</span></div>
+  </section>
+
+  <section class="nona-about" id="apa-itu-nona-regen" aria-labelledby="nona-about-title">
+    <header class="nona-about-heading">
+      <p class="nona-eyebrow">KENALI PERANNYA</p>
+      <h2 id="nona-about-title">Apa itu <span>Nona Regen?</span></h2>
+    </header>
+    <ol class="nona-benefits">
+      {benefits.map(({ number, title, description, Icon }) => (
+        <li class="nona-benefit">
+          <div class="nona-benefit-top"><span class="nona-icon"><Icon size={28} strokeWidth={1.6} aria-hidden="true" /></span><span class="nona-number" aria-hidden="true">{number}</span></div>
+          <h3>{title}</h3>
+          <p>{description}</p>
+        </li>
+      ))}
+    </ol>
+  </section>
+    <section class="registration-section regen-section" id="daftar-nona-regen" aria-labelledby="nona-registration-title">
+      <div class="registration-copy"><p class="eyebrow regen-eyebrow">MULAI CERITA SUKSESMU</p><h2 class="regen-heading" id="nona-registration-title">Mulai langkahmu<br /><span>Jadi Nona Regen.</span></h2></div>
+      <div class="registration-card regen-card"><span class="card-symbol" aria-hidden="true">↗</span><p>Tertarik menjadi Nona Regen? Isi formulir singkat untuk terhubung dengan tim REGEN dan mengetahui lebih lanjut tentang penjualan langsung, pelanggan tetap, serta skema komisi dan insentif.</p><a class="reseller-button regen-button" href={nonaForm} id="button-nona-regen" target="_blank" rel="noopener noreferrer">Jadi Nona Regen <span aria-hidden="true">↗</span><span class="sr-only"> (buka tab baru)</span></a><span class="form-note">Formulir dibuka melalui Google Forms di tab baru.</span><div class="next-step"><span aria-hidden="true">✓</span><p>Isi formulir. Terhubung dengan tim.<br /><strong>Temukan peluang kerja samamu.</strong></p></div></div>
+    </section>
+</article>
+
+<style>
+  .nona-introduction { position: relative; display: grid; grid-template-columns: 1fr 1fr; gap: 36px; align-items: center; padding: 80px var(--regen-page-inset); background: var(--regen-surface); }
+  .nona-copy { position: relative; z-index: 1; padding-block: 24px 48px; }
+  .nona-eyebrow { display: flex; align-items: center; gap: 10px; font-size: 10px; font-weight: 800; letter-spacing: .14em; line-height: 1.6; }
+  .nona-eyebrow > span { font-size: 26px; }
+  .nona-copy h2 { margin: 24px 0; font-size: clamp(88px, 11vw, 160px); line-height: .88; }
+  .nona-copy h2 span { color: var(--regen-green-dark); }
+  .nona-intro { max-width: 440px; font-size: clamp(16px, 1.5vw, 19px); line-height: 1.8; }
+  .nona-link { display: inline-flex; align-items: center; justify-content: space-between; gap: 28px; min-height: 50px; margin-top: 30px; padding: 16px 24px; border-radius: 999px; background: var(--regen-ink); color: white; font-size: 13px; font-weight: 700; text-decoration: none; }
+  .nona-link:hover { background: var(--regen-green-dark); }
+  .nona-visual { position: relative; isolation: isolate; display: flex; align-items: flex-end; justify-content: center; min-width: 0; }
+  .nona-visual img { position: relative; width: auto; max-width: 100%; height: 570px; object-fit: contain; z-index: 1; }
+  .nona-circle { position: absolute; width: 100%; aspect-ratio: 1; max-width: 490px; top: 12%; border-radius: 50%; background: var(--regen-cream); z-index: -1; }
+  .nona-visual-word { position: absolute; top: 16%; left: 0; font-family: var(--font-headoh), sans-serif; font-size: clamp(75px, 10vw, 145px); line-height: .9; opacity: .1; }
+  .nona-stamp { position: absolute; right: -10px; bottom: 62px; z-index: 2; display: grid; place-items: center; width: 120px; height: 120px; border-radius: 50%; background: var(--regen-ink); color: var(--regen-cream); text-align: center; font-size: 10px; font-weight: 800; line-height: 1.7; rotate: 10deg; }
+  .nona-hero-footer { position: absolute; bottom: 0; left: var(--regen-page-inset); right: var(--regen-page-inset); display: flex; justify-content: space-between; gap: 16px; padding-block: 23px; border-top: 1px solid color-mix(in srgb, var(--regen-ink) 20%, transparent); font-size: 10px; font-weight: 750; letter-spacing: .14em; }
+  .nona-about { padding: 80px var(--regen-page-inset) 96px; scroll-margin-top: 100px; }
+  .nona-about-heading { margin-bottom: 36px; }
+  .nona-about h2 { margin-top: 16px; font-size: clamp(40px, 5vw, 66px); }
+  .nona-about h2 span { color: var(--regen-green-dark); }
+  .nona-benefits { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; margin: 0; padding: 0; list-style: none; }
+  .nona-benefit { padding: 30px; border: 1px solid var(--regen-border); border-radius: 22px; background: white; }
+  .nona-benefit:nth-child(2) { background: var(--regen-surface); }
+  .nona-benefit:nth-child(3) { background: var(--regen-gold-soft); }
+  .nona-benefit-top { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 36px; }
+  .nona-icon { display: grid; place-items: center; width: 56px; height: 56px; border: 1px solid color-mix(in srgb, var(--regen-ink) 20%, transparent); border-radius: 50%; }
+  .nona-number { font-family: var(--font-headoh), sans-serif; font-size: 44px; opacity: .3; }
+  .nona-benefit h3 { font-size: clamp(30px, 3vw, 40px); margin-bottom: 18px; }
+  .nona-benefit p { font-size: 14px; line-height: 1.85; }
+  @media (max-width: 900px) {
+    .nona-benefits { grid-template-columns: 1fr; }
+    .nona-benefit-top { margin-bottom: 24px; }
+    .nona-visual img { height: 460px; }
+    .nona-stamp { width: 100px; height: 100px; font-size: 8px; right: -8px; }
+  }
+  @media (max-width: 640px) {
+    .nona-introduction { grid-template-columns: 1fr; gap: 16px; padding-top: 56px; }
+    .nona-copy { padding-block: 0; }
+    .nona-copy h2 { font-size: clamp(88px, 23vw, 130px); }
+    .nona-visual { margin-top: 12px; }
+    .nona-visual img { height: auto; max-height: 470px; }
+    .nona-circle { max-width: 360px; }
+    .nona-visual-word { font-size: 100px; }
+    .nona-stamp { right: 0; bottom: 40px; }
+    .nona-about { padding-block: 56px; }
+    .nona-benefit { padding: 24px; }
+  }
+</style>

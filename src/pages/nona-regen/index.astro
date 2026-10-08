@@ -1,0 +1,16 @@
+---
+import Layout from "@/src/layouts/Layout.astro";
+import NonaRegenV2 from "@/src/components/nonaregen/NonaRegenV2.astro";
+
+const title = "Nona Regen — Duta Penjualan REGEN";
+const description = "Duta penjualan REGEN yang membawa vitamin langsung ke rumah, kantor, dan komunitas pelanggan";
+---
+
+<Layout title={title} description={description} openGraph={{
+  title,
+  description,
+  url: new URL("/nona-regen", Astro.site).href,
+  images: [{ url: new URL("/nona-regen/nona-regen.webp", Astro.site).href, alt: "Nona Regen, duta penjualan REGEN" }],
+}}>
+  <NonaRegenV2 />
+</Layout>

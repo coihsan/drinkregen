@@ -8,10 +8,9 @@ import sitemap from "@astrojs/sitemap";
 
 // https://astro.build/config
 export default defineConfig({
-  site: "https://coihsan.github.io/drinkregen/",
-
+  site: "https://drinkregen.com/",
   output: "static",
-
+  
   integrations: [
     react(),
     partytown(),

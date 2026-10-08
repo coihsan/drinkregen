@@ -1,0 +1,7 @@
+.wave-text { position: relative; }
+.wave-text__word { display: inline-block; white-space: nowrap; }
+.wave-text__letter { display: inline-block; transform-origin: 50% 85%; }
+/* Keep the server-rendered text readable and respect motion preferences before hydration. */
+@media (prefers-reduced-motion: reduce) {
+  .wave-text__letter { transform: none !important; opacity: 1 !important; }
+}

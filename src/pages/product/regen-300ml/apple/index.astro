@@ -72,9 +72,9 @@ const productSchema = generateRegenProductSchema({
         titleColor={data.titleColor}
         sourceImage={data.bottleImage}
       />
-      <RelatedProducts client:load product={data} />
     </div>
     <BannerBuyProductRegenByItem client:load content={DetailProductAvailable} />
+    <RelatedProducts client:load product={data} />
     <BannerReseller />
   </div>
 </Layout>

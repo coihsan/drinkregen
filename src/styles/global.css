@@ -61,7 +61,8 @@
 }
 
 @layer base {
-  body { background-color: var(--regen-paper); color: var(--regen-ink); }
+  *{scroll-behavior: smooth;}
+  body { background-color: var(--regen-paper); color: var(--regen-ink);  }
 }
 
 @theme {
@@ -91,10 +92,6 @@
   to {
     transform: scaleX(1);
   }
-}
-
-body {
-  scroll-behavior: smooth;
 }
 
 @layer utilities{

@@ -39,7 +39,7 @@ const stepTitles = ["Beli REGEN", "Buka tutupnya", "Scan QR-nya", "Klaim hadiahn
 
     <section class="steps-section section-pad" id="cara-ikut" aria-labelledby="steps-title">
       <div class="section-heading"><div><p class="eyebrow">EMPAT LANGKAH MENUJU KEJUTAN</p><h2 id="steps-title">Buka. Cek.<br /><span>Siap-siap dapat rejeki.</span></h2></div><p class="section-description">Cara mendapatkan hadiah dimulai dari REGEN 300ml berkemasan khusus favoritmu.</p></div>
-      <ol class="steps-grid">{StepMendapatkanHadiah.map((item, index) => <li class="step-card"><div class="step-top"><span>LANGKAH</span><strong>0{index + 1}</strong></div><div class="step-image"><Image src={item.sourceImg} width={300} height={300} alt={item.title} loading="lazy" /></div><h3>{stepTitles[index]}</h3><p>{item.title}</p></li>)}</ol>
+      <ol class="steps-grid">{StepMendapatkanHadiah.map((item, index) => <li class="step-card"><div class="step-top"><span>STEP</span><strong>0{index + 1}</strong></div><div class="step-image"><Image src={item.sourceImg} width={300} height={300} alt={item.title} loading="lazy" /></div><h3>{stepTitles[index]}</h3><p>{item.title}</p></li>)}</ol>
       <div class="keep-packaging"><span class="keep-icon" aria-hidden="true">!</span><div><h3>Simpan botol &amp; tutupnya, ya.</h3><p>Jika klaim berhasil, simpan kemasan dan tutup botol yang memuat kode unik untuk verifikasi klaim hadiah lebih lanjut.</p></div><a href="#syarat-ketentuan">Baca ketentuannya <span aria-hidden="true">↗</span></a></div>
     </section>
 
