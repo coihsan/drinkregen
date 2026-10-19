@@ -33,13 +33,14 @@ export default function SpinResult({
   result: Result;
   onContinue: () => void;
 }) {
-  const [icon, title, description] = copy[result.rewardType];
+  const kind = result.rewardType.startsWith('POINTS_') ? 'POINTS_5' : result.rewardType.startsWith('VOUCHER_') ? 'VOUCHER_10' : 'TRY_AGAIN';
+  const [icon, title, description] = copy[result.rewardType as keyof typeof copy] ?? copy[kind];
   return (
     <>
       <span className="text-5xl" aria-hidden="true">
         {icon}
       </span>
-      <DialogTitle>{title}</DialogTitle>
+      <DialogTitle>{result.rewardType.startsWith('POINTS_')&&result.awardedPoints!==undefined?`+${result.awardedPoints} poin untuk Anda!`:result.rewardName??title}</DialogTitle>
       <DialogDescription>{description}</DialogDescription>
       <p className="rounded-2xl bg-(--regen-green-soft) p-4 font-bold">
         Saldo Anda: {result.points} poin
