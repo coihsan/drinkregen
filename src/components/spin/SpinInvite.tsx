@@ -5,7 +5,7 @@ export function DailySpinBonus() {
 export default function SpinInvite() {
   return <div className="rounded-3xl border-2 border-(--regen-ink) bg-(--regen-yellow) p-5 text-center">
     <p className="font-[family-name:var(--font-russo)] text-xl">Anda berkesempatan mendapatkan 1 Karton REGEN gratis!</p>
-    <p className="mt-2 text-sm leading-relaxed">Daftarkan nomor WhatsApp untuk mendapatkan tambahan 5 kesempatan spin. Kumpulkan 100 poin dan tukarkan dengan 1 Karton REGEN.</p>
+    <p className="mt-2 text-sm leading-relaxed">Daftarkan nomor WhatsApp untuk mendapatkan tambahan 5 kesempatan spin. Kumpulkan 150 poin dan tukarkan dengan 1 Karton REGEN.</p>
     <DailySpinBonus />
   </div>;
 }

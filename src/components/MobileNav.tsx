@@ -45,7 +45,7 @@ export default function MobileNav({ id, isOpen, onClose, pathname = "" }: Mobile
               </div></> : <a className={`rn-mobile-link ${isNavigationActive(pathname, item.url) ? "is-active" : ""}`} href={item.url} aria-current={isNavigationActive(pathname, item.url) ? "page" : undefined} onClick={onClose}><span className="rn-index">0{index + 1}</span><span>{item.title}</span><ArrowUpRight size={22} aria-hidden="true" /></a>}
           </div>)}
         </nav>
-        <a id="button-nona-regen" className="rn-mobile-partner" href="/nona-regen" onClick={onClose}><span><small>TUMBUH BERSAMA REGEN</small><strong>Jadi Nona Regen</strong></span><ArrowUpRight size={28} aria-hidden="true" /></a>
+        <a id="button-nona-regen" className="rn-mobile-partner" href="/collabs" onClick={onClose}><span><small>Bagi-bagi REGEN</small><strong>Free Regen</strong></span><ArrowUpRight size={28} aria-hidden="true" /></a>
         <footer className="rn-mobile-footer"><span>IKUTI KESEGARANNYA</span><div>{[{ name: "Instagram", url: "https://www.instagram.com/drinkregenid/" }, { name: "TikTok", url: "https://www.tiktok.com/@drinkregenid" }, { name: "YouTube", url: "https://www.youtube.com/@drinkregenid" }].map(social => <a href={social.url} key={social.name} target="_blank" rel="noopener noreferrer" aria-label={`${social.name} REGEN (tab baru)`}>{social.name}<ArrowUpRight size={13} aria-hidden="true" /></a>)}</div><p>PT Global Enak Nikmat</p></footer>
       </div>
     </div>

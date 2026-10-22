@@ -18,6 +18,7 @@ export function createMockSpinBackend(random: () => number = Math.random) {
     }
     function save() { if (phone) accounts.set(phone, { status }); }
     return {
+      async getHistory() { throw new Error('Riwayat hadiah hanya tersedia melalui API.'); },
       async getStatus() { refresh(); return structuredClone(status); },
       async register(input,id) {
         const name=input.name.trim();if(!name||name.length>191)throw new Error('Nama tidak valid.');
@@ -28,7 +29,7 @@ export function createMockSpinBackend(random: () => number = Math.random) {
         const existing=accounts.get(normalized);
         phone=normalized;
         if(existing){refresh();}
-        else status={...status,registered:true,user:{id:'account-'+(accounts.size+1),name},remainingSpins:5};
+        else status={...status,registered:true,user:{id:'account-'+(accounts.size+1),name,whatsapp:normalized},remainingSpins:5};
         save();registrations.set(id,structuredClone(status));return structuredClone(status);
       },
       async spin(id) {

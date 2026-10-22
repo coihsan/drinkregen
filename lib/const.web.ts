@@ -149,8 +149,6 @@ export const QuickLink = [
 
 export const MenuNav = [
   { title: "Home", url: "/" },
-  { title: "Collabs", url: "/collabs" },
-  { title: "Kata Mereka", url: "/kata-mereka" },
   // { title: "Hadiah Umroh", url: "/regen-berhadiah-umroh" },
   // { title: "#BebasGula", url: "/bebas-gula" },
   {
@@ -179,7 +177,7 @@ export const MenuNav = [
 export const BASE_URL = "https://localhost:3000";
 
 export const contactInfo = {
-  email: "info@drinkregen.id",
+  email: "social@drinkregen.com",
   phone: "+62 812 3456 7890",
-  address: "Jl. Raya Bogor No. 123, Jakarta",
+  address: "Jl. K.S. Tubun No.81B, RT.9/RW.5, Slipi, Kec. Palmerah, Kota Jakarta Barat, Daerah Khusus Ibukota Jakarta 11410",
 };

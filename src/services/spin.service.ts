@@ -1,8 +1,8 @@
 import { z } from 'zod';
-import { statusSchema, spinResultSchema, redemptionSchema, type SpinService, type SpinStatus } from './spin.types';
+import { statusSchema, spinResultSchema, redemptionSchema, historySchema, type SpinService, type SpinStatus } from './spin.types';
 
 export class SpinApiError extends Error {
-  constructor(message: string, public readonly definitive: boolean) { super(message); }
+  constructor(message: string, public readonly definitive: boolean, public readonly code?: string) { super(message); }
 }
 // Database-backed API contract: see components/spin/README.md. No client-side reward fallback.
 export function createApiSpinService(base = 'https://api.drinkregen.com/api/v1/spin'): SpinService {
@@ -17,6 +17,13 @@ export function createApiSpinService(base = 'https://api.drinkregen.com/api/v1/s
       body: body === undefined ? undefined : JSON.stringify(body),
     });
     if (!response.ok) {
+      // A business rejection is final; transaction conflicts must keep the same key.
+      if (path === '/redeem' && response.status === 409) {
+        const detail = await response.json().catch(() => null);
+        if (detail?.code === 'GRAND_PRIZE_LIMIT') {
+          throw new SpinApiError('Nomor WhatsApp ini sudah pernah klaim grand prize. Setiap nomor hanya dapat klaim 1 grand prize. Kamu tetap bisa spin dan mendapatkan voucher.', true, 'GRAND_PRIZE_LIMIT');
+        }
+      }
       if(path==='/redeem'&&[400,422].includes(response.status)){const detail=await response.json().catch(()=>null);const message=response.status===400?'Data penerima tidak valid. Periksa seluruh kolom dan kode POS.':typeof detail?.message==='string'&&detail.message.length<=300?detail.message:'Hadiah tidak tersedia atau poin belum cukup.';throw new SpinApiError(message,true);}
       const message = response.status === 401 ? 'Sesi berakhir. Muat ulang untuk memeriksa sesi Anda.' : response.status === 429 ? 'Terlalu banyak permintaan. Tunggu sebentar lalu coba lagi.' : 'Permintaan belum berhasil. Periksa saldo atau kuota dan coba lagi.';
       throw new SpinApiError(message, response.status >= 400 && response.status < 500 && response.status !== 408 && response.status !== 409);
@@ -32,6 +39,7 @@ export function createApiSpinService(base = 'https://api.drinkregen.com/api/v1/s
     return data;
   }
   return {
+    getHistory: (kind, page) => request(`/history?${new URLSearchParams({kind, page: String(page)})}`, historySchema),
     getStatus: () => statusRequest ??= request('/status', statusSchema).finally(() => { statusRequest = null; }),
     spin: id => request('', spinResultSchema.refine(result =>
       (!result.rewardType.startsWith('VOUCHER') || Boolean(result.voucher)) &&

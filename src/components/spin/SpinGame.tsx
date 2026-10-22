@@ -21,6 +21,8 @@ import { getRedemptionImage } from "./redemption-images";
 import SpinInvite from "./SpinInvite";
 import SpinBackground from "./SpinBackground";
 import SpinResult from "./SpinResult";
+import PrizeHistory from "./PrizeHistory";
+import ClaimRecipientForm from "./ClaimRecipientForm";
 import RegistrationDialog from "./RegistrationDialog";
 import { spinButtonClasses } from "./spin.styles";
 import {
@@ -29,6 +31,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { SPINFAQ } from '@/lib/spin.faq';
 
 const FAQGame = [
   {
@@ -213,9 +216,34 @@ export default function SpinGame({
     }
   }
   const [recipient,setRecipient]=useState({recipientName:'',phone:'',province:'',city:'',district:'',address:'',postalCode:''});
+  const [identityLoading, setIdentityLoading] = useState(false);
+  const [identityReady, setIdentityReady] = useState(false);
+  async function openClaim(rewardId: string) {
+    if (busy.current || status?.grandPrizeClaimed) return;
+    busy.current = true;
+    revision.current++;
+    setChosen(rewardId);
+    setError('');
+    setIdentityReady(false);
+    setIdentityLoading(true);
+    setPhase('confirm');
+    try {
+      const next = await service.getStatus();
+      setStatus(next);
+      if (next.grandPrizeClaimed) { setPhase('ready'); return; }
+      if (!next.registered || !next.user?.whatsapp) throw new Error('Data peserta belum tersedia. Tutup dialog dan coba lagi.');
+      setRecipient(value => ({ ...value, recipientName: next.user!.name, phone: next.user!.whatsapp! }));
+      setIdentityReady(true);
+    } catch {
+      setError('Data peserta gagal dimuat. Tutup dialog lalu coba kembali.');
+    } finally {
+      busy.current = false;
+      setIdentityLoading(false);
+    }
+  }
   async function redeem() {
-    if (busy.current || !chosen) return;
-    const parsed=recipientSchema.safeParse(recipient);if(!parsed.success){setError('Lengkapi data penerima. Nomor HP harus 8–15 digit, alamat minimal 10 karakter, dan kode POS 5 digit.');return;}
+    if (busy.current || !chosen || !identityReady || status?.grandPrizeClaimed) return;
+    const parsed=recipientSchema.safeParse(recipient);if(!parsed.success){setError('Lengkapi alamat pengiriman. Alamat minimal 10 karakter dan kode pos harus 5 digit.');return;}
     busy.current = true;
     revision.current++;
     setError("");
@@ -223,7 +251,7 @@ export default function SpinGame({
     redeemId.current ??= crypto.randomUUID();
     try {
       const next = await service.redeem(chosen, redeemId.current,parsed.data);
-      setStatus(next);
+      setStatus({ ...next, grandPrizeClaimed: true, claimedGrandPrizeCodes: next.claimedGrandPrizeCodes ?? [next.redemption.rewardId] });
       setRedemption(next);
       redeemId.current = null;
       setPhase("redeemed");
@@ -233,7 +261,10 @@ export default function SpinGame({
       setError(
         cause instanceof SpinApiError && cause.definitive ? cause.message : "Penukaran belum terkonfirmasi. Coba lagi untuk memeriksa permintaan yang sama.",
       );
-      setPhase("confirm");
+      if (cause instanceof SpinApiError && cause.code === 'GRAND_PRIZE_LIMIT') {
+        setStatus(current => current ? { ...current, grandPrizeClaimed: true } : current);
+        setPhase("ready");
+      } else setPhase("confirm");
     } finally {
       busy.current = false;
     }
@@ -270,7 +301,7 @@ export default function SpinGame({
     !!status?.remainingSpins && status.spinRewards?.length !== 0;
   return (
     <main
-      className="relative isolate overflow-clip bg-(--regen-paper) px-5 pt-[132px] pb-[72px] font-sans text-(--regen-ink) max-[700px]:pt-28 [&_button]:touch-manipulation"
+      className="relative isolate overflow-clip bg-(--regen-paper) px-5 pt-[32px] pb-[72px] font-sans text-(--regen-ink) [&_button]:touch-manipulation"
       lang="id"
     >
       <SpinBackground />
@@ -288,34 +319,7 @@ export default function SpinGame({
             fetchPriority="high"
           />
         </h1>
-        {status && (
-          <div
-            className="mb-7 rounded-3xl border-2 border-(--regen-ink) bg-(--regen-paper) p-5 text-left shadow-[4px_4px_0_var(--regen-lime)]"
-            aria-live="polite"
-          >
-            <p className="break-words text-center text-xl font-bold mt-5">
-              {status.user
-                ? `Halo, ${status.user.name}!`
-                : "Selamat datang! Coba 1 spin gratis."}
-            </p>
-            <div className="mt-4 grid grid-cols-2 gap-4">
-              <div className="flex flex-col items-center bg-(--regen-yellow) rounded-2xl p-3">
-                <p className="text-xs uppercase tracking-wider">Saldo poin</p>
-                <strong className="text-4xl">
-                  {status.points}
-                  <span className="ml-2 text-sm">poin</span>
-                </strong>
-              </div>
-              <div className="flex flex-col items-center bg-(--regen-green) rounded-2xl p-3">
-                <p className="text-xs uppercase tracking-wider">Kesempatan</p>
-                <strong className="text-4xl">
-                  {status.remainingSpins}
-                  <span className="ml-2 text-sm">spin</span>
-                </strong>
-              </div>
-            </div>
-          </div>
-        )}
+
         <div
           className="mb-7 grid justify-items-center gap-6"
           aria-busy={spinning}
@@ -349,10 +353,10 @@ export default function SpinGame({
                     : "SPIN SEKARANG"}
           </Button>
           {exhausted && (
-            <div className="rounded-2xl border border-(--regen-border) bg-(--regen-paper) px-6 py-4 text-center">
-              <p className="text-sm">5 spin tersedia kembali dalam</p>
-              <p role="timer" aria-label="Waktu hingga kuota spin tersedia kembali" className="my-2 font-mono text-3xl font-bold tabular-nums">{countdown}</p>
-              <p className="text-xs" role="status">{secondsLeft > 0 ? "Kuota direset 24 jam setelah spin terakhir. Poin Anda tetap tersimpan." : "Memeriksa kuota spin…"}</p>
+            <div className="rounded-2xl border border-(--regen-border) bg-(--regen-paper) px-6 py-4 text-center shadow-xl border border-lime-300">
+              <p className="text-sm font-semibold text-lime-600">5 spin tersedia kembali dalam</p>
+              <div className='bg-gradient-to-r from-transparant via-lime-500 to-transparant'><p className="my-2 font-mono text-green-700 text-3xl font-black tabular-nums" role="timer" aria-label="Waktu hingga kuota spin tersedia kembali" >{countdown}</p></div>
+              <p className="text-xs text-muted-foreground" role="status">{secondsLeft > 0 ? "Kuota direset 24 jam setelah spin terakhir. Poin Anda tetap tersimpan." : "Memeriksa kuota spin…"}</p>
             </div>
           )}
           {registerOffer && <SpinInvite />}
@@ -375,14 +379,47 @@ export default function SpinGame({
             </Button>
           )}
         </div>
+        {status && (
+          <div
+            className="mb-7 rounded-3xl border-2 border-lime-50 bg-(--regen-paper) px-5 py-7 text-left shadow-xl"
+            aria-live="polite"
+          >
+            <div className='mb-9'>
+              <p className="break-words text-center text-xl font-black  text-green-700">
+              {status.user
+                ? `Halo, ${status.user.name}!`
+                : "Selamat datang! Coba 1 spin gratis."}
+            </p>
+            </div>
+            <div className="mt-4 grid grid-cols-2 gap-4">
+              <div className="flex flex-col h-20 relative shadow-md items-center border border-yellow-300 bg-(--regen-yellow) rounded-2xl p-3">
+                <div className='absolute -top-2 left-0 bg-green-600 w-max px-2 flex justify-center rounded-full border border-lime-500 shadow-md'><p className="text-xs uppercase tracking-wider font-bold text-white">Saldo poin</p></div>
+                <strong className="text-4xl absolute top-[30%] left-5 mx-auto">
+                  <span className='font-black'>{status.points}</span>
+                  <span className="ml-2 text-sm">poin</span>
+                </strong>
+                <img className='absolute right-4 scale-140' src='/spin/icon-coin.webp' width={50} height={50} alt='icon' />
+              </div>
+              <div className="flex flex-col h-20 relative shadow-md items-center border border-green-300 bg-(--regen-green) rounded-2xl p-3">
+                <div className='absolute -top-2 left-0 bg-yellow-300 w-max px-2 flex justify-center rounded-full border border-green-600 shadow-md'><p className="text-xs uppercase tracking-wider font-bold text-green-600">Sisa spin</p></div>
+                <strong className="text-4xl absolute top-[30%] left-5 mx-auto">
+                  <span className='font-black'>{status.remainingSpins}</span>
+                  <span className="ml-2 text-sm">spin</span>
+                </strong>
+                <img className='absolute right-4 top-4 scale-140' src='/spin/icon-repeat.webp' width={50} height={50} alt='icon' />
+              </div>
+            </div>
+            <PrizeHistory key={status.user?.id || 'guest'} service={service} disabled={phase !== 'ready' || Boolean(requestId.current)} registered={status.registered} />
+          </div>
+        )}
         <section className="mt-10 text-left" aria-labelledby="redeem-title">
           <h2
             id="redeem-title"
-            className="font-[family-name:var(--font-headoh)] text-2xl"
+            className="font-[family-name:var(--font-headoh)] text-4xl text-center mx-auto"
           >
             Grand Prize
           </h2>
-          <p className="mt-2 text-sm">
+          <p className="mt-2 text-sm text-center mx-auto">
             Pilih hadiah yang Anda inginkan. Sisa poin tetap tersimpan setelah
             penukaran.
           </p>
@@ -390,7 +427,7 @@ export default function SpinGame({
             {options.map((option) => (
               <article
                 key={option.id}
-                className="flex flex-col rounded-2xl border-2 border-(--regen-ink) bg-(--regen-paper) p-3 sm:p-5"
+                className="flex flex-col max-w-[352px] border-2 border-(--regen-ink) bg-(--regen-paper) text-(--regen-ink) tracking-[.06em] shadow-[0_5px_0_var(--regen-ink)] enabled:active:shadow-[0_2px_0_var(--regen-ink)] rounded-xl p-6"
               >
                 <div className="mb-3 flex h-28 items-center justify-center">
                   {option.image ? <img
@@ -405,33 +442,32 @@ export default function SpinGame({
                 <div className="flex flex-col text-center">
                   <h3 className="font-bold">{option.name}</h3>
                   <p className="mt-1 text-xl font-black">{option.cost} poin</p>
-                  {option.stockRemaining !== null && (
+                  {/* {option.stockRemaining !== null && (
                     <p className="mt-2 text-xs">{option.stockRemaining === 0 ? "Stok habis" : `Tersedia ${option.stockRemaining} hadiah`}</p>
-                  )}
-                  <p className="mt-2 mb-4 text-xs">
+                  )} */}
+                  {/* <p className="mt-2 mb-4 text-xs">
                     {!status?.registered
                       ? "Masuk untuk menukar poin."
                       : status.points < option.cost
                         ? `Butuh ${option.cost - status.points} poin lagi`
                         : "Poin Anda cukup!"}
-                  </p>
+                  </p> */}
                 </div>
                 <Button
-                  className="mt-auto h-auto min-h-11 whitespace-normal bg-(--regen-ink) px-2 py-2 text-xs text-(--regen-paper)"
+                  className="mt-3 h-auto min-h-11 whitespace-normal bg-(--regen-ink) px-2 py-2 text-xs text-(--regen-paper)"
                   disabled={
                     phase !== "ready" ||
                     !status?.registered ||
+                    status.grandPrizeClaimed === true ||
                     status.points < option.cost ||
                     option.stockRemaining === 0 ||
                     !!requestId.current
                   }
-                  onClick={() => {
-                    setChosen(option.id);
-                    setError("");
-                    setPhase("confirm");
-                  }}
+                  onClick={() => void openClaim(option.id)}
                 >
-                  {option.stockRemaining === 0
+                  {status?.claimedGrandPrizeCodes?.includes(option.id)
+                    ? "Sudah diklaim"
+                    : option.stockRemaining === 0
                     ? "Stok habis"
                     : `Tukar ${option.name}`}
                 </Button>
@@ -442,7 +478,7 @@ export default function SpinGame({
           {status && options.length === 0 && <p className="mt-5 text-sm">Belum ada grand prize yang tersedia. Cek kembali nanti.</p>}
         </section>
         <Accordion type="multiple" className="mt-10 w-full">
-          {FAQGame.map((item, index) => (
+          {SPINFAQ.map((item, index) => (
             <AccordionItem
               key={index}
               value={`item-${index}`}
@@ -451,7 +487,7 @@ export default function SpinGame({
               <AccordionTrigger className="cursor-pointer font-bold">
                 {item.question}
               </AccordionTrigger>
-              <AccordionContent className="mt-2 text-sm leading-relaxed">
+              <AccordionContent className="mt-2 text-start text-sm leading-relaxed">
                 {item.answer}
               </AccordionContent>
             </AccordionItem>
@@ -473,7 +509,7 @@ export default function SpinGame({
         }}
       >
         <DialogContent
-          className="max-h-[90dvh] overflow-y-auto bg-(--regen-paper) text-center text-(--regen-ink)"
+          className={`max-h-[90dvh] no-scrollbar overflow-y-auto bg-(--regen-paper) text-center text-(--regen-ink) ${["confirm", "redeeming"].includes(phase) ? "sm:max-w-xl gap-5" : ""}`}
           showCloseButton={canClose}
           onCloseAutoFocus={(event) => {
             event.preventDefault();
@@ -509,20 +545,30 @@ export default function SpinGame({
           ) : (
             selected && (
               <>
-                <DialogTitle>Tukar {selected.name}?</DialogTitle>
-                <DialogDescription>
-                  {selected.cost} poin akan dipotong setelah penukaran berhasil.
-                  Sisa saldo saat ini setelah penukaran:{" "}
-                  {Math.max(0, (status?.points ?? 0) - selected.cost)} poin.
-                </DialogDescription>
-                <fieldset disabled={phase==='redeeming'||!!redeemId.current} className="grid max-h-[45vh] gap-3 overflow-y-auto sm:grid-cols-2">{([['recipientName','Nama penerima'],['phone','Nomor Handphone'],['province','Provinsi'],['city','Kota'],['district','Kecamatan'],['address','Alamat lengkap'],['postalCode','Kode POS']] as const).map(([key,label])=><label key={key} className={key==='address'?'sm:col-span-2':''}><span className="text-sm">{label}</span>{key==='address'?<textarea className="block w-full rounded border p-2" value={recipient[key]} onChange={e=>setRecipient({...recipient,[key]:e.target.value})} maxLength={2000}/>:<input className="block w-full rounded border p-2" type={key==='phone'?'tel':'text'} inputMode={key==='postalCode'?'numeric':undefined} maxLength={key==='postalCode'?5:key==='phone'?16:191} value={recipient[key]} onChange={e=>setRecipient({...recipient,[key]:e.target.value})}/>}</label>)}</fieldset>
+                <div className="pr-8 text-left">
+                  <DialogTitle className="text-xl font-bold">Klaim hadiah penukaran</DialogTitle>
+                  <DialogDescription className="mt-2 text-sm leading-relaxed">Lengkapi alamat pengiriman untuk menerima hadiah pilihan Anda.</DialogDescription>
+                </div>
+                <div className="flex items-center gap-4 rounded-2xl border border-black/10 bg-white p-4 text-left">
+                  {selected.image && <img src={selected.image} alt="" className="h-16 w-16 shrink-0 object-contain" />}
+                  <div className="min-w-0 flex-1"><p className="font-semibold">{selected.name}</p><p className="mt-1 text-xs text-black/60">Sisa saldo setelah penukaran: {Math.max(0, (status?.points ?? 0) - selected.cost)} poin</p></div>
+                  <span className="shrink-0 rounded-full bg-(--regen-lime) px-3 py-1.5 text-sm font-bold">{selected.cost} poin</span>
+                </div>
+                {identityLoading ? <p role="status" className="py-8 text-sm">Memuat data peserta…</p> : identityReady && <ClaimRecipientForm recipient={recipient} onChange={setRecipient} disabled={phase === 'redeeming' || !!redeemId.current} />}
                 {error && (
                   <p role="alert" className="text-sm text-(--regen-red-dark)">
                     {error}
                   </p>
                 )}
+                <p className="text-left text-xs leading-relaxed text-black/60">Poin hanya dipotong setelah penukaran berhasil. Periksa kembali alamat sebelum konfirmasi.</p>
+                <div className="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
+                {canClose && (
+                  <Button variant="outline" onClick={() => setPhase("ready")}>
+                    Batal
+                  </Button>
+                )}
                 <Button
-                  disabled={phase === "redeeming"}
+                  disabled={phase === "redeeming" || !identityReady || identityLoading || status?.grandPrizeClaimed === true}
                   onClick={() => void redeem()}
                 >
                   {phase === "redeeming"
@@ -531,11 +577,7 @@ export default function SpinGame({
                       ? "PERIKSA PENUKARAN"
                       : "KONFIRMASI PENUKARAN"}
                 </Button>
-                {canClose && (
-                  <Button variant="outline" onClick={() => setPhase("ready")}>
-                    BATAL
-                  </Button>
-                )}
+                </div>
               </>
             )
           )}

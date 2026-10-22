@@ -11,7 +11,9 @@ export type RedemptionType = string;
 export const statusSchema = z.object({
   available: z.boolean().optional(),
   registered: z.boolean(),
-  user: z.object({ id: z.string().min(1), name: z.string().min(1) }).nullable(),
+  grandPrizeClaimed: z.boolean().optional(),
+  claimedGrandPrizeCodes: z.array(z.string().min(1)).optional(),
+  user: z.object({ id: z.string().min(1), name: z.string().min(1), whatsapp: z.string().min(8).optional() }).nullable(),
   remainingSpins: z.number().int().min(0).max(5),
   totalValidSpins: z.number().int().nonnegative(),
   points: z.number().int().nonnegative(),
@@ -29,12 +31,25 @@ export const redemptionSchema = statusSchema.extend({
   redemption: z.object({ id: z.string().min(1), rewardId: z.string().min(1), status: z.literal('confirmed') }),
 });
 export type RewardType = string;
+export const historySchema = z.object({
+  page: z.number().int().positive(), pageSize: z.number().int().positive(), hasMore: z.boolean(),
+  items: z.array(z.object({
+    id: z.string().min(1), kind: z.enum(['SPIN', 'GRAND_PRIZE']), name: z.string().min(1),
+    awardedAt: z.string().datetime({ offset: true }).nullable(),
+    status: z.enum(['PENDING', 'VERIFIED', 'CLAIMED', 'REJECTED', 'EXPIRED']),
+    voucherCode: z.string().nullable(), expiresAt: z.string().datetime({ offset: true }).nullable(),
+    trackingNumber: z.string().nullable(), claimedAt: z.string().datetime({ offset: true }).nullable(),
+  })),
+});
+export type PrizeHistory = z.infer<typeof historySchema>;
+export type HistoryKind = 'SPIN' | 'GRAND_PRIZE';
 export type SpinStatus = z.infer<typeof statusSchema>;
 export type SpinResult = z.infer<typeof spinResultSchema>;
 export type RedemptionResult = z.infer<typeof redemptionSchema>;
 export interface RegistrationInput { name: string; whatsapp: string }
 export interface RecipientInput {recipientName:string;phone:string;province:string;city:string;district:string;address:string;postalCode:string}
 export interface SpinService {
+  getHistory(kind: HistoryKind, page: number): Promise<PrizeHistory>;
   getStatus(): Promise<SpinStatus>;
   spin(requestId: string): Promise<SpinResult>;
   register(input: RegistrationInput, requestId: string): Promise<SpinStatus>;

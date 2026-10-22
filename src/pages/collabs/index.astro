@@ -1,10 +1,65 @@
 ---
 import Layout from "../../layouts/Layout.astro";
+import { contactInfo } from "@/lib/const.web";
+import "../../styles/collabs.css";
+
+const title = "Free REGEN for You — Collabs";
+const description = "Ajak REGEN berkolaborasi lewat komunitas, event, dan karya kreatif. Ceritakan idemu untuk kesempatan mendapatkan produk REGEN gratis.";
+const categories = [
+  { name: "Community", tagline: "Your people. Our energy.", description: "Dari running club, cycling crew, sampai komunitas kreatif—aktivitas bareng selalu punya energi tersendiri. Ajak REGEN hadir di gathering atau kegiatan komunitasmu berikutnya.", cta: "Bring REGEN to Your Community", number: "01", color: "green" },
+  { name: "Activation", tagline: "Make it happen. Make it REGEN.", description: "Lagi menyiapkan turnamen, pop-up, workshop, atau event seru lainnya? Mari ciptakan pengalaman bareng REGEN yang bikin orang datang, ikut bergerak, dan terhubung.", cta: "Collaborate on Your Event", number: "02", color: "yellow" },
+  { name: "Creation", tagline: "Your creativity. A fresh collaboration.", description: "Punya cara unik untuk membawa REGEN ke dalam cerita? Kami ingin mendengar ide konten, foto, video, atau karya kreatif yang mencerminkan gaya dan perspektifmu.", cta: "Share Your Creative Idea", number: "03", color: "pink" },
+];
+const collabEmail = (category = "Collabs") => `mailto:${contactInfo.email}?subject=${encodeURIComponent(`REGEN ${category} — Ide Kolaborasi`)}&body=${encodeURIComponent(`Halo tim REGEN,\n\nSaya ingin mengajukan kolaborasi ${category}.\n\nNama / komunitas:\nAkun media sosial:\nKonsep kolaborasi:\nTanggal dan lokasi (jika ada):\nPerkiraan peserta / audiens:\nDukungan yang diharapkan:\nKontak yang bisa dihubungi:\n\nTerima kasih!`)}`;
 ---
 
-<Layout title="Collabs" description="Kolaborasi REGEN dengan berbagai pihak untuk menghadirkan pengalaman yang lebih seru dan bermanfaat bagi para penggemar REGEN.">
-  <section class="mx-auto max-w-[520px] px-5 pt-[132px] pb-[72px] text-center font-sans text-(--regen-ink) max-[700px]:pt-28">
-    <h1 class="mb-5 text-3xl font-bold">Collabs</h1>
-    <p class="text-sm text-(--regen-muted)">Kolaborasi REGEN dengan berbagai pihak untuk menghadirkan pengalaman yang lebih seru dan bermanfaat bagi para penggemar REGEN.</p>
-  </section>
+<Layout title={title} description={description} openGraph={{ title, description, url: "https://drinkregen.com/collabs" }}>
+  <main class="collabs-page regen-page" lang="id">
+    <section class="collabs-hero regen-hero" aria-labelledby="collabs-title">
+      <div class="collabs-hero-copy">
+        <p class="regen-eyebrow">LET’S MAKE SOMETHING FRESH TOGETHER</p>
+        <h1 class="regen-title" id="collabs-title">Free REGEN<br /><span>for you.</span></h1>
+        <h2>Good energy deserves good company.</h2>
+        <p class="regen-lead">Punya komunitas, lagi merencanakan event, atau punya ide konten seru? Yuk, ajak REGEN jadi bagian dari ceritamu. Ceritakan idemu untuk kesempatan mendapatkan produk REGEN gratis lewat kolaborasi.</p>
+        <a class="regen-button" href="#pilih-kolaborasi">Let’s Collab <span aria-hidden="true">↘</span></a>
+      </div>
+      <div class="collabs-art" aria-hidden="true">
+        <div class="collabs-orbit"></div>
+        <span class="collabs-art-word">BETTER<br />TOGETHER.</span>
+        <img class="collabs-bottle collabs-bottle-left" src="/300ml/lemonlime.webp" alt="" width="480" height="720" />
+        <img class="collabs-bottle collabs-bottle-right" src="/300ml/orange.webp" alt="" width="480" height="720" />
+        <span class="collabs-stamp">YOUR IDEAS.<br />OUR FRESHNESS.<br /><strong>LET’S COLLAB ↗</strong></span>
+      </div>
+    </section>
+    <section class="collabs-options regen-section" id="pilih-kolaborasi" aria-labelledby="options-title">
+      <div class="collabs-section-heading">
+        <p class="regen-eyebrow">THREE WAYS TO COLLAB</p>
+        <h2 class="regen-heading" id="options-title">Your thing.<br /><span>Our next collab.</span></h2>
+        <p class="regen-lead">Temukan cara kolaborasi yang paling cocok dengan idemu.</p>
+      </div>
+      <div class="collabs-grid">
+        {categories.map(category => (
+          <article class={`collabs-card regen-card collabs-card-${category.color}`}>
+            <span class="collabs-number">{category.number} <span aria-hidden="true">↗</span></span>
+            <h3>{category.name}</h3>
+            <p class="collabs-tagline">{category.tagline}</p>
+            <p class="collabs-description">{category.description}</p>
+            <a class="collabs-link" href={collabEmail(category.name)}>{category.cta}<span aria-hidden="true">↗</span></a>
+          </article>
+        ))}
+      </div>
+    </section>
+    <section class="collabs-submit regen-section" aria-labelledby="submit-title">
+      <div>
+        <p class="regen-eyebrow">FROM A FRESH IDEA TO SOMETHING REAL</p>
+        <h2 class="regen-heading" id="submit-title">Got an idea?<br /><span>We’re listening.</span></h2>
+      </div>
+      <div class="collabs-submit-copy">
+        <p class="regen-lead">Ceritakan siapa kamu, apa yang ingin kamu buat, dan bagaimana REGEN bisa ikut ambil bagian. Mulai dari ide sederhana—siapa tahu jadi kolaborasi berikutnya.</p>
+        <a class="regen-button" href={collabEmail()}>Submit Your Collab <span aria-hidden="true">↗</span></a>
+        <p class="collabs-email-note">Kirim idemu melalui email ke <a href={collabEmail()}>{contactInfo.email}</a>.</p>
+        <p class="collabs-terms">Setiap pengajuan akan ditinjau oleh tim REGEN. Dukungan produk disesuaikan dengan kecocokan konsep dan ketersediaan.</p>
+      </div>
+    </section>
+  </main>
 </Layout>

@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { createMockSpinBackend, createMockSpinService } from './spin.mock';
 import type { SpinService } from './spin.types';
 const person = { name: 'Nama Peserta', whatsapp: '081234567890' };
+const recipient = {recipientName:'Peserta',phone:'081234567890',province:'DKI Jakarta',city:'Jakarta',district:'Gambir',address:'Jalan Contoh Nomor 123',postalCode:'10110'};
 async function login(service: SpinService, id = 'verify') {
   return service.register(person,id);
 }
@@ -34,7 +35,7 @@ test('phone registration keeps guest points and grants five spins once', async (
 
 test('registration is direct and replay cannot credit guest points again',async()=>{
  const service=createMockSpinService({},()=>0.3);await service.spin('guest');
- await assert.rejects(service.redeem('THREE_BOTTLES','no-registration'));
+ await assert.rejects(service.redeem('THREE_BOTTLES','no-registration',recipient));
  const registered=await service.register(person,'register-once');
  assert.equal(registered.points,5);assert.equal(registered.remainingSpins,5);
  assert.deepEqual(await service.register(person,'register-once'),registered);
@@ -43,17 +44,17 @@ test('registration is direct and replay cannot credit guest points again',async(
 test('redemption deducts 100 or 25, preserves remainder, prevents overspend and duplicate debit', async () => {
   const service = createMockSpinService({ points: 140 });
   await login(service);
-  const carton = await service.redeem('CARTON', 'carton');
+  const carton = await service.redeem('CARTON', 'carton', recipient);
   assert.equal(carton.points, 40);
-  assert.deepEqual(await service.redeem('CARTON', 'carton'), carton);
-  await assert.rejects(service.redeem('THREE_BOTTLES', 'carton'));
-  assert.equal((await service.redeem('THREE_BOTTLES', 'bottles')).points, 15);
-  await assert.rejects(service.redeem('THREE_BOTTLES', 'insufficient'));
+  assert.deepEqual(await service.redeem('CARTON', 'carton', recipient), carton);
+  await assert.rejects(service.redeem('THREE_BOTTLES', 'carton', recipient));
+  assert.equal((await service.redeem('THREE_BOTTLES', 'bottles', recipient)).points, 15);
+  await assert.rejects(service.redeem('THREE_BOTTLES', 'insufficient', recipient));
   assert.equal((await service.getStatus()).points, 15);
 });
 test('concurrent redemption cannot spend the same points twice', async () => {
   const service = createMockSpinService({ points: 100 }); await login(service);
-  const results = await Promise.allSettled([service.redeem('CARTON', 'a'), service.redeem('CARTON', 'b')]);
+  const results = await Promise.allSettled([service.redeem('CARTON', 'a', recipient), service.redeem('CARTON', 'b', recipient)]);
   assert.equal(results.filter(result => result.status === 'fulfilled').length, 1);
   assert.equal((await service.getStatus()).points, 0);
 });

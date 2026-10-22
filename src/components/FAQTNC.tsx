@@ -116,7 +116,7 @@ const FAQTNC = () => {
                 </ul>
                 <li className="font-bold text-lg">Hak Penyelenggara</li>
                 <ul className="list-disc pl-6">
-                    <li>Penyelenggara berhak untuk menggunakan dan menyebarkan data Peserta dan/atau Pemenang untuk kepentingan publikasi atau promosi, dengan pemberitahuan terlebih dahulu.</li>
+                    <li>Penyelenggara berhak menggunakan serta mempublikasikan data Peserta dan/atau Pemenang untuk keperluan promosi.</li>
                     <li>Penyelenggara berhak untuk membatalkan, menunda, atau mempublikasikan Pemenang tanpa adanya tuntutan hukum dari pihak manapun, apabila ditemukan indikasi kecurangan atau pelanggaran terhadap S&K ini.</li>
                     <li>Keputusan Penyelenggara bersifat mutlak dan tidak dapat diganggu gugat.</li>
                 </ul>

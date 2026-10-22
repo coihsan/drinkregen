@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import type { SpinResult as Result } from "../../services/spin.types";
 import SpinInvite from "./SpinInvite";
 import { spinButtonClasses } from "./spin.styles";
+import { getSpinRewardImage } from "./spin-reward-images";
 const copy = {
   VOUCHER_10: [
     "🎟️",
@@ -35,13 +36,14 @@ export default function SpinResult({
 }) {
   const kind = result.rewardType.startsWith('POINTS_') ? 'POINTS_5' : result.rewardType.startsWith('VOUCHER_') ? 'VOUCHER_10' : 'TRY_AGAIN';
   const [icon, title, description] = copy[result.rewardType as keyof typeof copy] ?? copy[kind];
+  const image = getSpinRewardImage({ code: result.rewardType, name: result.rewardName, points: result.awardedPoints });
   return (
     <>
-      <span className="text-5xl" aria-hidden="true">
+      {image ? <img src={image} alt="" width={180} height={180} className="mx-auto h-40 w-40 object-contain sm:h-44 sm:w-44" /> : <span className="text-5xl" aria-hidden="true">
         {icon}
-      </span>
+      </span>}
       <DialogTitle>{result.rewardType.startsWith('POINTS_')&&result.awardedPoints!==undefined?`+${result.awardedPoints} poin untuk Anda!`:result.rewardName??title}</DialogTitle>
-      <DialogDescription>{description}</DialogDescription>
+      <DialogDescription>{result.rewardType.startsWith('VOUCHER_') && result.rewardName ? `Anda mendapatkan ${result.rewardName}. Gunakan kode voucher di bawah ini.` : description}</DialogDescription>
       <p className="rounded-2xl bg-(--regen-green-soft) p-4 font-bold">
         Saldo Anda: {result.points} poin
       </p>

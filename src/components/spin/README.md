@@ -4,11 +4,9 @@
 
 Admin memiliki dua form dan katalog terpisah: **Tambah Hadiah Spin** untuk poin/voucher/Coba Lagi, serta **Tambah Grand Prize** untuk penukaran poin. Hadiah spin baru mendapat kode unik; hadiah aktif menambah segmen roda secara otomatis. Label roda memakai nama admin tanpa ikon. Peluang tetap mengikuti bobot server, bukan besar segmen.
 
-Dalam mode development, membuka halaman Hadiah admin mengirim salinan katalog aktif ke penyimpanan browser website melalui iframe `preview-bridge` dan `postMessage` dengan pemeriksaan origin. Pengubahan katalog memperbarui simulasi tanpa request API game. Lokal memakai admin port 3000 dan website port 4321 pada hostname yang sama. Tab harus memakai profil browser yang sama. Mode produksi membaca katalog dari API. Deploy API dan frontend terbaru bersama agar kode hadiah dinamis dikenali.
+Katalog hadiah dan status permainan selalu dibaca dari API, termasuk saat dijalankan secara lokal. Deploy API dan frontend terbaru bersama agar kode hadiah dinamis dikenali.
 
-## Development playground
-
-Aktifkan toggle **Development** di sebelah **Kampanye** pada Overview admin. Mode disimpan di cookie browser bersama untuk drinkregen.com dan subdomainnya, atau antar-port localhost dengan hostname yang sama. Saat aktif, halaman spin memakai simulasi tanpa satu pun request API spin, termasuk pembacaan status. Saat nonaktif, komponen produksi dipasang kembali dan menggunakan API biasa. Halaman terbuka mendeteksi perubahan cookie setiap detik; mode berlaku hanya di browser yang sama. Gunakan hostname yang sama saat pengujian lokal (jangan campur localhost dan 127.0.0.1). Tidak perlu migrasi database untuk mode ini.
+## Koneksi API
 
 Game menggunakan API `https://api.drinkregen.com/api/v1/spin`. Registrasi nama dan nomor WhatsApp, langsung memperoleh lima spin untuk nomor baru tanpa OTP. Bonus satu kali per nomor dan guest points dipindahkan sekali saat akun dibuat. Nomor existing membuka akun lama dari browser lain dengan sesi baru; nama, poin, dan kuota mengikuti akun lama tanpa bonus atau transfer hasil spin tamu ulang.
 

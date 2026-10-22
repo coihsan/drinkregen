@@ -1,0 +1,50 @@
+.collabs-hero { display: grid; grid-template-columns: 1.1fr 1fr; gap: 40px; align-items: center; background: var(--regen-surface); }
+.collabs-hero-copy { position: relative; z-index: 1; }
+.collabs-hero .regen-title { margin: 22px 0; }
+.collabs-hero .regen-title span, .collabs-section-heading h2 span { color: var(--regen-forest); }
+.collabs-hero h2 { font-family: var(--font-sans), sans-serif; font-size: 20px; font-weight: 700; line-height: 1.4; margin-bottom: 18px; }
+.collabs-hero .regen-lead { max-width: 550px; }
+.collabs-hero .regen-button { margin-top: 30px; }
+.collabs-art { position: relative; min-height: 480px; }
+.collabs-orbit { position: absolute; inset: 5% 0; border-radius: 50%; background: var(--regen-citrus); }
+.collabs-art-word { position: absolute; top: 12%; left: 8%; font-family: var(--font-headoh), sans-serif; font-size: clamp(52px, 6vw, 86px); line-height: .95; transform: rotate(-9deg); }
+.collabs-bottle { position: absolute; top: 12%; width: 58%; height: 88%; object-fit: contain; }
+.collabs-bottle-left { left: 0; transform: rotate(-17deg); }
+.collabs-bottle-right { right: 0; transform: rotate(16deg); }
+.collabs-stamp { position: absolute; bottom: 0; right: 0; display: grid; place-content: center; width: 152px; height: 152px; border-radius: 50%; background: var(--regen-coral-soft); border: 1px solid var(--regen-ink); text-align: center; font-size: 11px; line-height: 1.8; transform: rotate(10deg); }
+.collabs-stamp strong { font-size: 12px; }
+.collabs-options { scroll-margin-top: 100px; }
+.collabs-section-heading { margin-bottom: 40px; }
+.collabs-section-heading h2, .collabs-submit h2 { margin: 16px 0 20px; }
+.collabs-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; }
+.collabs-card { display: flex; flex-direction: column; padding: 32px; }
+.collabs-card-green { background: var(--regen-green-soft); }
+.collabs-card-yellow { background: var(--regen-gold-soft); }
+.collabs-card-pink { background: var(--regen-coral-soft); }
+.collabs-number { display: flex; justify-content: space-between; align-items: center; font-size: 12px; font-weight: 700; margin-bottom: 42px; }
+.collabs-number span { font-size: 30px; }
+.collabs-card h3 { font-size: clamp(34px, 3vw, 44px); margin-bottom: 16px; }
+.collabs-card .collabs-tagline { font-size: 14px; font-weight: 700; line-height: 1.6; margin-bottom: 18px; }
+.collabs-description { font-size: 15px; line-height: 1.8; }
+.collabs-link { display: flex; justify-content: space-between; gap: 16px; align-items: center; margin-top: auto; padding-top: 30px; color: inherit; font-size: 13px; font-weight: 700; text-underline-offset: 5px; }
+.collabs-link:hover { text-decoration: underline; }
+.collabs-submit { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; background: var(--regen-citrus); }
+.collabs-submit .regen-button { margin-top: 28px; }
+.collabs-submit .collabs-email-note { margin-top: 18px; font-size: 13px; line-height: 1.7; }
+.collabs-email-note a { text-decoration: underline; text-underline-offset: 3px; overflow-wrap: anywhere; }
+.collabs-submit .collabs-terms { margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--regen-ink-a30); font-size: 12px; line-height: 1.8; }
+@media (max-width: 1000px) {
+  .collabs-hero { gap: 20px; }
+  .collabs-art { min-height: 390px; }
+  .collabs-grid { gap: 14px; }
+  .collabs-card { padding: 24px; }
+}
+@media (max-width: 760px) {
+  .collabs-hero, .collabs-submit { grid-template-columns: 1fr; gap: 36px; }
+  .collabs-art { width: 100%; max-width: 440px; min-height: 390px; margin: 0 auto; }
+  .collabs-art-word { font-size: 64px; }
+  .collabs-grid { grid-template-columns: 1fr; gap: 20px; }
+  .collabs-card { padding: 28px; }
+  .collabs-number { margin-bottom: 24px; }
+  .collabs-submit h2 { margin-bottom: 0; }
+}
