@@ -1,18 +1,213 @@
 ---
 import Layout from "@/src/layouts/Layout.astro";
-import { posts, readingTime } from "@/src/data/blog";
-import "@/src/styles/blog.css";
-export function getStaticPaths() { return posts.map(post => ({ params: { slug: post.slug }, props: { post } })); }
-const { post } = Astro.props;
-const title = `${post.title} | Blog REGEN`;
+import { ARTICLE_PLACEHOLDER, getPosts, readingTime } from "@/src/data/blog";
+import ArticleImage from "@/src/components/ArticleImage.astro";
+import ArticleReader from "@/src/components/ArticleReader.astro";
+import RelatedPostCarousel from "@/src/components/RelatedPostCarousel";
+import { DetailProductAvailableByVariant } from "@/lib/product-availability";
+export async function getStaticPaths() {
+  const posts = await getPosts();
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post, posts },
+  }));
+}
+const { post, posts } = Astro.props;
+const title = `${post.title} | Re:VIEW by REGEN`;
+const productKey =
+  post.category === "Re:Mix"
+    ? "lychee"
+    : post.category === "Re:Fresh"
+      ? "lemonlime"
+      : null;
+const product = productKey ? DetailProductAvailableByVariant[productKey] : null;
+const store = product?.stores.online?.find((store) => store.name === "Shopee");
+const faqSchema = post.faqs.length
+  ? {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: post.faqs.map((faq) => ({
+        "@type": "Question",
+        name: faq.question,
+        acceptedAnswer: { "@type": "Answer", text: faq.answer },
+      })),
+    }
+  : null;
 ---
-<Layout title={title} description={post.excerpt} openGraph={{ title, description: post.excerpt, type: "article", url: `https://drinkregen.com/blog/${post.slug}` }}>
-  <main class="blog-page regen-page" lang="id">
+
+<Layout
+  title={title}
+  description={post.excerpt}
+  showWelcomePromo={false}
+  openGraph={{
+    title,
+    description: post.excerpt,
+    type: "article",
+    url: `https://drinkregen.com/blog/${post.slug}`,
+  }}
+>
+  {
+    faqSchema && (
+      <script
+        is:inline
+        type="application/ld+json"
+        set:html={JSON.stringify(faqSchema).replace(/</g, "\\u003c")}
+      />
+    )
+  }
+  <main
+    class="overflow-clip bg-[var(--regen-paper)] font-sans text-[var(--regen-ink)] [&_a]:touch-manipulation [&_a]:no-underline [&_a:focus-visible]:outline-[3px] [&_a:focus-visible]:outline-offset-[5px] [&_a:focus-visible]:outline-[var(--regen-forest)] [&_[hidden]]:!hidden [&_:is(h1,h2,h3)]:font-headoh [&_:is(h1,h2,h3)]:font-normal [&_:is(h1,h2,h3)]:leading-[1.02]"
+    lang="id"
+  >
     <article>
-      <header class="blog-article-header regen-hero"><a class="blog-back" href="/blog">← Semua cerita</a><div class="blog-meta"><span>{post.category}</span><span>{readingTime(post)} menit baca</span></div><h1 class="regen-title">{post.title}</h1><p class="regen-lead">{post.excerpt}</p></header>
-      <div class={`blog-article-art blog-art blog-art-${post.tone}`}><span class="blog-art-word" aria-hidden="true">{post.label}</span><img src={post.image} alt={post.imageAlt} width="480" height="720" fetchpriority="high" /></div>
-      <div class="blog-article-body">{post.sections.map(section => <section><h2>{section.heading}</h2><p>{section.text}</p></section>)}<a class="regen-button" href="/blog">Kembali ke semua cerita <span aria-hidden="true">↗</span></a></div>
+      <header
+        class="mx-auto max-w-[1100px] px-[var(--regen-page-inset)] pt-[var(--regen-hero-top)] pb-[var(--regen-hero-bottom)] text-center"
+      >
+        <a class="mb-[35px] inline-block text-sm font-bold" href="/blog"
+          >← Re:VIEW by REGEN</a
+        ><div
+          class="mb-[25px] flex flex-wrap items-center justify-center gap-3.5 text-[11px] font-semibold [&>span:first-child]:rounded-[40px] [&>span:first-child]:border [&>span:first-child]:border-[var(--regen-ink-a30)] [&>span:first-child]:px-3 [&>span:first-child]:py-1.5"
+        >
+          <span>{post.category}</span><span>{readingTime(post)} menit baca</span
+          >
+        </div><h1 class="text-[clamp(44px,6vw,78px)]">{post.title}</h1><p
+          class="mx-auto mt-[25px] max-w-[600px]  leading-[1.8]"
+        >
+          {post.excerpt}
+        </p>
+      </header>
+      <div
+        class="relative isolate mx-auto grid aspect-[3/2] max-w-[1200px] place-items-center overflow-hidden rounded-3xl bg-[#edf2df] [&_img]:aspect-[3/2] [&_img]:h-full [&_img]:w-full [&_img]:object-cover"
+      >
+        <ArticleImage src={post.image} alt={post.imageAlt} priority />
+      </div>
+      <div class="mx-auto max-w-[740px] px-6 pt-[65px] pb-[90px] relative">
+        <ArticleReader>
+        <div
+          class="[&>*]:mb-6 [&_section]:mb-[38px] [&_h2]:mt-9 [&_h2]:mb-4 [&_h2]:leading-[1.3]! [&_h3]:mt-9 [&_h3]:leading-[1.3]! [&_p]:leading-[1.9] [&_ul]:list-disc [&_ol]:list-decimal [&_ul]:pl-6 [&_ol]:pl-6 [&_ul]:leading-[1.9] [&_ol]:leading-[1.9] [&_li]:mb-3 [&_a]:underline! [&_a]:[overflow-wrap:anywhere] [&_img]:max-w-full [&_img]:h-auto"
+          set:html={post.content}
+        />
+        </ArticleReader>
+        <a
+          class="inline-flex min-h-[54px] cursor-pointer items-center justify-between gap-7 rounded-full bg-[var(--regen-ink)] px-[25px] py-[18px] text-sm font-bold text-[var(--regen-paper)] transition-[background,transform] duration-200 hover:-translate-y-[3px] hover:bg-[var(--regen-green-dark)] motion-reduce:transform-none motion-reduce:transition-none"
+          href="/blog"
+        >
+          Jelajahi Re:VIEW
+          <span aria-hidden="true">↗</span>
+        </a>
+        {
+          post.faqs.length > 0 && (
+            <section class="mt-12" aria-labelledby="faq-title">
+              <h2 id="faq-title" class="text-4xl mb-6">
+                Tanya jawab
+              </h2>
+              {post.faqs.map((faq) => (
+                <details class="border-b border-[var(--regen-border)] py-5">
+                  <summary class="cursor-pointer font-semibold">
+                    {faq.question}
+                  </summary>
+                  <p class="mt-4 leading-relaxed">{faq.answer}</p>
+                </details>
+              ))}
+            </section>
+          )
+        }
+        <aside
+          class="mt-12 rounded-3xl bg-[var(--regen-citrus)] p-7"
+          aria-label="Kenali REGEN"
+        >
+          {
+            product ? (
+              <div class="flex flex-col sm:flex-row items-center gap-6">
+                <>
+                  <img
+                    src={product.urlImage}
+                    alt={`REGEN ${product.productName}`}
+                    width="120"
+                    height="180"
+                    loading="lazy"
+                    class="h-44 w-28 object-contain"
+                  />
+                  <div>
+                    <>
+                      <p class="text-xs font-bold tracking-wider mb-3">
+                        PILIHAN RASA UNTUK DICOBA
+                      </p>
+                      <h2 class="text-3xl mb-4">REGEN {product.productName}</h2>
+                      <p class="text-sm leading-relaxed mb-5">
+                        {post.category === "Re:Mix"
+                          ? "Ingin mencoba racikan sendiri? Kenali rasa Lychee untuk inspirasi kreasi berikutnya."
+                          : "Kenali rasa Lemon Lime untuk menemani jeda di sela aktivitasmu."}{" "}
+                        {store && (
+                          <a
+                            class="underline! font-semibold"
+                            href={store.urlStore}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            Lihat di toko resmi REGEN ↗
+                          </a>
+                        )}
+                      </p>
+                      <a
+                        class="font-bold underline!"
+                        href={`/product/regen-300ml/${productKey}`}
+                      >
+                        Kenali varian ini →
+                      </a>
+                    </>
+                  </div>
+                </>
+              </div>
+            ) : (
+              <>
+                <>
+                  <h2 class="text-3xl mb-4">Kenali pilihan segarmu.</h2>
+                  <p class="leading-relaxed mb-5">
+                    Lihat varian dan informasi produk REGEN untuk menemukan
+                    pilihanmu.
+                  </p>
+                  <a class="font-bold underline!" href="/product">
+                    Jelajahi produk REGEN →
+                  </a>
+                </>
+              </>
+            )
+          }
+        </aside>
+      </div>
     </article>
-    <aside class="blog-cta"><div><p class="regen-eyebrow">MASIH ADA CERITA LAIN.</p><h2 class="regen-heading">Lanjut baca, yuk.</h2></div><div class="blog-related">{posts.filter(other => other.slug !== post.slug).map(other => <a href={`/blog/${other.slug}`}>{other.title}<span aria-hidden="true">↗</span></a>)}</div></aside>
+    <aside
+      class="mx-[var(--regen-page-inset)] mb-[90px] flex flex-col items-center gap-[35px] rounded-[22px] bg-[var(--regen-citrus)] p-10 max-[1000px]:flex-col max-[1000px]:items-start max-[700px]:mb-[55px] max-[700px]:p-7"
+      aria-labelledby="related-title"
+    >
+      <div class="flex flex-col items-center">
+        <p
+          class="mb-4 text-[10px] font-extrabold text-center tracking-[.13em] leading-[1.6]"
+        >
+          MASIH ADA CERITA LAIN.
+        </p>
+        <h2
+          class="text-[clamp(32px,3.3vw,48px)] text-center"
+          id="related-title"
+        >
+          Lanjut baca, yuk.
+        </h2>
+      </div>
+      <RelatedPostCarousel
+        client:load
+        imageFallback={ARTICLE_PLACEHOLDER}
+        posts={posts
+          .filter((other) => other.slug !== post.slug)
+          .slice(0, 4)
+          .map((other) => ({
+            slug: other.slug,
+            title: other.title,
+            category: other.category,
+            image: other.image,
+            minutes: readingTime(other),
+          }))}
+      />
+    </aside>
   </main>
 </Layout>

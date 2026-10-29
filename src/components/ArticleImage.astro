@@ -1,0 +1,20 @@
+---
+import { ARTICLE_PLACEHOLDER } from "@/src/data/blog";
+interface Props { src: string; alt: string; priority?: boolean }
+const { src, alt, priority = false } = Astro.props;
+---
+<img src={src} alt={alt} width="1200" height="800" loading={priority ? "eager" : "lazy"} fetchpriority={priority ? "high" : "auto"} data-article-image data-fallback={ARTICLE_PLACEHOLDER} />
+<script>
+  function initArticleImages() {
+    document.querySelectorAll<HTMLImageElement>("img[data-article-image]").forEach(image => {
+      const fallback = () => {
+        if (image.getAttribute("src") === image.dataset.fallback) return;
+        image.src = image.dataset.fallback!;
+      };
+      image.addEventListener("error", fallback, { once: true });
+      if (image.complete && image.naturalWidth === 0) fallback();
+    });
+  }
+  initArticleImages();
+  document.addEventListener("astro:page-load", initArticleImages);
+</script>

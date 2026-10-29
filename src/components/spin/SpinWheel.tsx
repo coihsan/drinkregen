@@ -205,9 +205,9 @@ export default function SpinWheel({
           }}
           disabled={disabled || segments.length === 0}
           aria-label={spinning ? "Roda sedang berputar" : "Klik Putar"}
-          className="absolute inset-[38%] flex cursor-pointer flex-col items-center justify-center gap-1 rounded-full border-4 border-(--regen-ink) bg-(--regen-paper) p-2 shadow-[0_5px_0_#183b2b30] outline-3 outline-(--regen-paper) transition-colors enabled:hover:bg-(--regen-electric) focus-visible:ring-4 focus-visible:ring-(--regen-coral) disabled:cursor-default disabled:opacity-75"
+          className="absolute inset-[38%] flex cursor-pointer flex-col items-center justify-center gap-1 rounded-full border-4 border-lime-600 bg-radial-[at_20%_75%] from-lime-100 via-lime-500 to-lime-700-900 to-90% p-2 shadow-[0_5px_0_#183b2b30] outline-3 outline-(--regen-paper) transition-colors enabled:hover:bg-(--regen-electric) focus-visible:ring-4 focus-visible:ring-(--regen-coral) disabled:cursor-default disabled:opacity-75"
         >
-          <span className="text-center text-[12px] leading-tight font-black sm:text-base">
+          <span className="text-center text-sm text-green-900 text-shadow-lg leading-tight font-black">
             {spinning ? (
               "Memutar…"
             ) : (

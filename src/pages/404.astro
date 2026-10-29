@@ -1,0 +1,54 @@
+---
+import Layout from "@/src/layouts/Layout.astro";
+---
+
+<Layout
+  title="404 — Halaman tidak ditemukan | REGEN"
+  description="Halaman yang kamu cari tidak ditemukan. Kembali ke beranda dan temukan kesegaran REGEN."
+  showWelcomePromo={false}
+  extend={{
+    link: [{ rel: "icon", href: "/Favicon.ico" }],
+    meta: [{ name: "robots", content: "noindex, follow" }],
+  }}
+>
+  <main class="not-found" lang="id" aria-labelledby="not-found-title">
+    <div class="not-found__label"><span aria-hidden="true">✳</span> SALAH ARAH? RE:FRESH DULU.</div>
+    <div class="not-found__code" aria-hidden="true">
+      <span>4</span><span class="not-found__zero">0<span class="not-found__spark">✳</span></span><span>4</span>
+    </div>
+    <p class="not-found__eyebrow">ERROR 404 / HALAMAN TIDAK DITEMUKAN</p>
+    <h1 id="not-found-title">Oops, kesasar sedikit.</h1>
+    <p class="not-found__description">Halaman yang kamu cari mungkin sudah pindah atau tidak tersedia.<br class="desktop-break" /> Yuk, kembali dan temukan kesegaran lainnya.</p>
+    <div class="not-found__actions">
+      <a class="not-found__button not-found__button--primary" href="/">Kembali ke beranda <span aria-hidden="true">↗</span></a>
+      <a class="not-found__button" href="/product">Jelajahi produk <span aria-hidden="true">→</span></a>
+    </div>
+    <p class="not-found__footnote">Butuh perspektif baru? <a href="/blog">Mampir ke Re:VIEW <span aria-hidden="true">↗</span></a></p>
+  </main>
+</Layout>
+
+<style>
+  .not-found { min-height: 85svh; padding: var(--regen-hero-top) var(--regen-page-inset) 80px; overflow: hidden; background: var(--regen-paper); color: var(--regen-ink); text-align: center; }
+  .not-found__label { display: inline-flex; align-items: center; gap: 10px; border: 1px solid var(--regen-border); border-radius: 999px; padding: 9px 16px; font-size: 10px; font-weight: 800; letter-spacing: .12em; }
+  .not-found__label > span { font-size: 20px; color: var(--regen-forest); }
+  .not-found__code { display: flex; justify-content: center; align-items: center; margin: 20px 0 12px; font-family: var(--font-headoh), sans-serif; font-size: clamp(150px, 24vw, 320px); line-height: 1; letter-spacing: -.04em; color: var(--regen-forest); }
+  .not-found__zero { position: relative; color: var(--regen-ink); }
+  .not-found__spark { position: absolute; top: 4%; right: -24%; display: grid; place-items: center; width: .3em; height: .3em; border-radius: 50%; background: var(--regen-citrus); color: var(--regen-forest); font-size: .4em; transform: rotate(12deg); }
+  .not-found__eyebrow { margin: 0 0 20px; font-size: 10px; font-weight: 800; letter-spacing: .13em; }
+  h1 { margin: 0; font-family: var(--font-headoh), sans-serif; font-size: clamp(38px, 5vw, 64px); font-weight: 400; line-height: 1.08; }
+  .not-found__description { margin: 22px auto 0; max-width: 560px; font-size: 15px; line-height: 1.8; color: var(--regen-muted); }
+  .not-found__actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 30px; }
+  .not-found__button { display: inline-flex; align-items: center; justify-content: space-between; gap: 32px; min-height: 54px; padding: 16px 24px; border: 1px solid var(--regen-ink); border-radius: 999px; color: var(--regen-ink); font-size: 13px; font-weight: 700; text-decoration: none; transition: background .2s, color .2s; }
+  .not-found__button--primary { background: var(--regen-ink); color: var(--regen-paper); }
+  .not-found__button:hover { background: var(--regen-forest); color: var(--regen-paper); }
+  .not-found__footnote { margin-top: 28px; font-size: 12px; line-height: 1.8; color: var(--regen-muted); }
+  .not-found__footnote a { color: var(--regen-ink); font-weight: 700; text-underline-offset: 4px; }
+  a { touch-action: manipulation; }
+  a:focus-visible { outline: 3px solid var(--regen-forest); outline-offset: 5px; }
+  @media (max-width: 540px) {
+    .not-found { padding-bottom: 56px; }
+    .not-found__actions { flex-direction: column; align-items: stretch; max-width: 340px; margin-inline: auto; }
+    .desktop-break { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) { .not-found__button { transition: none; } }
+</style>

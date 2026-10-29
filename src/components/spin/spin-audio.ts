@@ -1,4 +1,3 @@
-// Synthesized wheel clicks: no download is needed before the first spin.
 export function createSpinAudio() {
   let context: AudioContext | undefined;
   const active = new Set<OscillatorNode>();
@@ -14,11 +13,9 @@ export function createSpinAudio() {
   return {
     unlock() {
       try {
-        // Called directly from the spin click, before awaiting the API.
         context ??= new AudioContext();
         void context.resume().catch(() => {});
       } catch {
-        // Audio support or permission must never prevent a spin.
       }
     },
     play(duration: number) {
@@ -48,7 +45,6 @@ export function createSpinAudio() {
           };
           oscillator.start(at);
           oscillator.stop(at + 0.035);
-          // Clicks gradually spread apart as the wheel slows to a stop.
           elapsed += 0.055 + 0.4 * Math.pow(elapsed / seconds, 2);
         }
       } catch {

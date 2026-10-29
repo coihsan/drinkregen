@@ -4,6 +4,7 @@ import type { SpinResult as Result } from "../../services/spin.types";
 import SpinInvite from "./SpinInvite";
 import { spinButtonClasses } from "./spin.styles";
 import { getSpinRewardImage } from "./spin-reward-images";
+
 const copy = {
   VOUCHER_10: [
     "🎟️",
@@ -27,6 +28,7 @@ const copy = {
   ],
   TRY_AGAIN: ["🔄", "Coba lagi, ya!", "Belum mendapatkan hadiah kali ini."],
 };
+
 export default function SpinResult({
   result,
   onContinue,

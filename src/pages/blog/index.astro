@@ -1,87 +1,161 @@
 ---
 import Layout from "@/src/layouts/Layout.astro";
-import { posts, readingTime } from "@/src/data/blog";
-import "@/src/styles/blog.css";
-const title = "Blog REGEN — Cerita Segar Buat Harimu";
+import { getPosts, readingTime } from "@/src/data/blog";
+import { blogPillars } from "@/src/data/blog-pillars";
+import ArticleImage from "@/src/components/ArticleImage.astro";
+import ResetIcon from "@/src/assets/icons/akar-icons--arrow-counter-clockwise.svg";
+import SearchIcon from "@/src/assets/icons/andrsrxn--arrow-up-right.svg";
+import FreshIcon from "@/src/assets/icons/si--spark-duotone.svg";
+import MixIcon from "@/src/assets/icons/akar-icons--plus.svg";
+const pillarIcons = {
+  "Re:Set": ResetIcon,
+  "Re:Search": SearchIcon,
+  "Re:Fresh": FreshIcon,
+  "Re:Mix": MixIcon,
+};
+const posts = await getPosts();
+const title = "Re:VIEW by REGEN — Sudut pandang segar setiap hari";
 const description =
-  "Temukan inspirasi keseharian, cerita rasa, dan ide sederhana untuk menikmati harimu bersama REGEN.";
+  "Tinjau ulang kebiasaan minum, kenali label gizi, temukan inspirasi bergerak dan kreasi segar bersama Re:VIEW by REGEN.";
 const featured = posts[0];
-const categories = ["Semua", ...new Set(posts.map((post) => post.category))];
+const categories = [
+  "Semua",
+  ...blogPillars.map((p) => p.name),
+  ...new Set(
+    posts
+      .map((p) => p.category)
+      .filter((c) => !blogPillars.some((p) => p.name === c)),
+  ),
+];
 ---
 
 <Layout
   title={title}
   description={description}
   openGraph={{ title, description, url: "https://drinkregen.com/blog" }}
+  showWelcomePromo={false}
 >
-  <main class="blog-page regen-page border border-b-2" lang="id">
-    <header class="blog-hero regen-hero">
-      <div>
-        <p class="regen-eyebrow">THE REGEN JOURNAL</p><h1 class="regen-title">
-          Cerita segar<br />buat <span>harimu</span>
-        </h1>
+  <main class="overflow-clip bg-[var(--regen-paper)] font-sans text-[var(--regen-ink)] [&_a]:no-underline [&_:is(a,button)]:touch-manipulation [&_:is(a,button,input,select):focus-visible]:outline-[3px] [&_:is(a,button,input,select):focus-visible]:outline-offset-[5px] [&_:is(a,button,input,select):focus-visible]:outline-[var(--regen-forest)] [&_[hidden]]:hidden! [&_:where(h1,h2,h3)]:font-headoh [&_:where(h1,h2,h3)]:font-normal [&_:where(h1,h2,h3)]:leading-[1.02]" lang="id">
+    <header class="px-[var(--regen-page-inset)] pt-[var(--regen-hero-top)] pb-14">
+      <div class="flex items-center justify-between gap-5 border-b border-[var(--regen-border)] pb-5 [&>span]:text-[10px] [&>span]:tracking-[.1em] max-[700px]:[&>span]:hidden">
+        <p class="text-[10px] font-extrabold tracking-[.13em] leading-[1.6]">RUANG BACA DARI REGEN</p><span
+          >KEBIASAAN KECIL, PERSPEKTIF BARU</span>
       </div>
-      <div class="blog-hero-note">
-        <span class="blog-spark" aria-hidden="true">✳</span><p>
-          Inspirasi kecil. Cerita seru.<br />Teman baca di sela harimu.
-        </p><a href="#artikel"
-          >Jelajahi cerita <span aria-hidden="true">↘</span></a>
+      <div class="flex items-baseline gap-[22px] pt-6 pb-[34px] [&_h1]:text-[clamp(92px,16vw,225px)] [&_h1]:tracking-[-.045em] [&_h1]:leading-none [&_h1_span]:text-[var(--regen-forest)] max-[700px]:flex-wrap max-[700px]:gap-3 max-[700px]:py-[26px] max-[700px]:[&_h1]:text-[clamp(75px,19vw,130px)]">
+        <h1>Re:<span>VIEW</span></h1><span class="whitespace-nowrap text-[clamp(12px,1.8vw,24px)] font-bold">by REGEN</span
+        ><span class="ml-auto self-center text-[clamp(80px,12vw,160px)] leading-none text-[var(--regen-forest)] max-[1000px]:hidden" aria-hidden="true">✳</span>
+      </div>
+      <div class="grid grid-cols-[1.2fr_1fr] items-start gap-[60px] [&_h2]:text-[clamp(34px,4vw,54px)] [&_p]:max-w-[460px] [&_p]:text-[15px] [&_p]:leading-[1.85] [&_a]:mt-[22px] [&_a]:inline-flex [&_a]:gap-10 [&_a]:border-b [&_a]:pb-1.5 [&_a]:text-[13px] [&_a]:font-bold max-[700px]:grid-cols-1 max-[700px]:gap-6">
+        <h2>Sudut pandang segar<br />setiap hari</h2><div>
+          <p>
+            Dari apa yang kita minum sampai cara kita bergerak. Yuk, lihat lagi
+            kebiasaan sehari-hari dan temukan inspirasi untuk mulai dari hal
+            kecil.
+          </p><a href="#artikel"
+            >Temukan bacaanmu <span aria-hidden="true">↘</span></a>
+        </div>
       </div>
     </header>
-    <section class="blog-feature-wrap" aria-label="Artikel pilihan">
-      <a class="blog-feature" href={`/blog/${featured.slug}`}>
-        <div class="blog-art blog-art-lime">
-          <span class="blog-art-word" aria-hidden="true"
-            >TAKE A<br />BREAK.</span
-          ><img
-            src={featured.image}
-            alt={featured.imageAlt}
-            width="480"
-            height="720"
-            fetchpriority="high"
-          /><span class="blog-sticker">SEDIKIT JEDA.<br />BANYAK CERITA.</span>
-        </div>
-        <div class="blog-feature-copy">
-          <p class="regen-eyebrow">
-            PILIHAN UNTUKMU <span aria-hidden="true">↗</span>
-          </p><div>
-            <div class="blog-meta">
-              <span>{featured.category}</span><span
-                >{readingTime(featured)} menit baca</span>
-            </div><h2>{featured.title}</h2><p class="blog-excerpt">
-              {featured.excerpt}
-            </p>
-          </div><span class="blog-read"
-            >Baca cerita <span aria-hidden="true">↗</span></span>
-        </div>
-      </a>
+    <section class="px-[var(--regen-page-inset)] pb-[70px] max-[700px]:pb-[45px]" aria-labelledby="pillars-title">
+      <div class="mb-[22px] flex items-center justify-between gap-5 [&_h2]:font-sans [&_h2]:text-sm [&_h2]:font-semibold [&_h2]:leading-[1.4] [&>span]:text-[10px] [&>span]:tracking-[.1em] max-[700px]:[&>span]:hidden">
+        <h2 id="pillars-title">Empat cara melihat keseharian</h2><span
+          >MAU MULAI DARI MANA?</span>
+      </div>
+      <div class="grid grid-cols-4 gap-3.5 max-[1000px]:grid-cols-2 max-[370px]:grid-cols-1">
+        {
+          blogPillars.map((pillar, index) => {
+            const Icon = pillarIcons[pillar.name];
+            return (
+            <a
+              class:list={[pillar.backgroundClass, "flex flex-col rounded-2xl p-6 transition-transform duration-200 hover:-translate-y-1 motion-reduce:transform-none motion-reduce:transition-none [&_h3]:mt-[30px] [&_h3]:mb-3 [&_h3]:text-[40px] [&_strong]:text-xs [&_p]:mt-3 [&_p]:mb-6 [&_p]:text-xs [&_p]:leading-[1.8] max-[700px]:p-[18px] max-[700px]:[&_h3]:text-[32px]"]}
+              href={`?rubrik=${encodeURIComponent(pillar.name)}#artikel`}
+            >
+              <>
+                <div class="flex items-center justify-between text-[11px] [&>span:last-child]:text-[32px] [&>span:last-child]:leading-none">
+                  <>
+                    <span>0{index + 1}</span>
+                    <span aria-hidden="true"><Icon width={32} height={32} focusable="false" /></span>
+                  </>
+                </div>
+                <h3>{pillar.name}</h3>
+                <strong>{pillar.label}</strong>
+                <p>{pillar.description}</p>
+                <span class="mt-auto flex justify-between gap-2 border-t border-[#183b2b30] pt-4 text-[10px] max-[700px]:text-[9px]">
+                  {pillar.topics}
+                  <span aria-hidden="true">↗</span>
+                </span>
+              </>
+            </a>
+            );
+          })
+        }
+      </div>
     </section>
+    {
+      featured && (
+        <section
+          class="px-[var(--regen-page-inset)]"
+          aria-label="Bacaan pilihan"
+        >
+          <>
+            <p class="mb-5 text-[10px] font-extrabold tracking-[.13em] leading-[1.6]">BACAAN PILIHAN</p>
+            <a class="grid grid-cols-[1.1fr_1fr] overflow-hidden rounded-3xl border border-[var(--regen-border)] bg-[#f0f0e5] max-[700px]:grid-cols-1" href={`/blog/${featured.slug}`}>
+              <>
+                <div class="relative isolate grid aspect-[3/2] place-items-center self-center overflow-hidden bg-[#edf2df] [&_img]:h-full [&_img]:w-full [&_img]:aspect-[3/2] [&_img]:object-cover">
+                  <ArticleImage
+                    src={featured.image}
+                    alt={featured.imageAlt}
+                    priority
+                  />
+                </div>
+                <div class="flex flex-col justify-between gap-8 p-[clamp(25px,4vw,58px)] [&_h2]:my-5 [&_h2]:text-[clamp(35px,4vw,58px)] max-[700px]:p-7">
+                  <>
+                    <div class="flex flex-wrap items-center gap-3.5 text-[11px] font-semibold [&>span:first-child]:rounded-[40px] [&>span:first-child]:border [&>span:first-child]:border-[var(--regen-ink-a30)] [&>span:first-child]:px-3 [&>span:first-child]:py-1.5">
+                      <>
+                        <span>{featured.category}</span>
+                        <span>{readingTime(featured)} menit baca</span>
+                      </>
+                    </div>
+                    <div>
+                      <>
+                        <h2>{featured.title}</h2>
+                        <p class="text-sm leading-[1.8] text-[var(--regen-muted)]">{featured.excerpt}</p>
+                      </>
+                    </div>
+                    <span class="flex items-center gap-[25px] text-[13px] font-bold [&_span]:text-[23px]">
+                      Baca selengkapnya <span aria-hidden="true">↗</span>
+                    </span>
+                  </>
+                </div>
+              </>
+            </a>
+          </>
+        </section>
+      )
+    }
     <section
-      class="regen-section blog-library"
+      class="scroll-mt-[90px] px-[var(--regen-page-inset)] py-[var(--regen-section-space)]"
       id="artikel"
       aria-labelledby="articles-title"
     >
-      <div class="blog-section-heading">
+      <div class="mb-9 flex items-end justify-between gap-[25px] [&>div>p]:mb-[15px] [&>p]:text-[13px] max-[700px]:flex-col max-[700px]:items-start">
         <div>
-          <p class="regen-eyebrow">ADA CERITA APA HARI INI?</p><h2
-            class="regen-heading"
+          <p class="text-[10px] font-extrabold tracking-[.13em] leading-[1.6]">JEDA SEJENAK, BACA YUK.</p><h2
+            class="text-[length:var(--regen-heading-size)]"
             id="articles-title"
           >
-            Pilih bacaanmu.
+            Ada perspektif baru.
           </h2>
-        </div><p>Ruang kecil untuk sudut pandang baru.</p>
+        </div><p>Temukan yang dekat dengan keseharianmu.</p>
       </div>
-      <blog-filter>
-        <div class="blog-tools" hidden data-tools>
-          <div
-            class="blog-categories"
-            role="group"
-            aria-label="Filter kategori"
-          >
+      <blog-filter class="block">
+        <div class="flex justify-between gap-5 border-y border-[var(--regen-border)] py-6 max-[1000px]:flex-col" hidden data-tools>
+          <div class="flex flex-wrap gap-2" role="group" aria-label="Filter rubrik">
             {
               categories.map((category, index) => (
                 <button
                   type="button"
+                  class="cursor-pointer rounded-[30px] border border-[var(--regen-border)] px-[18px] py-[11px] text-xs font-semibold hover:border-[var(--regen-ink)] hover:bg-[var(--regen-ink)] hover:text-[var(--regen-paper)] aria-pressed:border-[var(--regen-ink)] aria-pressed:bg-[var(--regen-ink)] aria-pressed:text-[var(--regen-paper)] max-[700px]:px-3.5 max-[700px]:py-2.5"
                   data-category={category}
                   aria-pressed={index === 0 ? "true" : "false"}
                 >
@@ -89,32 +163,24 @@ const categories = ["Semua", ...new Set(posts.map((post) => post.category))];
                 </button>
               ))
             }
-          </div><label class="blog-search"
-            ><span class="sr-only">Cari artikel</span><svg
-              width="18"
-              height="18"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.8"
-              aria-hidden="true"
-              ><circle cx="10" cy="10" r="6.5"></circle><path d="m15 15 5 5"
-              ></path></svg
+          </div><label class="flex items-center self-start gap-2.5 rounded-[30px] border border-[var(--regen-border)] px-4 py-2.5 [&_input]:w-[180px] [&_input]:min-w-0 [&_input]:bg-transparent [&_input]:text-[13px] max-[1000px]:[&_input]:w-full"
+            ><span class="sr-only">Cari artikel</span><span aria-hidden="true"
+              >⌕</span
             ><input
               type="search"
-              placeholder="Cari cerita…"
+              placeholder="Cari bacaan…"
               aria-controls="blog-results"
             /></label>
         </div>
         <p
-          class="blog-result-count"
+          class="py-[22px] text-[11px] text-[var(--regen-muted)]"
           role="status"
           aria-live="polite"
           data-count
         >
-          {posts.length} cerita untuk kamu
+          {posts.length} artikel untuk dijelajahi
         </p>
-        <div class="blog-grid" id="blog-results">
+        <div class="grid grid-cols-3 gap-7 max-[1000px]:gap-[18px] max-[700px]:grid-cols-1 max-[700px]:gap-10" id="blog-results">
           {
             posts.map((post) => (
               <article
@@ -124,35 +190,26 @@ const categories = ["Semua", ...new Set(posts.map((post) => post.category))];
                   "id",
                 )}
               >
-                <a class="blog-card" href={`/blog/${post.slug}`}>
+                <a class="flex h-full flex-col [&>div:first-child]:mb-[22px] [&>div:first-child]:w-full [&>div:first-child]:rounded-[18px] [&_h3]:mt-5 [&_h3]:mb-3 [&_h3]:text-[31px] [&_h3]:leading-[1.15] [&>span:last-child]:mt-auto [&>span:last-child]:pt-5 max-[1000px]:[&_h3]:text-[27px] max-[700px]:[&_h3]:text-[34px]" href={`/blog/${post.slug}`}>
                   <>
-                    <div class={`blog-art blog-art-${post.tone}`}>
+                    <div class="relative isolate grid aspect-[3/2] place-items-center self-center overflow-hidden bg-[#edf2df] [&_img]:h-full [&_img]:w-full [&_img]:aspect-[3/2] [&_img]:object-cover">
                       <>
-                        <span class="blog-card-word" aria-hidden="true">
-                          {post.label}
-                        </span>
-                        <img
-                          src={post.image}
-                          alt={post.imageAlt}
-                          width="480"
-                          height="720"
-                          loading="lazy"
-                        />
-                        <span class="blog-card-arrow" aria-hidden="true">
+                        <ArticleImage src={post.image} alt={post.imageAlt} />
+                        <span class="absolute right-[18px] bottom-[18px] grid size-[38px] place-items-center rounded-full bg-[var(--regen-paper)] text-2xl" aria-hidden="true">
                           ↗
                         </span>
                       </>
                     </div>
-                    <div class="blog-meta">
+                    <div class="flex flex-wrap items-center gap-3.5 text-[11px] font-semibold [&>span:first-child]:rounded-[40px] [&>span:first-child]:border [&>span:first-child]:border-[var(--regen-ink-a30)] [&>span:first-child]:px-3 [&>span:first-child]:py-1.5">
                       <>
                         <span>{post.category}</span>
                         <span>{readingTime(post)} menit baca</span>
                       </>
                     </div>
                     <h3>{post.title}</h3>
-                    <p class="blog-excerpt">{post.excerpt}</p>
-                    <span class="blog-read">
-                      Baca cerita <span aria-hidden="true">↗</span>
+                    <p class="text-sm leading-[1.8] text-[var(--regen-muted)]">{post.excerpt}</p>
+                    <span class="flex items-center gap-[25px] text-[13px] font-bold [&_span]:text-[23px]">
+                      Baca selengkapnya <span aria-hidden="true">↗</span>
                     </span>
                   </>
                 </a>
@@ -160,23 +217,35 @@ const categories = ["Semua", ...new Set(posts.map((post) => post.category))];
             ))
           }
         </div>
-        <div class="blog-empty" data-empty hidden>
-          <h3>Belum ketemu ceritanya.</h3><p>
-            Coba kata kunci lain atau lihat semua kategori.
-          </p><button type="button" class="regen-button" data-reset
-            >Tampilkan semua cerita <span aria-hidden="true">↗</span></button>
+        <div class="rounded-[20px] bg-[var(--regen-surface)] px-5 py-[60px] text-center [&_h3]:text-4xl [&_p]:mt-[18px] [&_p]:mb-6" data-empty hidden={posts.length > 0}>
+          <h3 data-empty-title>Bacaan baru segera hadir.</h3><p data-empty-copy>
+            Nantikan sudut pandang segar berikutnya dari Re:VIEW.
+          </p><button class="inline-flex min-h-[54px] cursor-pointer items-center justify-between gap-7 rounded-full bg-[var(--regen-ink)] px-[25px] py-[18px] text-sm font-bold text-[var(--regen-paper)] transition-[background,transform] duration-200 hover:-translate-y-[3px] hover:bg-[var(--regen-green-dark)] motion-reduce:transform-none motion-reduce:transition-none" type="button" data-reset hidden
+            >Lihat semua artikel <span aria-hidden="true">↗</span></button>
         </div>
       </blog-filter>
     </section>
-    <aside class="blog-cta">
+    <!-- <aside class="mx-[var(--regen-page-inset)] mb-6 grid grid-cols-[1fr_1fr_auto] items-center gap-[50px] rounded-[22px] bg-[#eed9e3] p-12 [&_h2]:mt-[18px] [&_h2]:text-[clamp(36px,4vw,54px)] [&>div:nth-child(2)>p]:mb-6 [&>div:nth-child(2)>p]:max-w-[360px] [&>div:nth-child(2)>p]:text-sm [&>div:nth-child(2)>p]:leading-[1.8] [&>span]:text-[100px] [&>span]:text-[var(--regen-forest)] max-[1000px]:grid-cols-2 max-[1000px]:gap-[30px] max-[1000px]:[&>span]:hidden max-[700px]:grid-cols-1 max-[700px]:p-7">
       <div>
-        <p class="regen-eyebrow">SELESAI BACA, LANJUT SEGARNYA</p><h2
-          class="regen-heading"
-        >
-          Temukan rasa ceritamu
+        <p class="text-[10px] font-extrabold tracking-[.13em] leading-[1.6]">KENALAN LEBIH DEKAT</p><h2>
+          Ruang cerita<br />Nona REGEN.
         </h2>
-      </div><a href="/product" class="regen-button"
-        >Kenalan dengan REGEN <span aria-hidden="true">↗</span></a>
+      </div><div>
+        <p>
+          Temukan cerita dan kabar dari Nona REGEN dalam ruangnya sendiri.
+        </p><a href="/nona-regen" class="inline-flex min-h-[54px] cursor-pointer items-center justify-between gap-7 rounded-full bg-[var(--regen-ink)] px-[25px] py-[18px] text-sm font-bold text-[var(--regen-paper)] transition-[background,transform] duration-200 hover:-translate-y-[3px] hover:bg-[var(--regen-green-dark)] motion-reduce:transform-none motion-reduce:transition-none"
+          >Temui Nona REGEN <span aria-hidden="true">↗</span></a>
+      </div><span aria-hidden="true">✳</span>
+    </aside> -->
+    <aside class="mx-[var(--regen-page-inset)] mb-[90px] flex items-center justify-between gap-[35px] rounded-[22px] border border-[var(--regen-border)] p-10 [&_p]:mb-4 [&_h2]:text-[clamp(32px,3.3vw,48px)] [&>a]:shrink-0 max-[1000px]:flex-col max-[1000px]:items-start max-[700px]:mb-[55px] max-[700px]:p-7">
+      <div>
+        <p class="text-[10px] font-extrabold tracking-[.13em] leading-[1.6]">DARI BACAAN KE KESEHARIAN</p><h2
+          class="text-[length:var(--regen-heading-size)]"
+        >
+          Kenali pilihan segarmu.
+        </h2>
+      </div><a href="/product" class="inline-flex min-h-[54px] cursor-pointer items-center justify-between gap-7 rounded-full bg-[var(--regen-ink)] px-[25px] py-[18px] text-sm font-bold text-[var(--regen-paper)] transition-[background,transform] duration-200 hover:-translate-y-[3px] hover:bg-[var(--regen-green-dark)] motion-reduce:transform-none motion-reduce:transition-none"
+        >Jelajahi REGEN <span aria-hidden="true">↗</span></a>
     </aside>
   </main>
 </Layout>
@@ -185,12 +254,13 @@ const categories = ["Semua", ...new Set(posts.map((post) => post.category))];
     connectedCallback() {
       const input = this.querySelector<HTMLInputElement>("input")!;
       const buttons = [
-        ...this.querySelectorAll<HTMLButtonElement>(
-          "[data-category]:not([data-post])",
-        ),
+        ...this.querySelectorAll<HTMLButtonElement>("button[data-category]"),
       ];
       const articles = [...this.querySelectorAll<HTMLElement>("[data-post]")];
-      let category = "Semua";
+      const selected = new URL(location.href).searchParams.get("rubrik");
+      let category = buttons.some((b) => b.dataset.category === selected)
+        ? selected!
+        : "Semua";
       const update = () => {
         const query = input.value.trim().toLocaleLowerCase("id");
         let count = 0;
@@ -207,13 +277,28 @@ const categories = ["Semua", ...new Set(posts.map((post) => post.category))];
           ),
         );
         this.querySelector("[data-count]")!.textContent =
-          `${count} cerita untuk kamu`;
+          `${count} artikel${category === "Semua" ? " untuk dijelajahi" : ` di ${category}`}`;
         this.querySelector<HTMLElement>("[data-empty]")!.hidden = count !== 0;
+        this.querySelector("[data-empty-title]")!.textContent = query
+          ? "Belum ketemu bacaannya."
+          : "Bacaan baru segera hadir.";
+        this.querySelector("[data-empty-copy]")!.textContent = query
+          ? "Coba kata kunci lain atau jelajahi semua artikel."
+          : `Nantikan sudut pandang segar ${category === "Semua" ? "berikutnya" : `di ${category}`}.`;
+        this.querySelector<HTMLElement>("[data-reset]")!.hidden =
+          category === "Semua" && !query;
+      };
+      const syncUrl = () => {
+        const url = new URL(location.href);
+        if (category === "Semua") url.searchParams.delete("rubrik");
+        else url.searchParams.set("rubrik", category);
+        history.replaceState(history.state, "", url);
       };
       buttons.forEach(
         (button) =>
           (button.onclick = () => {
             category = button.dataset.category!;
+            syncUrl();
             update();
           }),
       );
@@ -221,6 +306,7 @@ const categories = ["Semua", ...new Set(posts.map((post) => post.category))];
       this.querySelector<HTMLButtonElement>("[data-reset]")!.onclick = () => {
         category = "Semua";
         input.value = "";
+        syncUrl();
         update();
         input.focus();
       };
@@ -230,4 +316,10 @@ const categories = ["Semua", ...new Set(posts.map((post) => post.category))];
   }
   if (!customElements.get("blog-filter"))
     customElements.define("blog-filter", BlogFilter);
+  // ClientRouter updates the URL after connecting the new page's elements.
+  document.addEventListener("astro:page-load", () => {
+    document
+      .querySelectorAll<BlogFilter>("blog-filter")
+      .forEach((filter) => filter.connectedCallback());
+  });
 </script>

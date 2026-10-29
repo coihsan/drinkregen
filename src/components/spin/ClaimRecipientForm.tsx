@@ -3,9 +3,11 @@ import type { RecipientInput } from '../../services/spin.types';
 const inputClass = 'mt-2 block w-full rounded-xl border border-black/15 bg-white px-3.5 py-3 text-base text-(--regen-ink) outline-none transition focus:border-(--regen-ink) focus:ring-2 focus:ring-(--regen-lime) disabled:opacity-60';
 
 export default function ClaimRecipientForm({ recipient, onChange, disabled }: {
+  
   recipient: RecipientInput;
   onChange: (value: RecipientInput) => void;
   disabled: boolean;
+
 }) {
   return <div className="space-y-6 text-left">
     <section aria-labelledby="claim-identity" className="rounded-2xl border border-black/10 bg-black/[0.03] p-4 sm:p-5">

@@ -1,0 +1,87 @@
+---
+const videos = [
+  "Video-42003.mp4",
+  "Video-96689.mp4",
+  "Video-22333.mp4",
+  "Video-49037.mp4",
+  "Video-82981.mp4",
+  "Video-96683.mp4",
+];
+---
+
+<section class="kol-banner" aria-labelledby="kol-heading">
+  <div class="kol-inner">
+    <div class="kol-copy">
+      <p class="kol-eyebrow">REGEN × CREATORS</p>
+      <h2 id="kol-heading">Cerita mereka.<br /><span>Segarnya REGEN.</span></h2>
+      <p class="kol-description">Intip keseruan kreator Instagram bareng REGEN. Dari aktivitas sehari-hari sampai momen seru, selalu ada cerita yang bikin fresh.</p>
+      <a class="kol-cta" href="/collabs">Yuk, Collab Bareng REGEN <span aria-hidden="true">↗</span></a>
+      <p class="kol-note">Punya ide seru? Giliran kamu jadi bagian ceritanya.</p>
+    </div>
+    <div class="kol-gallery">
+      <div class="kol-gallery-heading"><span>FRESH MOMENTS</span><span>06 VIDEOS</span></div>
+      <div class="kol-track" tabindex="0" role="region" aria-label="Video kreator Instagram bersama REGEN, geser untuk melihat video lainnya">
+        {videos.map((file, index) => (
+          <figure class="kol-card">
+            <video controls playsinline preload="none" aria-label={`Video kreator Instagram bersama REGEN ${index + 1}`}>
+              <source src={`/video-kol/${encodeURIComponent(file)}#t=0.1`} type="video/mp4" />
+              Browser kamu tidak mendukung video HTML5.
+            </video>
+            {/* <figcaption><span>REGEN IN REAL LIFE</span><span>{String(index + 1).padStart(2, "0")}</span></figcaption> */}
+          </figure>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const videos = document.querySelectorAll<HTMLVideoElement>('.kol-banner video');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(({ isIntersecting, target }) => {
+      if (!isIntersecting) return;
+      const video = target as HTMLVideoElement;
+      video.preload = 'metadata';
+      video.load();
+      observer.unobserve(video);
+    });
+  }, { rootMargin: '100px' });
+  videos.forEach((video) => {
+    observer.observe(video);
+    video.addEventListener('play', () => {
+      videos.forEach((other) => { if (other !== video) other.pause(); });
+    });
+  });
+</script>
+
+<style>
+  .kol-banner { background: var(--regen-ink, #183b2b); color: var(--regen-paper, #fffdf5); padding: clamp(48px, 7vw, 88px) 24px; }
+  .kol-inner { max-width: 1280px; margin-inline: auto; display: grid; grid-template-columns: .85fr 1.15fr; gap: clamp(28px, 5vw, 72px); align-items: center; }
+  .kol-copy, .kol-gallery { min-width: 0; }
+  .kol-eyebrow { font-size: 11px; font-weight: 800; letter-spacing: .14em; margin: 0 0 22px; }
+  h2 { font-family: var(--font-headoh), sans-serif; font-size: clamp(40px, 4.5vw, 64px); font-weight: 400; line-height: 1.05; margin: 0; }
+  h2 span { color: var(--regen-electric, #cbe102); }
+  .kol-description { max-width: 430px; font-size: 15px; line-height: 1.8; margin: 24px 0; }
+  .kol-cta { display: inline-flex; align-items: center; justify-content: space-between; gap: 22px; min-height: 54px; padding: 15px 24px; border-radius: 999px; background: var(--regen-electric, #cbe102); color: var(--regen-ink, #183b2b); font-size: 14px; font-weight: 800; text-decoration: none; }
+  .kol-cta:hover { background: white; }
+  .kol-cta span { font-size: 24px; }
+  .kol-note { font-size: 12px; line-height: 1.7; margin: 16px 0 0; opacity: .75; }
+  .kol-gallery-heading, figcaption { display: flex; justify-content: space-between; gap: 12px; font-size: 10px; font-weight: 700; letter-spacing: .1em; }
+  .kol-gallery-heading { margin-bottom: 14px; }
+  .kol-track { display: flex; gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 16px; scrollbar-width: thin; scrollbar-color: var(--regen-electric, #cbe102) transparent; }
+  .kol-card { flex: 0 0 44%; min-width: 0; margin: 0; overflow: hidden; border: 1px solid rgb(255 255 255 / 20%); border-radius: 18px; background: #10251c; scroll-snap-align: start; }
+  video { display: block; width: 100%; aspect-ratio: 9 / 16; object-fit: contain; background: #10251c; }
+  figcaption { padding: 16px 12px; font-size: 9px; }
+  figcaption span:last-child { color: var(--regen-electric, #cbe102); }
+  .kol-hint { display: flex; justify-content: space-between; font-size: 12px; margin: 12px 0 0; opacity: .75; }
+  :is(.kol-cta, .kol-track, video):focus-visible { outline: 3px solid var(--regen-electric, #cbe102); outline-offset: 5px; }
+  @media (max-width: 800px) {
+    .kol-inner { grid-template-columns: 1fr; gap: 32px; }
+    .kol-description { max-width: 540px; }
+    .kol-card { flex-basis: 42%; }
+  }
+  @media (max-width: 480px) {
+    .kol-card { flex-basis: 78%; }
+    .kol-cta { width: 100%; }
+  }
+</style>

@@ -392,16 +392,16 @@ export default function SpinGame({
             </p>
             </div>
             <div className="mt-4 grid grid-cols-2 gap-4">
-              <div className="flex flex-col h-20 relative shadow-md items-center border border-yellow-300 bg-(--regen-yellow) rounded-2xl p-3">
+              <div className="flex flex-col h-20 relative shadow-md items-center border border-yellow-300 bg-radial-[at_20%_75%] from-amber-200 via-amber-400 to-amber-500-900 to-90% rounded-2xl p-3">
                 <div className='absolute -top-2 left-0 bg-green-600 w-max px-2 flex justify-center rounded-full border border-lime-500 shadow-md'><p className="text-xs uppercase tracking-wider font-bold text-white">Saldo poin</p></div>
                 <strong className="text-4xl absolute top-[30%] left-5 mx-auto">
-                  <span className='font-black'>{status.points}</span>
+                  <span className='font-black text-amber-900'>{status.points}</span>
                   <span className="ml-2 text-sm">poin</span>
                 </strong>
                 <img className='absolute right-4 scale-140' src='/spin/icon-coin.webp' width={50} height={50} alt='icon' />
               </div>
-              <div className="flex flex-col h-20 relative shadow-md items-center border border-green-300 bg-(--regen-green) rounded-2xl p-3">
-                <div className='absolute -top-2 left-0 bg-yellow-300 w-max px-2 flex justify-center rounded-full border border-green-600 shadow-md'><p className="text-xs uppercase tracking-wider font-bold text-green-600">Sisa spin</p></div>
+              <div className="flex flex-col h-20 relative shadow-md items-center border border-green-300 bg-radial-[at_20%_75%] from-green-200 via-green-400 to-emerald-500-900 to-90% rounded-2xl p-3">
+                <div className='absolute -top-2 left-0 bg-yellow-300 w-max px-2 flex justify-center rounded-full border border-green-400 shadow-md'><p className="text-xs uppercase tracking-wider font-bold text-green-600">Sisa spin</p></div>
                 <strong className="text-4xl absolute top-[30%] left-5 mx-auto">
                   <span className='font-black'>{status.remainingSpins}</span>
                   <span className="ml-2 text-sm">spin</span>
@@ -441,7 +441,7 @@ export default function SpinGame({
                 </div>
                 <div className="flex flex-col text-center">
                   <h3 className="font-bold">{option.name}</h3>
-                  <p className="mt-1 text-xl font-black">{option.cost} poin</p>
+                  <div className='bg-linear-to-r from-lime-200 to-lime-400 text-green-600 rounded-full'><p className="mt-1 text-xl font-black">{option.cost} poin</p></div>
                   {/* {option.stockRemaining !== null && (
                     <p className="mt-2 text-xs">{option.stockRemaining === 0 ? "Stok habis" : `Tersedia ${option.stockRemaining} hadiah`}</p>
                   )} */}
@@ -469,7 +469,9 @@ export default function SpinGame({
                     ? "Sudah diklaim"
                     : option.stockRemaining === 0
                     ? "Stok habis"
-                    : `Tukar ${option.name}`}
+                    : (status?.points ?? 0) < 100
+                    ? "Belum Terpenuhi"
+                    : "Tukar Sekarang"}
                 </Button>
               </article>
             ))}

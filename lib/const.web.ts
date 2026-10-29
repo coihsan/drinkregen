@@ -41,8 +41,8 @@ export const HeroContent: HeroSlide[] = [
   // },
   {
     desktopImageUrl: "/banner-hero/regen-bebas-gula.webp",
-    tabletImageUrl: "/banner-hero/regen-bebas-gula.webp",
-    mobileImageUrl: "/banner-hero/regen-bebas-gula.webp",
+    tabletImageUrl: "/banner-hero/regen-bebas-gula-tablet.webp",
+    mobileImageUrl: "/banner-hero/regen-bebas-gula-mobile.webp",
     alt: "Regen hero banner 2",
   },
   {

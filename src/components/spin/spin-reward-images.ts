@@ -13,7 +13,6 @@ export function getSpinRewardImage(reward: {
         : undefined;
   }
   if (reward.code.startsWith("VOUCHER_")) {
-    // Custom vouchers can retain a legacy code; the displayed percentage wins.
     const percentage =
       reward.name?.match(/(\d+)\s*%/)?.[1] ?? reward.code.split("_")[1];
     if (percentage === "20" || percentage === "50")

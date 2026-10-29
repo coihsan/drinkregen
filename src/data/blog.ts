@@ -1,53 +1,113 @@
-// Editorial content shared by the blog index and statically generated articles.
-export const posts = [
-  {
-    slug: "jeda-kecil-di-tengah-hari",
-    title: "Hari boleh padat. Jeda jangan lewat.",
-    category: "Keseharian",
-    excerpt: "Dari meja kerja sampai perjalanan pulang, selalu ada ruang untuk menikmati momen kecil yang kamu suka.",
-    image: "/300ml/lemonlime.webp",
-    imageAlt: "Botol REGEN Lemon Lime 300ml",
-    tone: "lime",
-    label: "TAKE A BREAK.",
-    sections: [
-      { heading: "Beri ruang di antara kesibukan", text: "Ada hari ketika daftar pekerjaan terasa nggak ada habisnya. Satu tugas selesai, pesan baru masuk. Di sela ritme itu, kamu boleh mengambil jeda: menutup tab yang tidak dipakai, merapikan meja, atau sekadar melihat keluar jendela. Jeda kecil nggak harus menunggu semua urusan selesai." },
-      { heading: "Buat ritual yang sederhana", text: "Pilih satu hal yang kamu nikmati dan mudah dilakukan. Putar satu lagu favorit, pindah sebentar dari kursi kerja, atau siapkan minuman pilihanmu. Nggak perlu ritual yang rumit. Yang penting, momen itu terasa seperti waktu untuk diri sendiri." },
-      { heading: "Nikmati tanpa terburu-buru", text: "Coba letakkan ponsel selama beberapa menit. Perhatikan suasana di sekitarmu dan nikmati jeda tanpa perlu mengisinya dengan daftar tugas baru. Kalau kamu memilih REGEN sebagai teman jeda, sajikan sesuai selera dan simpan mengikuti petunjuk pada kemasan." },
-      { heading: "Lanjut dengan ritmemu", text: "Setelah jeda, pilih satu hal yang ingin dikerjakan berikutnya. Hari yang menyenangkan nggak selalu berarti semua rencana berjalan sempurna. Kadang, cukup ada sedikit ruang untuk menikmati perjalanan di antaranya." },
-    ],
-  },
-  {
-    slug: "kenalan-dengan-rasa-regen",
-    title: "Beda rasa, beda cerita. Mana pilihanmu?",
-    category: "Cerita REGEN",
-    excerpt: "Kenalan dengan pilihan rasa REGEN dan temukan yang paling cocok dengan seleramu.",
-    image: "/300ml/orange.webp",
-    imageAlt: "Botol REGEN Orange 300ml",
-    tone: "peach",
-    label: "FIND YOUR FLAVOR.",
-    sections: [
-      { heading: "Mulai dari rasa yang kamu suka", text: "Memilih minuman bisa dimulai dari hal sederhana: rasa buah favoritmu. Koleksi REGEN 300ml punya pilihan Apple, Lemon Lime, Lychee, Orange, Peach, dan Watermelon. Kamu bisa mulai dari rasa yang familier, lalu mencoba pilihan lain saat ingin suasana berbeda." },
-      { heading: "Satu rasa untuk setiap momen? Bebas!", text: "Nggak ada aturan rasa tertentu harus dinikmati pada waktu tertentu. Lemon Lime bisa jadi pilihan saat bersantai, sementara Orange menemani obrolan sore. Atau sebaliknya. Pilihan terbaik adalah pilihan yang kamu nikmati sendiri." },
-      { heading: "Kenali kemasannya juga", text: "Selain rasa, cek ukuran kemasan dan informasi produk sebelum memilih. Lihat daftar bahan, informasi nilai gizi, tanggal kedaluwarsa, serta petunjuk penyimpanan pada label. Halaman produk REGEN juga bisa jadi tempat awal untuk mengenali pilihan yang tersedia." },
-      { heading: "Temukan favorit barumu", text: "Kalau biasanya selalu memilih rasa yang sama, sesekali beri kesempatan pada varian lain. Ajak teman bertukar cerita tentang pilihan masing-masing. Siapa tahu, rekomendasi sederhana membuka cerita rasa yang baru." },
-    ],
-  },
-  {
-    slug: "akhir-pekan-sederhana",
-    title: "Rencana kecil untuk akhir pekan yang seru.",
-    category: "Inspirasi",
-    excerpt: "Nggak harus jauh dan nggak harus ramai. Ide menikmati waktu luang, mulai dari dekat rumah.",
-    image: "/300ml/watermelon.webp",
-    imageAlt: "Botol REGEN Watermelon 300ml",
-    tone: "pink",
-    label: "WEEKEND YOUR WAY.",
-    sections: [
-      { heading: "Jelajahi yang dekat dulu", text: "Akhir pekan nggak selalu membutuhkan perjalanan panjang. Coba berjalan ke taman sekitar, mampir ke toko buku, atau menjelajahi jalan yang biasanya cuma kamu lewati. Pilih tempat sesuai cuaca, waktu, dan anggaran yang kamu punya." },
-      { heading: "Bawa seperlunya", text: "Kalau berencana keluar, siapkan tas ringan berisi barang yang benar-benar terpakai. Ponsel, dompet, air minum, dan perlengkapan sesuai kegiatan bisa jadi awal. Kalau membawa minuman kemasan, cek petunjuk penyimpanan dan bawa kembali sampahnya sampai menemukan tempat pembuangan yang sesuai." },
-      { heading: "Bikin agenda di rumah", text: "Lebih ingin tinggal di rumah? Susun daftar film, coba resep sederhana, atau ajak teman bermain permainan papan. Siapkan sudut yang nyaman dan camilan favorit. Acara kecil pun bisa terasa istimewa ketika dinikmati bersama orang yang tepat." },
-      { heading: "Sisakan waktu tanpa agenda", text: "Nggak semua jam harus punya rencana. Sisakan ruang untuk mengubah pilihan atau sekadar duduk santai. Akhir pekan adalah kesempatan menikmati waktu dengan caramu sendiri, termasuk ketika rencananya adalah tidak banyak melakukan apa-apa." },
-    ],
-  },
-];
+import { decodeHTML } from "entities";
+import sanitizeHtml from "sanitize-html";
+import { normalizeBlogCategory } from "./blog-pillars";
 
-export const readingTime = (post: typeof posts[number]) => Math.max(1, Math.ceil(post.sections.map(section => `${section.heading} ${section.text}`).join(" ").split(/\s+/).length / 180));
+export const ARTICLE_PLACEHOLDER = "/images/article-placeholder.svg";
+const ARTICLES_API = "https://api.drinkregen.com/api/v1/articles";
+interface ApiArticle {
+  id?: number;
+  link?: string;
+  slug: string;
+  status: string;
+  title: { rendered: string };
+  excerpt: { rendered: string };
+  content: { rendered: string };
+  featured_media: number;
+  faqs?: { question: string; answer: string }[];
+  class_list?: string[];
+  _links?: { "wp:featuredmedia"?: { href: string }[] };
+  _embedded?: {
+    "wp:featuredmedia"?: { source_url: string; alt_text?: string }[];
+    "wp:term"?: { taxonomy: string; name: string }[][];
+  };
+}
+const plainText = (html: string) => decodeHTML(sanitizeHtml(html, { allowedTags: [], allowedAttributes: {} })).replace(/\s+/g, " ").trim();
+const imageUrl = (value?: string) => {
+  if (!value) return ARTICLE_PLACEHOLDER;
+  try {
+    const url = new URL(value, ARTICLES_API);
+    return ["https:", "http:"].includes(url.protocol) ? url.href : ARTICLE_PLACEHOLDER;
+  } catch { return ARTICLE_PLACEHOLDER; }
+};
+function createArticleLinkResolver(articles: ApiArticle[]) {
+  const byId = new Map(articles.filter(article => article.id != null).map(article => [String(article.id), article.slug]));
+  const byPath = new Map<string, string>();
+  for (const article of articles) {
+    byPath.set(`/${article.slug}`, article.slug);
+    byPath.set(`/blog/${article.slug}`, article.slug);
+    if (article.link) {
+      try {
+        const url = new URL(article.link);
+        if (url.hostname === "cms.drinkregen.com" && url.pathname !== "/") {
+          byPath.set(url.pathname.replace(/\/$/, ""), article.slug);
+        }
+      } catch { /* Ignore malformed CMS permalinks. */ }
+    }
+  }
+  return (href: string) => {
+    try {
+      // Fragment-only and existing frontend-relative links already work as authored.
+      if (!/^(?:https?:)?\/\//i.test(href)) return href;
+      const url = new URL(href, "https://cms.drinkregen.com");
+      if (url.hostname !== "cms.drinkregen.com") return href;
+      const id = url.searchParams.get("p");
+      const slug = id !== null ? byId.get(id) : byPath.get(url.pathname.replace(/\/$/, ""));
+      // Only rewrite published articles that have a generated frontend page.
+      if (!slug) return href;
+      url.searchParams.delete("p");
+      return `/blog/${slug}${url.search}${url.hash}`;
+    } catch { return href; }
+  };
+}
+async function mapArticle(article: ApiArticle, resolveArticleLink: (href: string) => string) {
+  let media = article._embedded?.["wp:featuredmedia"]?.[0];
+  const mediaLink = article._links?.["wp:featuredmedia"]?.[0]?.href;
+  if (!media && article.featured_media && mediaLink) {
+    try {
+      const url = new URL(mediaLink);
+      if (url.origin === "https://cms.drinkregen.com") {
+        const response = await fetch(url, { signal: AbortSignal.timeout(10000) });
+        if (response.ok) media = await response.json();
+      }
+    } catch { /* Keep articles readable when their media is unavailable. */ }
+  }
+  const categorySlug = article.class_list?.find(value => value.startsWith("category-"))?.slice(9);
+  const category = article._embedded?.["wp:term"]?.flat().find(term => term.taxonomy === "category")?.name
+    || categorySlug?.replace(/-/g, " ").replace(/\b\w/g, letter => letter.toUpperCase()) || "Cerita REGEN";
+  return {
+    slug: article.slug,
+    title: plainText(article.title.rendered),
+    excerpt: plainText(article.excerpt.rendered),
+    category: normalizeBlogCategory(plainText(category)),
+    image: imageUrl(media?.source_url),
+    imageAlt: media?.alt_text || plainText(article.title.rendered),
+    faqs: Array.isArray(article.faqs) ? article.faqs
+      .filter(item => typeof item?.question === "string" && typeof item?.answer === "string")
+      .map(item => ({ question: plainText(item.question), answer: plainText(item.answer) }))
+      .filter(item => item.question && item.answer) : [],
+    content: sanitizeHtml(article.content.rendered, {
+      allowedTags: [...sanitizeHtml.defaults.allowedTags, "img"],
+      allowedAttributes: { ...sanitizeHtml.defaults.allowedAttributes, img: ["src", "alt", "width", "height", "loading"] },
+      transformTags: {
+        a: (tagName, attribs) => ({
+          tagName,
+          attribs: attribs.href ? { ...attribs, href: resolveArticleLink(attribs.href) } : attribs,
+        }),
+      },
+    }),
+    minutes: Math.max(1, Math.ceil(plainText(article.content.rendered).split(/\s+/).length / 180)),
+  };
+}
+// Share the API snapshot between the index and generated detail pages.
+let articlesPromise: Promise<Awaited<ReturnType<typeof mapArticle>>[]> | undefined;
+export function getPosts() { return articlesPromise ??= fetchArticles(); }
+async function fetchArticles() {
+  const response = await fetch(ARTICLES_API, { signal: AbortSignal.timeout(15000) });
+  if (!response.ok) throw new Error(`Article API returned ${response.status}`);
+  const payload = await response.json();
+  if (!Array.isArray(payload.data)) throw new Error("Article API returned an invalid article list");
+  const articles = (payload.data as ApiArticle[]).filter(article => article.status === "publish");
+  const resolveArticleLink = createArticleLinkResolver(articles);
+  return Promise.all(articles.map(article => mapArticle(article, resolveArticleLink)));
+}
+export const readingTime = (post: Awaited<ReturnType<typeof mapArticle>>) => post.minutes;

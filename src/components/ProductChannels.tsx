@@ -55,7 +55,7 @@ export default function ProductChannels() {
           </InputGroupAddon>}
         </InputGroup>
         <div className="pc-size">
-          <Label htmlFor={sizeId}>Ukuran</Label>
+          {/* <Label htmlFor={sizeId}>Ukuran</Label> */}
           <Select value={size} onValueChange={setSize}>
             <SelectTrigger id={sizeId} className="min-h-12 min-w-36">
               <SelectValue placeholder="Semua ukuran" />

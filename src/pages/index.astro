@@ -8,6 +8,7 @@ import BannerVideo from "../components/BannerVideo.tsx";
 import BannerBuyRegenContent from "../components/BannerBuyRegenContent.astro";
 import ScrollTextV2 from "../components/ScrollTextV2.tsx";
 import HomeProducts from "../components/HomeProducts.tsx";
+import HomeKolBanner from "../components/HomeKolBanner.astro";
 import NonaRegenPromo from "../components/nonaregen/NonaRegenPromo.tsx";
 
 const videoData = {
@@ -59,6 +60,7 @@ const videoSchema = {
     </RevealEffect>
   </div> -->
   <HomeProducts client:load />
+  <HomeKolBanner />
   <BannerBuyRegenContent />
   <!-- <NonaRegenPromo /> -->
 </Layout>

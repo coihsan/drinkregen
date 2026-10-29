@@ -1,0 +1,100 @@
+<article-reader>
+  <div class="reader-controls" role="group" aria-label="Atur ukuran teks artikel" hidden>
+    <button type="button" data-action="decrease" aria-label="Perkecil teks artikel" aria-controls="article-content">A−</button>
+    <button type="button" data-action="reset" aria-label="Kembalikan ukuran teks ke 100 persen" aria-controls="article-content">
+      <span data-size aria-live="polite" aria-atomic="true">100%</span>
+    </button>
+    <button type="button" data-action="increase" aria-label="Perbesar teks artikel" aria-controls="article-content">A+</button>
+  </div>
+  <div id="article-content" class="reader-content"><slot /></div>
+</article-reader>
+
+<style>
+  article-reader { display: block; }
+  .reader-controls {
+    position: fixed;
+    right: max(1.5rem, env(safe-area-inset-right));
+    bottom: calc(1.5rem + env(safe-area-inset-bottom, 0px));
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: fit-content;
+    max-width: calc(100% - 2rem);
+    margin: 0;
+    padding: 0.5rem;
+    border: 1px solid var(--regen-border);
+    border-radius: 999px;
+    background: var(--regen-paper);
+    box-shadow: 0 4px 16px rgb(0 0 0 / 6%);
+    font-size: 0.875rem;
+  }
+  .reader-controls[hidden] { display: none; }
+  .reader-label { padding-inline: 0.5rem; }
+  button {
+    min-width: 44px;
+    min-height: 44px;
+    padding: 0.5rem;
+    border-radius: 999px;
+    font-weight: 600;
+    cursor: pointer;
+    touch-action: manipulation;
+  }
+  button:hover:not(:disabled) { background: var(--regen-citrus); }
+  button:focus-visible { outline: 3px solid var(--regen-forest); outline-offset: 2px; }
+  button:disabled { opacity: 0.35; cursor: default; }
+  .reader-content { font-size: var(--article-font-size, 1rem); overflow-wrap: anywhere; }
+  .reader-content :global(p) { font-size: inherit; }
+  .reader-content :global(h2) { font-size: 2em; }
+  .reader-content :global(h3) { font-size: 1.5625em; }
+  @media (max-width: 767px) {
+    .reader-controls {
+      right: auto;
+      left: 50%;
+      bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
+      transform: translateX(-50%);
+    }
+  }
+  @media (max-width: 360px) {
+    .reader-controls { gap: 0.25rem; }
+    .reader-label { padding-inline: 0.25rem; }
+  }
+</style>
+
+<script>
+  class ArticleReader extends HTMLElement {
+    connectedCallback() {
+      if (this.dataset.ready) return;
+      this.dataset.ready = "true";
+      const storageKey = "regen-article-font-size";
+      const sizes = [100, 112.5, 125, 137.5, 150];
+      let index = 0;
+      try {
+        const saved = Number(localStorage.getItem(storageKey));
+        if (sizes.includes(saved)) index = sizes.indexOf(saved);
+      } catch {}
+
+      const decrease = this.querySelector<HTMLButtonElement>('[data-action="decrease"]')!;
+      const increase = this.querySelector<HTMLButtonElement>('[data-action="increase"]')!;
+      const reset = this.querySelector<HTMLButtonElement>('[data-action="reset"]')!;
+      const label = this.querySelector<HTMLElement>("[data-size]")!;
+      const update = () => {
+        this.style.setProperty("--article-font-size", `${sizes[index] / 100}rem`);
+        label.textContent = `${sizes[index]}%`;
+        decrease.disabled = index === 0;
+        increase.disabled = index === sizes.length - 1;
+      };
+      const change = (next: number) => {
+        index = Math.max(0, Math.min(sizes.length - 1, next));
+        update();
+        try { localStorage.setItem(storageKey, String(sizes[index])); } catch {}
+      };
+      decrease.addEventListener("click", () => change(index - 1));
+      increase.addEventListener("click", () => change(index + 1));
+      reset.addEventListener("click", () => change(0));
+      update();
+      this.querySelector<HTMLElement>(".reader-controls")!.hidden = false;
+    }
+  }
+  if (!customElements.get("article-reader")) customElements.define("article-reader", ArticleReader);
+</script>

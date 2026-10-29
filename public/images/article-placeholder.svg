@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800" fill="none">
+  <rect width="1200" height="800" fill="#EDF2DF"/>
+  <circle cx="600" cy="360" r="230" stroke="#244D39" stroke-opacity=".12" stroke-width="2"/>
+  <rect x="530" y="300" width="140" height="120" rx="20" stroke="#244D39" stroke-width="5"/>
+  <circle cx="625" cy="335" r="12" fill="#244D39"/>
+  <path d="m532 395 43-45 35 35 20-20 38 38" stroke="#244D39" stroke-width="5" stroke-linejoin="round"/>
+  <text x="600" y="490" text-anchor="middle" fill="#244D39" font-family="Arial,sans-serif" font-size="30" font-weight="700" letter-spacing="5">THE REGEN JOURNAL</text>
+  <text x="600" y="540" text-anchor="middle" fill="#607263" font-family="Arial,sans-serif" font-size="22">Gambar belum tersedia</text>
+  <text x="600" y="725" text-anchor="middle" fill="#607263" font-family="Arial,sans-serif" font-size="18" letter-spacing="2">1200 × 800 px</text>
+</svg>
